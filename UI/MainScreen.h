@@ -91,6 +91,7 @@ private:
 	UI::EventReturn GridSettingsClick(UI::EventParams &e);
 	UI::EventReturn OnRecentClear(UI::EventParams &e);
 	UI::EventReturn OnHomebrewStore(UI::EventParams &e);
+	UI::EventReturn OnSyncGithub(UI::EventParams &e);
 
 	enum class SearchState {
 		MATCH,
@@ -155,8 +156,7 @@ protected:
 	UI::EventReturn OnDownloadUpgrade(UI::EventParams &e);
 	UI::EventReturn OnDismissUpgrade(UI::EventParams &e);
 	UI::EventReturn OnAllowStorage(UI::EventParams &e);
-	UI::EventReturn OnFullScreenToggle(UI::EventParams &e);
-
+	UI::EventReturn OnFullScreenToggle(UI::EventParams &e);	
 	UI::LinearLayout *upgradeBar_ = nullptr;
 	UI::TabHolder *tabHolder_ = nullptr;
 	UI::Button *fullscreenButton_ = nullptr;

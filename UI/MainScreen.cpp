@@ -813,9 +813,9 @@ void GameBrowser::Refresh() {
 		}
 
 		if (browseFlags_ & BrowseFlags::HOMEBREW_STORE) {
-			topBar->Add(new Choice(mm->T("PPSSPP Homebrew Store"), new UI::LinearLayoutParams(WRAP_CONTENT, 64.0f)))->OnClick.Handle(this, &GameBrowser::OnHomebrewStore);
+			topBar->Add(new Choice(mm->T("HOMEBREW_STORE"), new UI::LinearLayoutParams(WRAP_CONTENT, 64.0f)))->OnClick.Handle(this, &GameBrowser::OnHomebrewStore);
 		}
-
+		
 		ChoiceStrip *layoutChoice = topBar->Add(new ChoiceStrip(ORIENT_HORIZONTAL));
 		layoutChoice->AddChoice(ImageID("I_GRID"));
 		layoutChoice->AddChoice(ImageID("I_LINES"));
@@ -826,6 +826,8 @@ void GameBrowser::Refresh() {
 			Refresh();
 			return UI::EVENT_DONE;
 		});
+		topBar->Add(new Choice(mm->T("SYNC GH SAVE"), new UI::LinearLayoutParams(WRAP_CONTENT, 64.0f)))->OnClick.Handle(this, &GameBrowser::OnSyncGithub);
+
 		topBar->Add(new Choice(ImageID("I_GEAR"), new LayoutParams(64.0f, 64.0f)))->OnClick.Handle(this, &GameBrowser::GridSettingsClick);
 		Add(topBar);
 
@@ -1079,6 +1081,10 @@ UI::EventReturn GameBrowser::OnRecentClear(UI::EventParams &e) {
 
 UI::EventReturn GameBrowser::OnHomebrewStore(UI::EventParams &e) {
 	screenManager_->push(new StoreScreen());
+	return UI::EVENT_DONE;
+}
+
+UI::EventReturn GameBrowser::OnSyncGithub(UI::EventParams &e){
 	return UI::EVENT_DONE;
 }
 
