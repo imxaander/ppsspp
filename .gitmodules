@@ -65,3 +65,6 @@
 [submodule "ext/lua"]
 	path = ext/lua
 	url = https://github.com/hrydgard/ppsspp-lua.git
+[submodule "ext/libgit2"]
+	path = ext/libgit2
+	url = https://github.com/libgit2/libgit2.git
