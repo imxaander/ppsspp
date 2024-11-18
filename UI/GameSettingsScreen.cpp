@@ -59,6 +59,7 @@
 #include "UI/RetroAchievementScreens.h"
 #include "UI/OnScreenDisplay.h"
 #include "UI/DiscordIntegration.h"
+#include "UI/MemStickGitScreen.h"
 
 #include "Common/File/FileUtil.h"
 #include "Common/File/AndroidContentURI.h"
@@ -1013,6 +1014,15 @@ void GameSettingsScreen::CreateToolsSettings(UI::ViewGroup *tools) {
 			return UI::EVENT_DONE;
 		});
 		retro->SetIcon(ImageID("I_RETROACHIEVEMENTS_LOGO"));
+	}
+
+	const bool showMemStickGit = true;
+	if (showMemStickGit) {
+		auto memstickgit = tools->Add(new Choice(sy->T("MemStick Git")));
+		memstickgit->OnClick.Add([=](UI::EventParams &) -> UI::EventReturn {
+			screenManager()->push(new MemStickGitSettingsScreen(gamePath_));
+			return UI::EVENT_DONE;
+		});
 	}
 
 	// These were moved here so use the wrong translation objects, to avoid having to change all inis... This isn't a sustainable situation :P

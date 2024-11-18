@@ -345,6 +345,11 @@ static const ConfigSetting achievementSettings[] = {
 	ConfigSetting("AchievementsUnlockedPos", &g_Config.iAchievementsUnlockedPos, (int)ScreenEdgePosition::TOP_CENTER, CfgFlag::PER_GAME | CfgFlag::DEFAULT),
 };
 
+static const ConfigSetting memstickgitSettings[] = {
+	ConfigSetting("MemstickGitRepo", &g_Config.sMemstickGitRepo, "", CfgFlag::DEFAULT),
+	ConfigSetting("UseMemstickGit", &g_Config.bUseMemstickGit, false, CfgFlag::DEFAULT)
+};
+
 static const ConfigSetting cpuSettings[] = {
 	ConfigSetting("CPUCore", &g_Config.iCpuCore, &DefaultCpuCore, CfgFlag::PER_GAME | CfgFlag::REPORT),
 	ConfigSetting("SeparateSASThread", &g_Config.bSeparateSASThread, &DefaultSasThread, CfgFlag::PER_GAME | CfgFlag::REPORT),
@@ -989,6 +994,7 @@ static const ConfigSectionSettings sections[] = {
 	{"Theme", themeSettings, ARRAY_SIZE(themeSettings)},
 	{"VR", vrSettings, ARRAY_SIZE(vrSettings)},
 	{"Achievements", achievementSettings, ARRAY_SIZE(achievementSettings)},
+	{"MemStickGit", memstickgitSettings, ARRAY_SIZE(memstickgitSettings)},
 };
 
 const size_t numSections = ARRAY_SIZE(sections);

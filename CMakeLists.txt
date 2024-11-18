@@ -1593,6 +1593,8 @@ list(APPEND NativeAppSource
 	UI/Theme.cpp
 	UI/RetroAchievementScreens.cpp
 	UI/RetroAchievementScreens.h
+	UI/MemStickGitScreen.cpp
+	UI/MemStickGitScreen.h
 )
 
 if(ANDROID)
@@ -2037,6 +2039,8 @@ add_library(${CoreLibName} ${CoreLinkType}
 	Core/KeyMapDefaults.h
 	Core/RetroAchievements.h
 	Core/RetroAchievements.cpp
+	Core/MemStickGit.h
+	Core/MemStickGit.cpp
 	Core/ThreadEventQueue.h
 	Core/TiltEventProcessor.h
 	Core/TiltEventProcessor.cpp
@@ -2482,6 +2486,13 @@ if(USE_DISCORD AND NOT IOS AND NOT LIBRETRO)
 	add_definitions(-DUSE_DISCORD=1)
 	target_link_libraries(${CoreLibName} discord-rpc)
 endif()
+
+#libgit2 
+set(LIBGIT2_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ext/libgit2/include/")
+set(LIBGIT2_LIBRARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/ext/libgit2-build/")
+find_library(LIBGIT2_LIBRARY NAMES git2 PATHS ${LIBGIT2_LIBRARY_DIR})
+target_include_directories(${CoreLibName} PUBLIC ${LIBGIT2_INCLUDE_DIR})
+target_link_libraries(${CoreLibName} ${LIBGIT2_LIBRARY})
 
 # miniUPnPc integration (MiniUPnPc supposed to works on any POSIX system, not sure if some of these are redundant/not needed tho)
 if(USE_MINIUPNPC)
