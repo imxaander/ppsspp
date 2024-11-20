@@ -45,8 +45,8 @@ android {
 			}
 		}
 	}
+	compileSdk 34
 
-	compileSdk 35
 	ndkVersion "21.4.7075529"
 	java {
 		toolchain {
@@ -235,6 +235,10 @@ android {
 		aidl true
 		buildConfig true
 	}
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_17
+	}
+	buildToolsVersion '34.0.0'
 }
 afterEvaluate {
 	android.sourceSets.main.assets.getSrcDirs().each { println it }

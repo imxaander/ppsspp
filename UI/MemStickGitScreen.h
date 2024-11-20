@@ -4,8 +4,6 @@
 #include "Common/UI/ViewGroup.h"
 #include "UI/TabbedDialogScreen.h"
 
-
-
 class MemStickGitSettingsScreen : public TabbedUIDialogScreenWithGameBackground {
 public:
 	MemStickGitSettingsScreen(const Path &gamePath) : TabbedUIDialogScreenWithGameBackground(gamePath) {};

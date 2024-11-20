@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff\xdiffi.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff\xemit.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff\xhistogram.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff\xmerge.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff\xpatience.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff\xprepare.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff\xutils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff\git-xdiff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff\xdiff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff\xdiffi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff\xemit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff\xinclude.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff\xmacros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff\xprepare.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff\xtypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff\xutils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{D9C89BA2-8154-3DE6-9BF1-E34A17C17324}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{267B9B5A-1C09-3ED4-AE74-FFA98D70418E}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

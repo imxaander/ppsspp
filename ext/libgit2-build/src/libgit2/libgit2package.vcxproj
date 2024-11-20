@@ -1,0 +1,665 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9B36E507-4391-35C4-82A1-8B59B05CFC3B}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>libgit2package</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">libgit2package.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">libgit2</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">libgit2package.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">libgit2</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">libgit2package.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">libgit2</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">libgit2package.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">libgit2</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/src/util" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/include" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/src/libgit2" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/src/util" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/include" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/deps/llhttp" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/deps/pcre" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/deps/xdiff" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/deps/zlib"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <ForcedIncludeFiles>precompiled.h</ForcedIncludeFiles>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <StringPooling>true</StringPooling>
+      <SupportJustMyCode></SupportJustMyCode>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_DEBUG;LIBGIT2_FILENAME="libgit2";_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WIN32_WINNT=0x0600;CMAKE_INTDIR="Debug";libgit2package_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;LIBGIT2_FILENAME=\"libgit2\";_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WIN32_WINNT=0x0600;CMAKE_INTDIR=\"Debug\";libgit2package_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>winhttp.lib;rpcrt4.lib;crypt32.lib;ole32.lib;ws2_32.lib;secur32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /GUARD:CF</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/Debug/libgit2.lib</ImportLibrary>
+      <LargeAddressAware>true</LargeAddressAware>
+      <ProgramDataBaseFile>E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/Debug/libgit2.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+      <Version>1.8</Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/src/util" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/include" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/src/libgit2" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/src/util" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/include" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/deps/llhttp" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/deps/pcre" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/deps/xdiff" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/deps/zlib"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <ForcedIncludeFiles>precompiled.h</ForcedIncludeFiles>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <StringPooling>true</StringPooling>
+      <SupportJustMyCode></SupportJustMyCode>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBGIT2_FILENAME="libgit2";_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WIN32_WINNT=0x0600;CMAKE_INTDIR="Release";libgit2package_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBGIT2_FILENAME=\"libgit2\";_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WIN32_WINNT=0x0600;CMAKE_INTDIR=\"Release\";libgit2package_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>winhttp.lib;rpcrt4.lib;crypt32.lib;ole32.lib;ws2_32.lib;secur32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /GUARD:CF</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/Release/libgit2.lib</ImportLibrary>
+      <LargeAddressAware>true</LargeAddressAware>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ProgramDataBaseFile>E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/Release/libgit2.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SetChecksum>true</SetChecksum>
+      <SubSystem>Console</SubSystem>
+      <Version>1.8</Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/src/util" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/include" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/src/libgit2" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/src/util" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/include" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/deps/llhttp" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/deps/pcre" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/deps/xdiff" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/deps/zlib"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <ForcedIncludeFiles>precompiled.h</ForcedIncludeFiles>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <StringPooling>true</StringPooling>
+      <SupportJustMyCode></SupportJustMyCode>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBGIT2_FILENAME="libgit2";_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WIN32_WINNT=0x0600;CMAKE_INTDIR="MinSizeRel";libgit2package_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBGIT2_FILENAME=\"libgit2\";_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WIN32_WINNT=0x0600;CMAKE_INTDIR=\"MinSizeRel\";libgit2package_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>winhttp.lib;rpcrt4.lib;crypt32.lib;ole32.lib;ws2_32.lib;secur32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /GUARD:CF</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/MinSizeRel/libgit2.lib</ImportLibrary>
+      <LargeAddressAware>true</LargeAddressAware>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ProgramDataBaseFile>E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/MinSizeRel/libgit2.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SetChecksum>true</SetChecksum>
+      <SubSystem>Console</SubSystem>
+      <Version>1.8</Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/src/util" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/include" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/src/libgit2" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/src/util" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/include" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/deps/llhttp" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/deps/pcre" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/deps/xdiff" /external:I "E:/OpenSource/imxaander/ppsspp/ext/libgit2/deps/zlib"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <ForcedIncludeFiles>precompiled.h</ForcedIncludeFiles>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>false</OmitFramePointers>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <StringPooling>true</StringPooling>
+      <SupportJustMyCode></SupportJustMyCode>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBGIT2_FILENAME="libgit2";_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WIN32_WINNT=0x0600;CMAKE_INTDIR="RelWithDebInfo";libgit2package_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;LIBGIT2_FILENAME=\"libgit2\";_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WIN32_WINNT=0x0600;CMAKE_INTDIR=\"RelWithDebInfo\";libgit2package_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>winhttp.lib;rpcrt4.lib;crypt32.lib;ole32.lib;ws2_32.lib;secur32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /GUARD:CF /DEBUGTYPE:cv,fixup</AdditionalOptions>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/RelWithDebInfo/libgit2.lib</ImportLibrary>
+      <LargeAddressAware>true</LargeAddressAware>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ProgramDataBaseFile>E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/RelWithDebInfo/libgit2.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <SetChecksum>true</SetChecksum>
+      <SubSystem>Console</SubSystem>
+      <Version>1.8</Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule E:/OpenSource/imxaander/ppsspp/ext/libgit2/src/libgit2/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/OpenSource/imxaander/ppsspp/ext/libgit2 -BE:/OpenSource/imxaander/ppsspp/ext/libgit2-build --check-stamp-file E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/src/libgit2/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2\cmake\PkgBuildConfig.cmake;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\experimental.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule E:/OpenSource/imxaander/ppsspp/ext/libgit2/src/libgit2/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/OpenSource/imxaander/ppsspp/ext/libgit2 -BE:/OpenSource/imxaander/ppsspp/ext/libgit2-build --check-stamp-file E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/src/libgit2/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2\cmake\PkgBuildConfig.cmake;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\experimental.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule E:/OpenSource/imxaander/ppsspp/ext/libgit2/src/libgit2/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/OpenSource/imxaander/ppsspp/ext/libgit2 -BE:/OpenSource/imxaander/ppsspp/ext/libgit2-build --check-stamp-file E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/src/libgit2/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2\cmake\PkgBuildConfig.cmake;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\experimental.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule E:/OpenSource/imxaander/ppsspp/ext/libgit2/src/libgit2/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/OpenSource/imxaander/ppsspp/ext/libgit2 -BE:/OpenSource/imxaander/ppsspp/ext/libgit2-build --check-stamp-file E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/src/libgit2/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2\cmake\PkgBuildConfig.cmake;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\experimental.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\git2.rc" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\alloc.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\debugalloc.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\failalloc.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\stdalloc.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\win32_leakcheck.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\date.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\errors.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\filebuf.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\fs_path.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\futils.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\hash.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\net.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\pool.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\posix.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\pqueue.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\rand.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\regexp.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\runtime.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\sortedcache.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\str.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\strlist.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\thread.c.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\tsort.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\utf8.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\util.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\varint.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\vector.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\wildmatch.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\zstream.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\dir.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\error.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\map.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\path_w32.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\posix_w32.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\precompiled.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\process.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\win32\thread.c.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\utf-conv.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\w32_buffer.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\w32_leakcheck.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\w32_util.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\collisiondetect.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\sha1.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\ubc_check.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\win32.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\annotated_commit.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\apply.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\attr.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\attr_file.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\attrcache.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\blame.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\blame_git.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\blob.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\branch.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\buf.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\cache.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\checkout.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\cherrypick.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\clone.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\commit.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\commit_graph.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\commit_list.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\config.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\config_cache.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\config_file.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\config_list.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\config_mem.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\config_parse.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\config_snapshot.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\crlf.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\delta.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\describe.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff_driver.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff_file.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff_generate.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff_parse.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff_print.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff_stats.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff_tform.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff_xdiff.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\email.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\fetch.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\fetchhead.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\filter.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\grafts.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\graph.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\hashsig.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\ident.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\ignore.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\index.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\index_map.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\indexer.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\iterator.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\libgit2.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\mailmap.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\merge.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\merge_driver.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\merge_file.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\message.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\midx.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\mwindow.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\notes.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\object.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\object_api.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\odb.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\odb_loose.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\odb_mempack.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\odb_pack.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\oid.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\oidarray.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\pack-objects.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\pack.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\parse.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\patch.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\patch_generate.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\patch_parse.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\path.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\pathspec.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\proxy.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\push.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\reader.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\rebase.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\refdb.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\refdb_fs.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\reflog.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\refs.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\refspec.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\remote.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\repository.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\reset.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\revert.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\revparse.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\revwalk.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\settings.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\signature.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\stash.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\status.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\strarray.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\mbedtls.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\openssl.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\openssl_dynamic.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\openssl_legacy.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\registry.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\schannel.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\socket.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\stransport.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\tls.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\submodule.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\sysdir.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\tag.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\trace.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\trailer.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\transaction.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\transport.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\auth.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\auth_gssapi.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\auth_ntlmclient.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\auth_sspi.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\credential.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\credential_helpers.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\git.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\http.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\httpclient.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\httpparser.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\local.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\smart.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\smart_pkt.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\smart_protocol.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\ssh.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\ssh_exec.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\ssh_libssh2.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\winhttp.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\tree-cache.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\tree.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\worktree.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\llhttp\llhttp.dir\$(Configuration)\api.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\llhttp\llhttp.dir\$(Configuration)\http.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\llhttp\llhttp.dir\$(Configuration)\llhttp.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_byte_order.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_chartables.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_compile.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_config.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_dfa_exec.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_exec.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_fullinfo.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_get.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_globals.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_jit_compile.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_maketables.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_newline.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_ord2utf8.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_refcount.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_string_utils.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_study.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_tables.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_ucd.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_valid_utf8.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_version.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_xclass.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcreposix.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\xdiff\xdiff.dir\$(Configuration)\xdiffi.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\xdiff\xdiff.dir\$(Configuration)\xemit.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\xdiff\xdiff.dir\$(Configuration)\xhistogram.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\xdiff\xdiff.dir\$(Configuration)\xmerge.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\xdiff\xdiff.dir\$(Configuration)\xpatience.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\xdiff\xdiff.dir\$(Configuration)\xprepare.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\xdiff\xdiff.dir\$(Configuration)\xutils.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\adler32.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\crc32.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\deflate.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\infback.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\inffast.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\inflate.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\inftrees.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\trees.obj" />
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\zutil.obj" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\ZERO_CHECK.vcxproj">
+      <Project>{FA8A8DB2-F456-3F34-81D9-09D86D26D789}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.vcxproj">
+      <Project>{A195FAC7-5BB6-3510-9A61-B2A14ED80E83}</Project>
+      <Name>libgit2</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\llhttp\llhttp.vcxproj">
+      <Project>{9E1E1D09-236E-3747-A329-CA4FA208B940}</Project>
+      <Name>llhttp</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.vcxproj">
+      <Project>{B8CD8003-8DFB-381D-8D7E-564E7DBFA701}</Project>
+      <Name>pcre</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.vcxproj">
+      <Project>{232896AD-DD35-3D81-A765-3FF17412B5C6}</Project>
+      <Name>util</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\xdiff\xdiff.vcxproj">
+      <Project>{A7EAD7E9-DF51-31AA-9E9B-5AA92EBC1371}</Project>
+      <Name>xdiff</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.vcxproj">
+      <Project>{9535B137-83E8-3287-A9C7-6E72AAD529F2}</Project>
+      <Name>zlib</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

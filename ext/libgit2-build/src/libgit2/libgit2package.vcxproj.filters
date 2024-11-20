@@ -1,0 +1,672 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\alloc.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\debugalloc.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\failalloc.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\stdalloc.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\win32_leakcheck.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\date.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\errors.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\filebuf.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\fs_path.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\futils.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\hash.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\net.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\pool.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\posix.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\pqueue.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\rand.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\regexp.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\runtime.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\sortedcache.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\str.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\strlist.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\thread.c.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\tsort.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\utf8.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\util.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\varint.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\vector.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\wildmatch.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\zstream.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\dir.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\error.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\map.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\path_w32.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\posix_w32.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\precompiled.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\process.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\win32\thread.c.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\utf-conv.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\w32_buffer.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\w32_leakcheck.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\w32_util.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\collisiondetect.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\sha1.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\ubc_check.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\util.dir\$(Configuration)\win32.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\annotated_commit.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\apply.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\attr.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\attr_file.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\attrcache.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\blame.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\blame_git.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\blob.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\branch.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\buf.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\cache.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\checkout.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\cherrypick.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\clone.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\commit.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\commit_graph.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\commit_list.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\config.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\config_cache.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\config_file.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\config_list.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\config_mem.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\config_parse.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\config_snapshot.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\crlf.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\delta.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\describe.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff_driver.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff_file.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff_generate.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff_parse.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff_print.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff_stats.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff_tform.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\diff_xdiff.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\email.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\fetch.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\fetchhead.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\filter.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\grafts.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\graph.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\hashsig.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\ident.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\ignore.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\index.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\index_map.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\indexer.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\iterator.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\libgit2.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\mailmap.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\merge.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\merge_driver.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\merge_file.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\message.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\midx.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\mwindow.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\notes.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\object.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\object_api.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\odb.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\odb_loose.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\odb_mempack.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\odb_pack.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\oid.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\oidarray.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\pack-objects.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\pack.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\parse.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\patch.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\patch_generate.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\patch_parse.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\path.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\pathspec.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\proxy.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\push.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\reader.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\rebase.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\refdb.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\refdb_fs.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\reflog.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\refs.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\refspec.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\remote.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\repository.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\reset.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\revert.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\revparse.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\revwalk.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\settings.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\signature.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\stash.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\status.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\strarray.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\mbedtls.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\openssl.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\openssl_dynamic.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\openssl_legacy.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\registry.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\schannel.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\socket.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\stransport.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\tls.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\submodule.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\sysdir.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\tag.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\trace.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\trailer.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\transaction.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\transport.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\auth.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\auth_gssapi.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\auth_ntlmclient.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\auth_sspi.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\credential.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\credential_helpers.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\git.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\http.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\httpclient.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\httpparser.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\local.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\smart.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\smart_pkt.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\smart_protocol.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\ssh.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\ssh_exec.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\ssh_libssh2.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\winhttp.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\tree-cache.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\tree.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\libgit2\libgit2.dir\$(Configuration)\worktree.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\llhttp\llhttp.dir\$(Configuration)\api.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\llhttp\llhttp.dir\$(Configuration)\http.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\llhttp\llhttp.dir\$(Configuration)\llhttp.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_byte_order.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_chartables.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_compile.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_config.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_dfa_exec.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_exec.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_fullinfo.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_get.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_globals.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_jit_compile.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_maketables.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_newline.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_ord2utf8.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_refcount.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_string_utils.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_study.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_tables.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_ucd.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_valid_utf8.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_version.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcre_xclass.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\pcre\pcre.dir\$(Configuration)\pcreposix.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\xdiff\xdiff.dir\$(Configuration)\xdiffi.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\xdiff\xdiff.dir\$(Configuration)\xemit.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\xdiff\xdiff.dir\$(Configuration)\xhistogram.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\xdiff\xdiff.dir\$(Configuration)\xmerge.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\xdiff\xdiff.dir\$(Configuration)\xpatience.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\xdiff\xdiff.dir\$(Configuration)\xprepare.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\xdiff\xdiff.dir\$(Configuration)\xutils.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\adler32.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\crc32.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\deflate.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\infback.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\inffast.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\inflate.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\inftrees.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\trees.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+    <Object Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\deps\zlib\zlib.dir\$(Configuration)\zutil.obj">
+      <Filter>Object Libraries</Filter>
+    </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\git2.rc">
+      <Filter>Source Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Object Libraries">
+      <UniqueIdentifier>{D99BD444-EE14-3CA3-8BCF-11A99A320A67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{267B9B5A-1C09-3ED4-AE74-FFA98D70418E}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

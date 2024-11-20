@@ -1,7 +1,13 @@
+#include "Common/System/System.h"
 #include "Common/Log.h"
-#include <git2.h>
+
+#include "Core/Config.h"
+#include "Core/System.h"
+
+#include "git2.h"
+
 namespace MemStickGit{
-    
     bool isRepo(const std::string path);
-    void FetchMemStick();
+	bool InitMemStick();
+	bool SyncMemStick();
 }

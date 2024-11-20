@@ -13,10 +13,10 @@
 
 /* #undef GIT_USE_ICONV */
 #define GIT_USE_NSEC 1
-#define GIT_USE_STAT_MTIM 1
+/* #undef GIT_USE_STAT_MTIM */
 /* #undef GIT_USE_STAT_MTIMESPEC */
 /* #undef GIT_USE_STAT_MTIME_NSEC */
-#define GIT_USE_FUTIMENS 1
+/* #undef GIT_USE_FUTIMENS */
 
 /* #undef GIT_REGEX_REGCOMP_L */
 /* #undef GIT_REGEX_REGCOMP */
@@ -25,22 +25,22 @@
 #define GIT_REGEX_BUILTIN 1
 
 /* #undef GIT_QSORT_BSD */
-#define GIT_QSORT_GNU
+/* #undef GIT_QSORT_GNU */
 /* #undef GIT_QSORT_C11 */
-/* #undef GIT_QSORT_MSC */
+#define GIT_QSORT_MSC
 
 /* #undef GIT_SSH */
 /* #undef GIT_SSH_EXEC */
 /* #undef GIT_SSH_LIBSSH2 */
 /* #undef GIT_SSH_LIBSSH2_MEMORY_CREDENTIALS */
 
-#define GIT_NTLM 1
+/* #undef GIT_NTLM */
 /* #undef GIT_GSSAPI */
 /* #undef GIT_GSSFRAMEWORK */
 
-/* #undef GIT_WINHTTP */
+#define GIT_WINHTTP 1
 #define GIT_HTTPS 1
-#define GIT_OPENSSL 1
+/* #undef GIT_OPENSSL */
 /* #undef GIT_OPENSSL_DYNAMIC */
 /* #undef GIT_SECURE_TRANSPORT */
 /* #undef GIT_MBEDTLS */
@@ -59,18 +59,18 @@
 /* #undef GIT_SHA1_MBEDTLS */
 
 /* #undef GIT_SHA256_BUILTIN */
-/* #undef GIT_SHA256_WIN32 */
+#define GIT_SHA256_WIN32 1
 /* #undef GIT_SHA256_COMMON_CRYPTO */
-#define GIT_SHA256_OPENSSL 1
+/* #undef GIT_SHA256_OPENSSL */
 /* #undef GIT_SHA256_OPENSSL_FIPS */
 /* #undef GIT_SHA256_OPENSSL_DYNAMIC */
 /* #undef GIT_SHA256_MBEDTLS */
 
-#define GIT_RAND_GETENTROPY 1
-#define GIT_RAND_GETLOADAVG 1
+/* #undef GIT_RAND_GETENTROPY */
+/* #undef GIT_RAND_GETLOADAVG */
 
-#define GIT_IO_POLL 1
-/* #undef GIT_IO_WSAPOLL */
-#define GIT_IO_SELECT 1
+/* #undef GIT_IO_POLL */
+#define GIT_IO_WSAPOLL 1
+/* #undef GIT_IO_SELECT */
 
 #endif

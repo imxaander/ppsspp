@@ -1,0 +1,348 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\alloc.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\allocators\debugalloc.c">
+      <Filter>src\util\allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\allocators\failalloc.c">
+      <Filter>src\util\allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\allocators\stdalloc.c">
+      <Filter>src\util\allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\allocators\win32_leakcheck.c">
+      <Filter>src\util\allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\date.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\errors.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\filebuf.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\fs_path.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\futils.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\net.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\pool.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\posix.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\pqueue.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\rand.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\regexp.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\runtime.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\sortedcache.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\str.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\strlist.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\thread.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\tsort.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\utf8.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\util.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\varint.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\vector.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\wildmatch.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\zstream.c">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\dir.c">
+      <Filter>src\util\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\error.c">
+      <Filter>src\util\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\map.c">
+      <Filter>src\util\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\path_w32.c">
+      <Filter>src\util\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\posix_w32.c">
+      <Filter>src\util\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\precompiled.c">
+      <Filter>src\util\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\process.c">
+      <Filter>src\util\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\thread.c">
+      <Filter>src\util\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\utf-conv.c">
+      <Filter>src\util\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\w32_buffer.c">
+      <Filter>src\util\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\w32_leakcheck.c">
+      <Filter>src\util\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\w32_util.c">
+      <Filter>src\util\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash\collisiondetect.c">
+      <Filter>src\util\hash</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash\sha1dc\sha1.c">
+      <Filter>src\util\hash\sha1dc</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash\sha1dc\ubc_check.c">
+      <Filter>src\util\hash\sha1dc</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash\win32.c">
+      <Filter>src\util\hash</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\alloc.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\allocators\debugalloc.h">
+      <Filter>src\util\allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\allocators\failalloc.h">
+      <Filter>src\util\allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\allocators\stdalloc.h">
+      <Filter>src\util\allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\allocators\win32_leakcheck.h">
+      <Filter>src\util\allocators</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\array.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\assert_safe.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\bitvec.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\cc-compat.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\ctype_compat.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\date.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\errors.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\filebuf.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\fs_path.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\futils.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\git2_util.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hashmap.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hashmap_str.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\integer.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\map.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\net.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\pool.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\posix.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\pqueue.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\process.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\rand.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\regexp.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\runtime.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\sortedcache.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\staticstr.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\str.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\strlist.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\strnlen.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\thread.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\utf8.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\util.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\varint.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\vector.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\wildmatch.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\zstream.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\dir.h">
+      <Filter>src\util\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\error.h">
+      <Filter>src\util\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\mingw-compat.h">
+      <Filter>src\util\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\msvc-compat.h">
+      <Filter>src\util\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\path_w32.h">
+      <Filter>src\util\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\posix.h">
+      <Filter>src\util\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\precompiled.h">
+      <Filter>src\util\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\reparse.h">
+      <Filter>src\util\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\thread.h">
+      <Filter>src\util\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\utf-conv.h">
+      <Filter>src\util\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\version.h">
+      <Filter>src\util\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\w32_buffer.h">
+      <Filter>src\util\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\w32_common.h">
+      <Filter>src\util\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\w32_leakcheck.h">
+      <Filter>src\util\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\w32_util.h">
+      <Filter>src\util\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\win32-compat.h">
+      <Filter>src\util\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash\collisiondetect.h">
+      <Filter>src\util\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash\sha1dc\sha1.h">
+      <Filter>src\util\hash\sha1dc</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash\sha1dc\ubc_check.h">
+      <Filter>src\util\hash\sha1dc</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash\win32.h">
+      <Filter>src\util\hash</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{63792D8D-F939-3814-B000-19A188607966}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util">
+      <UniqueIdentifier>{ED737551-5A83-355B-AD49-D59773E777E8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util\allocators">
+      <UniqueIdentifier>{543E5A3E-9FB8-3429-82B5-C221F9A181D6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util\hash">
+      <UniqueIdentifier>{9835A342-564D-37EC-8925-2DA0A477E5D7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util\hash\sha1dc">
+      <UniqueIdentifier>{878E4528-A219-3A6F-B0FF-C0350CB39759}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\util\win32">
+      <UniqueIdentifier>{E6C54615-45BF-3C73-A0BD-A24FC58E0683}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,432 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{232896AD-DD35-3D81-A765-3FF17412B5C6}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>util</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">util.dir\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">util.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">util</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">util.dir\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">util.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">util</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">util.dir\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">util.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">util</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">util.dir\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">util.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">util</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <StringPooling>true</StringPooling>
+      <SupportJustMyCode></SupportJustMyCode>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_DEBUG;SHA1DC_NO_STANDARD_INCLUDES=1;SHA1DC_CUSTOM_INCLUDE_SHA1_C="git2_util.h";SHA1DC_CUSTOM_INCLUDE_UBC_CHECK_C="git2_util.h";_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WIN32_WINNT=0x0600;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;SHA1DC_NO_STANDARD_INCLUDES=1;SHA1DC_CUSTOM_INCLUDE_SHA1_C=\"git2_util.h\";SHA1DC_CUSTOM_INCLUDE_UBC_CHECK_C=\"git2_util.h\";_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WIN32_WINNT=0x0600;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /IGNORE:4221</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <StringPooling>true</StringPooling>
+      <SupportJustMyCode></SupportJustMyCode>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SHA1DC_NO_STANDARD_INCLUDES=1;SHA1DC_CUSTOM_INCLUDE_SHA1_C="git2_util.h";SHA1DC_CUSTOM_INCLUDE_UBC_CHECK_C="git2_util.h";_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WIN32_WINNT=0x0600;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SHA1DC_NO_STANDARD_INCLUDES=1;SHA1DC_CUSTOM_INCLUDE_SHA1_C=\"git2_util.h\";SHA1DC_CUSTOM_INCLUDE_UBC_CHECK_C=\"git2_util.h\";_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WIN32_WINNT=0x0600;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /IGNORE:4221</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <StringPooling>true</StringPooling>
+      <SupportJustMyCode></SupportJustMyCode>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SHA1DC_NO_STANDARD_INCLUDES=1;SHA1DC_CUSTOM_INCLUDE_SHA1_C="git2_util.h";SHA1DC_CUSTOM_INCLUDE_UBC_CHECK_C="git2_util.h";_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WIN32_WINNT=0x0600;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SHA1DC_NO_STANDARD_INCLUDES=1;SHA1DC_CUSTOM_INCLUDE_SHA1_C=\"git2_util.h\";SHA1DC_CUSTOM_INCLUDE_UBC_CHECK_C=\"git2_util.h\";_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WIN32_WINNT=0x0600;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /IGNORE:4221</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <MinimalRebuild></MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>false</OmitFramePointers>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <StringPooling>true</StringPooling>
+      <SupportJustMyCode></SupportJustMyCode>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SHA1DC_NO_STANDARD_INCLUDES=1;SHA1DC_CUSTOM_INCLUDE_SHA1_C="git2_util.h";SHA1DC_CUSTOM_INCLUDE_UBC_CHECK_C="git2_util.h";_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WIN32_WINNT=0x0600;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SHA1DC_NO_STANDARD_INCLUDES=1;SHA1DC_CUSTOM_INCLUDE_SHA1_C=\"git2_util.h\";SHA1DC_CUSTOM_INCLUDE_UBC_CHECK_C=\"git2_util.h\";_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_WIN32_WINNT=0x0600;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util;E:\OpenSource\imxaander\ppsspp\ext\libgit2\include;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\llhttp;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\pcre;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\xdiff;E:\OpenSource\imxaander\ppsspp\ext\libgit2\deps\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /IGNORE:4221</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule E:/OpenSource/imxaander/ppsspp/ext/libgit2/src/util/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/OpenSource/imxaander/ppsspp/ext/libgit2 -BE:/OpenSource/imxaander/ppsspp/ext/libgit2-build --check-stamp-file E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/src/util/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\git2_features.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule E:/OpenSource/imxaander/ppsspp/ext/libgit2/src/util/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/OpenSource/imxaander/ppsspp/ext/libgit2 -BE:/OpenSource/imxaander/ppsspp/ext/libgit2-build --check-stamp-file E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/src/util/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\git2_features.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule E:/OpenSource/imxaander/ppsspp/ext/libgit2/src/util/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/OpenSource/imxaander/ppsspp/ext/libgit2 -BE:/OpenSource/imxaander/ppsspp/ext/libgit2-build --check-stamp-file E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/src/util/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\git2_features.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule E:/OpenSource/imxaander/ppsspp/ext/libgit2/src/util/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SE:/OpenSource/imxaander/ppsspp/ext/libgit2 -BE:/OpenSource/imxaander/ppsspp/ext/libgit2-build --check-stamp-file E:/OpenSource/imxaander/ppsspp/ext/libgit2-build/src/util/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\git2_features.h.in;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\src\util\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\alloc.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\alloc.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\allocators\debugalloc.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\allocators\debugalloc.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\allocators\failalloc.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\allocators\failalloc.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\allocators\stdalloc.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\allocators\stdalloc.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\allocators\win32_leakcheck.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\allocators\win32_leakcheck.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\array.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\assert_safe.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\bitvec.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\cc-compat.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\ctype_compat.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\date.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\date.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\errors.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\errors.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\filebuf.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\filebuf.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\fs_path.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\fs_path.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\futils.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\futils.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\git2_util.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hashmap.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hashmap_str.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\integer.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\map.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\net.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\net.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\pool.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\pool.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\posix.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\posix.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\pqueue.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\pqueue.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\process.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\rand.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\rand.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\regexp.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\regexp.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\runtime.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\runtime.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\sortedcache.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\sortedcache.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\staticstr.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\str.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\str.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\strlist.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\strlist.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\strnlen.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\thread.c">
+      <ObjectFileName>$(IntDir)/thread.c.obj</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\thread.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\tsort.c" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\utf8.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\utf8.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\util.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\util.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\varint.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\varint.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\vector.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\vector.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\wildmatch.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\wildmatch.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\zstream.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\zstream.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\dir.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\dir.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\error.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\error.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\map.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\mingw-compat.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\msvc-compat.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\path_w32.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\path_w32.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\posix.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\posix_w32.c" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\precompiled.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\precompiled.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\process.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\reparse.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\thread.c">
+      <ObjectFileName>$(IntDir)/win32/thread.c.obj</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\thread.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\utf-conv.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\utf-conv.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\version.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\w32_buffer.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\w32_buffer.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\w32_common.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\w32_leakcheck.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\w32_leakcheck.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\w32_util.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\w32_util.h" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\win32\win32-compat.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash\collisiondetect.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash\collisiondetect.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash\sha1dc\sha1.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash\sha1dc\sha1.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash\sha1dc\ubc_check.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash\sha1dc\ubc_check.h" />
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash\win32.c" />
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\util\hash\win32.h" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2-build\ZERO_CHECK.vcxproj">
+      <Project>{FA8A8DB2-F456-3F34-81D9-09D86D26D789}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

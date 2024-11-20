@@ -1,0 +1,1014 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\annotated_commit.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\apply.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\attr.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\attr_file.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\attrcache.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\blame.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\blame_git.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\blob.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\branch.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\buf.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\cache.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\checkout.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\cherrypick.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\clone.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\commit.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\commit_graph.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\commit_list.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\config.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\config_cache.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\config_file.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\config_list.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\config_mem.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\config_parse.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\config_snapshot.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\crlf.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\delta.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\describe.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\diff.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\diff_driver.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\diff_file.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\diff_generate.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\diff_parse.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\diff_print.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\diff_stats.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\diff_tform.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\diff_xdiff.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\email.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\fetch.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\fetchhead.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\filter.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\grafts.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\graph.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\hashsig.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\ident.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\ignore.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\index.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\index_map.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\indexer.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\iterator.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\libgit2.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\mailmap.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\merge.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\merge_driver.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\merge_file.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\message.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\midx.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\mwindow.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\notes.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\object.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\object_api.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\odb.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\odb_loose.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\odb_mempack.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\odb_pack.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\oid.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\oidarray.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\pack-objects.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\pack.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\parse.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\patch.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\patch_generate.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\patch_parse.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\path.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\pathspec.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\proxy.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\push.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\reader.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\rebase.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\refdb.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\refdb_fs.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\reflog.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\refs.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\refspec.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\remote.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\repository.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\reset.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\revert.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\revparse.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\revwalk.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\settings.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\signature.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\stash.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\status.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\strarray.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\mbedtls.c">
+      <Filter>src\libgit2\streams</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\openssl.c">
+      <Filter>src\libgit2\streams</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\openssl_dynamic.c">
+      <Filter>src\libgit2\streams</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\openssl_legacy.c">
+      <Filter>src\libgit2\streams</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\registry.c">
+      <Filter>src\libgit2\streams</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\schannel.c">
+      <Filter>src\libgit2\streams</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\socket.c">
+      <Filter>src\libgit2\streams</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\stransport.c">
+      <Filter>src\libgit2\streams</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\tls.c">
+      <Filter>src\libgit2\streams</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\submodule.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\sysdir.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\tag.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\trace.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\trailer.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transaction.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transport.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\auth.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\auth_gssapi.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\auth_ntlmclient.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\auth_sspi.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\credential.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\credential_helpers.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\git.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\http.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\httpclient.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\httpparser.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\local.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\smart.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\smart_pkt.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\smart_protocol.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\ssh.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\ssh_exec.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\ssh_libssh2.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\winhttp.c">
+      <Filter>src\libgit2\transports</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\tree-cache.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\tree.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+    <ClCompile Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\worktree.c">
+      <Filter>src\libgit2</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\annotated_commit.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\apply.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\attr.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\blame.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\blob.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\branch.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\buffer.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\cert.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\checkout.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\cherrypick.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\clone.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\commit.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\common.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\config.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\cred_helpers.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\credential.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\credential_helpers.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\deprecated.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\describe.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\diff.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\email.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\errors.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\experimental.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\filter.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\global.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\graph.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\ignore.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\index.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\indexer.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\mailmap.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\merge.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\message.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\net.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\notes.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\object.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\odb.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\odb_backend.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\oid.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\oidarray.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\pack.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\patch.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\pathspec.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\proxy.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\rebase.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\refdb.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\reflog.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\refs.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\refspec.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\remote.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\repository.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\reset.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\revert.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\revparse.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\revwalk.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\signature.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\stash.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\status.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\stdint.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\strarray.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\submodule.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\alloc.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\commit.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\commit_graph.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\config.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\cred.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\credential.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\diff.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\email.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\errors.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\filter.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\hashsig.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\index.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\mempack.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\merge.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\midx.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\odb_backend.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\openssl.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\path.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\refdb_backend.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\reflog.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\refs.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\remote.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\repository.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\stream.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\sys\transport.h">
+      <Filter>include\git2\sys</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\tag.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\trace.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\transaction.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\transport.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\tree.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\types.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\version.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\include\git2\worktree.h">
+      <Filter>include\git2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\annotated_commit.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\apply.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\attr.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\attr_file.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\attrcache.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\blame.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\blame_git.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\blob.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\branch.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\buf.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\cache.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\checkout.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\clone.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\commit.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\commit_graph.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\commit_list.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\common.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\config.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\config_backend.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\config_list.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\config_parse.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\delta.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\diff.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\diff_driver.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\diff_file.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\diff_generate.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\diff_parse.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\diff_stats.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\diff_tform.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\diff_xdiff.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\email.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\fetch.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\fetchhead.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\filter.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\grafts.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\hashmap_oid.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\ignore.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\index.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\index_map.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\indexer.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\iterator.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\mailmap.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\merge.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\merge_driver.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\midx.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\mwindow.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\notes.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\object.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\odb.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\oid.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\oidarray.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\pack-objects.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\pack.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\parse.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\patch.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\patch_generate.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\patch_parse.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\path.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\pathspec.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\proxy.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\push.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\reader.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\refdb.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\reflog.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\refs.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\refspec.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\remote.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\repo_template.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\repository.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\revwalk.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\settings.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\signature.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\status.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\strarray.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\stream.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\mbedtls.h">
+      <Filter>src\libgit2\streams</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\openssl.h">
+      <Filter>src\libgit2\streams</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\openssl_dynamic.h">
+      <Filter>src\libgit2\streams</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\openssl_legacy.h">
+      <Filter>src\libgit2\streams</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\registry.h">
+      <Filter>src\libgit2\streams</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\schannel.h">
+      <Filter>src\libgit2\streams</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\socket.h">
+      <Filter>src\libgit2\streams</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\stransport.h">
+      <Filter>src\libgit2\streams</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\streams\tls.h">
+      <Filter>src\libgit2\streams</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\submodule.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\sysdir.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\tag.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\trace.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transaction.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\auth.h">
+      <Filter>src\libgit2\transports</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\auth_negotiate.h">
+      <Filter>src\libgit2\transports</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\auth_ntlm.h">
+      <Filter>src\libgit2\transports</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\http.h">
+      <Filter>src\libgit2\transports</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\httpclient.h">
+      <Filter>src\libgit2\transports</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\httpparser.h">
+      <Filter>src\libgit2\transports</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\smart.h">
+      <Filter>src\libgit2\transports</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\ssh_exec.h">
+      <Filter>src\libgit2\transports</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\transports\ssh_libssh2.h">
+      <Filter>src\libgit2\transports</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\tree-cache.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\tree.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\userdiff.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+    <ClInclude Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\worktree.h">
+      <Filter>src\libgit2</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="E:\OpenSource\imxaander\ppsspp\ext\libgit2\src\libgit2\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{F298F4C0-FD77-3B23-8714-FB90F499E457}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\git2">
+      <UniqueIdentifier>{B31079A0-C377-39A6-B1CB-15FE98ABB64A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\git2\sys">
+      <UniqueIdentifier>{F7D709A3-7A7F-3036-9E29-73970C0124FE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{63792D8D-F939-3814-B000-19A188607966}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\libgit2">
+      <UniqueIdentifier>{C08630A6-B40E-37E2-A84C-8FF84E892C28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\libgit2\streams">
+      <UniqueIdentifier>{372FB541-1855-3544-9337-880F7C647958}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\libgit2\transports">
+      <UniqueIdentifier>{6F0B815B-0BC4-3703-A4D4-B97D123AF53D}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

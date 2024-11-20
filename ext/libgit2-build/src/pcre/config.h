@@ -1,22 +1,22 @@
 /* config.h for CMake builds */
 
-#define HAVE_DIRENT_H 1
+/* #undef HAVE_DIRENT_H */
 #define HAVE_SYS_STAT_H 1
 #define HAVE_SYS_TYPES_H 1
-#define HAVE_UNISTD_H 1
-/* #undef HAVE_WINDOWS_H */
+/* #undef HAVE_UNISTD_H */
+#define HAVE_WINDOWS_H 1
 #define HAVE_STDINT_H 1                                                   
 #define HAVE_INTTYPES_H 1    
 
 /* #undef HAVE_TYPE_TRAITS_H */
 /* #undef HAVE_BITS_TYPE_TRAITS_H */
 
-#define HAVE_BCOPY 1
+/* #undef HAVE_BCOPY */
 #define HAVE_MEMMOVE 1
 #define HAVE_STRERROR 1
 #define HAVE_STRTOLL 1
-#define HAVE_STRTOQ 1
-/* #undef HAVE__STRTOI64 */
+/* #undef HAVE_STRTOQ */
+#define HAVE__STRTOI64 1
 
 /* #undef PCRE_STATIC */
 
