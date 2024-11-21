@@ -10,20 +10,19 @@ void MemStickGitSettingsScreen::CreateTabs(){
     auto sy = GetI18NCategory(I18NCat::SYSTEM);
     using namespace UI;
     CreateActionsTab(AddTab("MemStickGit Action", sy->T("Actions")));
+	CreateAccountTab(AddTab("MemStickGit Account", sy->T("Account")));
     return;
 };
 
 void MemStickGitSettingsScreen::CreateActionsTab(UI::ViewGroup* viewGroup){
     VERBOSE_LOG(Log::System, "Created Test Tab");
+	//TODO: Fix all category issues and translations
     auto sy = GetI18NCategory(I18NCat::SYSTEM);
 
     using namespace UI;
+    viewGroup->Add(new CheckBox(&g_Config.bUseMemstickGit, "Enable MemstickGit"));
+	viewGroup->Add(new CheckBox(&g_Config.bMemstickGitSyncOnStartup, "Sync On Startup"));
 
-    viewGroup->Add(new ItemHeader("Settings"));
-    viewGroup->Add(new CheckBox(&g_Config.bUseMemstickGit, "Enable Memstick Git"));
-
-    viewGroup->Add(new ItemHeader("Git Information"));
-    viewGroup->Add(new PopupTextInputChoice(GetRequesterToken(), &g_Config.sMemstickGitRepo, sy->T("Memstick Git Repo"), "<https://privatekey@github.com/username/repo>", 256, screenManager()));
     viewGroup->Add(new ItemHeader("Operations"));
     viewGroup->Add(new Choice("Initialize Memstick from Git"))->OnClick.Add([=](UI::EventParams &) -> UI::EventReturn {
 		if (MemStickGit::InitMemStick()) {
@@ -43,6 +42,21 @@ void MemStickGitSettingsScreen::CreateActionsTab(UI::ViewGroup* viewGroup){
 		}
 		return UI::EVENT_DONE;
 	});
+}
+
+void MemStickGitSettingsScreen::CreateAccountTab(UI::ViewGroup* viewGroup){
+	auto sy = GetI18NCategory(I18NCat::SYSTEM);
+
+	using namespace UI;
+
+	viewGroup->Add(new ItemHeader("Git Credentials"));
+	viewGroup->Add(new PopupTextInputChoice(GetRequesterToken(), &g_Config.sMemstickGitPersonalToken, sy->T("Personal Token"), "ghp_XXXXXXXXXXXXXX", 64, screenManager()));
+	viewGroup->Add(new PopupTextInputChoice(GetRequesterToken(), &g_Config.sMemstickGitUsername, sy->T("Username"), "hrydgard", 39, screenManager()));
+	viewGroup->Add(new PopupTextInputChoice(GetRequesterToken(), &g_Config.sMemstickGitAuthorName, sy->T("Author Name"), "Preferrably your device \"tag\"", 64, screenManager()));
+	viewGroup->Add(new PopupTextInputChoice(GetRequesterToken(), &g_Config.sMemstickGitAuthorEmail, sy->T("Author Email"), "Any Email Formatted Text :) ", 64, screenManager()));
+
+	viewGroup->Add(new ItemHeader("Git Repository"));
+	viewGroup->Add(new PopupTextInputChoice(GetRequesterToken(), &g_Config.sMemstickGitRepo, sy->T("Repo Name"), "hrydgard-memstick", 250, screenManager()));
 }
 
 void MemStickGitSettingsScreen::onFinish(DialogResult result){

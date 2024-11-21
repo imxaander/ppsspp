@@ -347,8 +347,16 @@ static const ConfigSetting achievementSettings[] = {
 };
 
 static const ConfigSetting memstickgitSettings[] = {
+	//creds
+	ConfigSetting("MemstickGitPersonalToken", &g_Config.sMemstickGitPersonalToken, "", CfgFlag::DEFAULT),
+	ConfigSetting("MemstickGitUsername", &g_Config.sMemstickGitUsername, "", CfgFlag::DEFAULT),
+	ConfigSetting("MemstickGitAuthorName", &g_Config.sMemstickGitAuthorName, "PPSSPP ", CfgFlag::DEFAULT),
+	ConfigSetting("MemstickGitAuthorEmail", &g_Config.sMemstickGitAuthorEmail, "MemStickGit@ppsspp.com", CfgFlag::DEFAULT),
+
 	ConfigSetting("MemstickGitRepo", &g_Config.sMemstickGitRepo, "", CfgFlag::DEFAULT),
-	ConfigSetting("UseMemstickGit", &g_Config.bUseMemstickGit, false, CfgFlag::DEFAULT)
+
+	ConfigSetting("UseMemstickGit", &g_Config.bUseMemstickGit, false, CfgFlag::DEFAULT),
+	ConfigSetting("UseMemstickGit", &g_Config.bMemstickGitSyncOnStartup, false, CfgFlag::DEFAULT)
 };
 
 static const ConfigSetting cpuSettings[] = {

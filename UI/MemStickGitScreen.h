@@ -11,5 +11,6 @@ public:
 	const char *tag() const override { return "MemStickGitScreen";}
     void CreateTabs() override;
     void CreateActionsTab(UI::ViewGroup* vg);
+	void CreateAccountTab(UI::ViewGroup* vg);
     void onFinish(DialogResult result) override;
 };

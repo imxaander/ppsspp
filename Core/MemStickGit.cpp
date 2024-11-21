@@ -6,6 +6,11 @@ namespace fs = std::filesystem;
 
 namespace MemStickGit{
     
+	std::string generateRepoURL() {
+		//always secured http req, idk
+		std::string repoURL = "https://" + g_Config.sMemstickGitUsername + ":" + g_Config.sMemstickGitPersonalToken + "@github.com/" + g_Config.sMemstickGitUsername + "/" + g_Config.sMemstickGitRepo + ".git";
+		return repoURL;
+	}
     bool isRepo(const std::string path){
         bool result = false;
         git_libgit2_init();
@@ -18,9 +23,9 @@ namespace MemStickGit{
 
     bool InitMemStick(){
 		std::string memstickDir = GetSysDirectory(DIRECTORY_MEMSTICK_ROOT).ToString();
-
-		if (g_Config.sMemstickGitRepo.empty()) {
-			ERROR_LOG(Log::FileSystem, "Repo URL is empty.");
+		std::string repoURL = generateRepoURL();
+		if (g_Config.sMemstickGitRepo.empty() || g_Config.sMemstickGitUsername.empty() || g_Config.sMemstickGitPersonalToken.empty()) {
+			ERROR_LOG(Log::FileSystem, "Repo URL, Name, Git Username might be empty.");
 			return false;
 		}
 
@@ -35,7 +40,7 @@ namespace MemStickGit{
 		if (fs::is_directory(pspMemStickPath)) {
 			INFO_LOG(Log::FileSystem, "A directory, delete this");
 			fs::remove_all(pspMemStickPath);
-			INFO_LOG(Log::FileSystem, "PSP Deleted.");
+			INFO_LOG(Log::FileSystem, "PSP Folder Deleted.");
 		}
 
         git_libgit2_init();
@@ -44,7 +49,7 @@ namespace MemStickGit{
         clone_opts.checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE;
 
         git_repository* out;
-        int clone_error = git_clone(&out, g_Config.sMemstickGitRepo.c_str(), memstickDir.c_str(), &clone_opts);
+        int clone_error = git_clone(&out, repoURL.c_str(), memstickDir.c_str(), &clone_opts);
         if(clone_error < 0){
             ERROR_LOG(Log::FileSystem, "Cannot Proceeed to Git Fetch:  %s", git_error_last()->message);
         }else{
@@ -57,8 +62,10 @@ namespace MemStickGit{
         return false;
     }
 
+	//this is like git pull
 	bool SyncMemStick() {
 		std::string memstickDir = GetSysDirectory(DIRECTORY_MEMSTICK_ROOT).ToString();
+
 		if (!isRepo(memstickDir)) {
 			return false;
 		}
@@ -122,6 +129,10 @@ namespace MemStickGit{
 				//fast forawrd
 				INFO_LOG(Log::FileSystem, "CAN FAST FORWARD. FAST FORWARDING...");
 
+				if (!FastForwardMerge(repo, annotated_commit)) {
+					throw std::runtime_error("Fast-forward merge failed");
+				}
+				INFO_LOG(Log::FileSystem, "Fast-forward complete!");
 			}
 			else {
 				//last resort, merge and commit
@@ -141,11 +152,56 @@ namespace MemStickGit{
 			}
 		}
 		INFO_LOG(Log::FileSystem, "SUCCESS!...");
-		git_annotated_commit_free(annotated_commit);
-		git_repository_state_cleanup(repo);
+
+		// Cleanup
+		if (annotated_commit) git_annotated_commit_free(annotated_commit);
+		if (remote) git_remote_free(remote);
+		if (repo) {
+			git_repository_state_cleanup(repo);
+			git_repository_free(repo);
+		}
 		git_libgit2_shutdown();
 		return true;
 	}
 
+	bool FastForwardMerge(git_repository* repo, const git_annotated_commit* annotated_commit) {
+		git_commit* target_commit = nullptr;
+		const git_oid* commit_id = git_annotated_commit_id(annotated_commit);
+
+		if (git_commit_lookup(&target_commit, repo, commit_id) != 0) {
+			ERROR_LOG(Log::FileSystem, "Error git commit lookup: %s", git_error_last()->message);
+		}
+
+		git_reference* head_ref = nullptr;
+		if (git_repository_head(&head_ref, repo) != 0) {
+			git_commit_free(target_commit);
+			ERROR_LOG(Log::FileSystem, "Error getting current head reference: %s", git_error_last()->message);
+		}
+
+		const git_oid* target_oid = git_commit_id(target_commit);
+		git_reference* new_head_ref = nullptr;
+		int error = git_reference_set_target(&new_head_ref, head_ref, target_oid, "Fast-forward");
+
+
+		git_commit_free(target_commit);
+		git_reference_free(head_ref);
+		if (new_head_ref) git_reference_free(new_head_ref);
+
+		if (error != 0) {
+			ERROR_LOG(Log::FileSystem, "Error setting ref head to the new ref head: %s", git_error_last()->message);
+		}
+
+		git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
+		checkout_opts.checkout_strategy = GIT_CHECKOUT_SAFE | GIT_CHECKOUT_FORCE;
+
+		if (git_checkout_head(repo, &checkout_opts) != 0) {
+			ERROR_LOG(Log::FileSystem, "Error checkout: %s", git_error_last()->message);
+		}
+
+		ERROR_LOG(Log::FileSystem, "SUccess??: %s", git_error_last()->message);
+
+		return true;
+
+	};
 	
 }

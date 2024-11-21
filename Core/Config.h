@@ -631,8 +631,18 @@ public:
 	PlayTimeTracker &TimeTracker() { return playTimeTracker_; }
 
 	// MemstickGit
+	//Credentials
+	std::string sMemstickGitPersonalToken;
+	std::string sMemstickGitUsername;
+	std::string sMemstickGitAuthorName;
+	std::string sMemstickGitAuthorEmail;
+
+	//Repo
 	std::string sMemstickGitRepo;
+
+	bool bMemstickGitSyncOnStartup;
 	bool bUseMemstickGit;
+
 protected:
 	void LoadStandardControllerIni();
 	void LoadLangValuesMapping();
