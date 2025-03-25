@@ -592,12 +592,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\README.md" />
-    <None Include="aboutbox.rc">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="version.rc">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="..\assets\knownfuncs.ini">
       <Filter>Resource Files</Filter>
     </None>

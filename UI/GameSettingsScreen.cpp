@@ -59,6 +59,7 @@
 #include "UI/OnScreenDisplay.h"
 #include "UI/DiscordIntegration.h"
 #include "UI/BackgroundAudio.h"
+#include "UI/MemStickGitScreen.h"
 
 #include "Common/File/FileUtil.h"
 #include "Common/File/AndroidContentURI.h"
