@@ -1,7 +1,6 @@
 #include <filesystem>
 #include "Core/MemStickGit.h"
 
-
 namespace fs = std::filesystem;
 
 namespace MemStickGit{
@@ -9,6 +8,8 @@ namespace MemStickGit{
 	std::string generateRepoURL() {
 		//always secured http req, idk
 		std::string repoURL = "https://" + g_Config.sMemstickGitUsername + ":" + g_Config.sMemstickGitPersonalToken + "@github.com/" + g_Config.sMemstickGitUsername + "/" + g_Config.sMemstickGitRepo + ".git";
+
+		System_Toast(repoURL.c_str());
 		return repoURL;
 	}
     bool isRepo(const std::string path){
@@ -62,7 +63,7 @@ namespace MemStickGit{
         return false;
     }
 
-	//this is like git pull
+	//this is like git pull, ONLY PULLS FROM THE REMOTE
 	bool SyncMemStick() {
 		std::string memstickDir = GetSysDirectory(DIRECTORY_MEMSTICK_ROOT).ToString();
 
@@ -201,7 +202,121 @@ namespace MemStickGit{
 		ERROR_LOG(Log::FileSystem, "SUccess??: %s", git_error_last()->message);
 
 		return true;
-
 	};
-	
+
+	//commit every changes then push
+	bool CommitMemStick() {
+		std::string memStickDir = GetSysDirectory(DIRECTORY_MEMSTICK_ROOT).ToString();
+		std::string authorName = g_Config.sMemstickGitAuthorName;
+		std::string authorEmail = g_Config.sMemstickGitAuthorEmail;
+
+
+		//always check if the dir is a repo
+		if (!isRepo(memStickDir)) {
+			return false;
+		}
+
+		git_libgit2_init();
+
+		git_repository* repo = NULL;
+		if (git_repository_init(&repo, memStickDir.c_str(), 0)) {
+			ERROR_LOG(Log::FileSystem, "Error initializing repo: %s", git_error_last()->message);
+			return false;
+		}
+
+		git_signature* author = NULL;
+		git_signature* commiter = NULL;
+
+		git_signature_new(&author, authorName.c_str(), authorEmail.c_str(), std::time(nullptr), 0);
+		git_signature_new(&commiter, authorName.c_str(), authorEmail.c_str(), std::time(nullptr), 0);
+		
+		git_oid tree_id, parent_id, commit_id;
+
+		git_tree* tree;
+		git_commit* parent;
+		git_index* index;
+
+		/* Get the index and write it to a tree */
+		git_repository_index(&index, repo);
+
+		git_index_add_all(index, NULL, GIT_INDEX_ADD_DEFAULT, NULL, NULL);
+		git_index_write(index);
+		git_index_write_tree(&tree_id, index);
+		git_tree_lookup(&tree, repo, &tree_id);
+
+		git_reference_name_to_id(&parent_id, repo, "refs/heads/main");
+		git_commit_lookup(&parent, repo, &parent_id);
+
+		/* Do the commit */
+		git_commit_create_v(
+			&commit_id,
+			repo,
+			"refs/heads/main",     /* The commit will update the position of HEAD */
+			author,
+			commiter,
+			NULL,       /* UTF-8 encoding */
+			"Update SaveFile - MemStickGit",
+			tree,       /* The tree from the index */
+			1,          /* Only one parent */
+			parent      /* No need to make a list with create_v */
+		);
+		git_libgit2_shutdown();
+		return true;
+	}
+
+	bool PushMemStick() {
+
+		std::string memStickDir = GetSysDirectory(DIRECTORY_MEMSTICK_ROOT).ToString();
+
+
+		git_libgit2_init();
+
+		git_repository* repo = NULL;
+		if (git_repository_init(&repo, memStickDir.c_str(), 0)) {
+			ERROR_LOG(Log::FileSystem, "Error initializing repo: %s", git_error_last()->message);
+			return false;
+		}
+
+		git_remote* remote = NULL;
+		git_push_options push_opts;
+		git_strarray refspecs = { 0 };
+
+		// Initialize push options
+		if (git_push_options_init(&push_opts, GIT_PUSH_OPTIONS_VERSION) < 0) {
+			ERROR_LOG(Log::FileSystem, "Failed to initialize push options");
+			return -1;
+		}
+
+		// Open the remote
+		if (git_remote_lookup(&remote, repo, "origin") < 0) {
+			ERROR_LOG(Log::FileSystem, "Failed to lookup remote: %s", "origin");
+			return -1;
+		}
+
+		// Prepare the refspec (push the current branch)
+		const char* ref_to_push = "refs/heads/main";
+		refspecs.count = 1;
+		refspecs.strings = (char**)malloc(sizeof(char*));
+		refspecs.strings[0] = strdup(ref_to_push);
+
+		// Perform the push
+		int result = git_remote_push(remote, &refspecs, &push_opts);
+
+		// Cleanup
+		if (refspecs.strings) {
+			free(refspecs.strings[0]);
+			free(refspecs.strings);
+		}
+
+		if (remote) git_remote_free(remote);
+
+		if (result < 0) {
+			const git_error* err = git_error_last();
+			ERROR_LOG(Log::FileSystem, "Push failed: %s", err ? err->message : "Unknown error");
+			return -1;
+		}
+
+		git_libgit2_shutdown();
+		return true;
+	}
 }

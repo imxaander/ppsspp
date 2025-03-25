@@ -42,6 +42,26 @@ void MemStickGitSettingsScreen::CreateActionsTab(UI::ViewGroup* viewGroup){
 		}
 		return UI::EVENT_DONE;
 	});
+
+	viewGroup->Add(new Choice("Commit Memstick to Git"))->OnClick.Add([=](UI::EventParams&) -> UI::EventReturn {
+		if (MemStickGit::CommitMemStick()) {
+			System_Toast(sy->T("Commit Succeded!"));
+		}
+		else {
+			System_Toast(sy->T("Commit Failed!"));
+		}
+		return UI::EVENT_DONE;
+	});
+
+	viewGroup->Add(new Choice("Push Memstick to Git"))->OnClick.Add([=](UI::EventParams&) -> UI::EventReturn {
+		if (MemStickGit::PushMemStick()) {
+			System_Toast(sy->T("Pushing Succeeded!"));
+		}
+		else {
+			System_Toast(sy->T("Pushing Failed!"));
+		}
+		return UI::EVENT_DONE;
+		});
 }
 
 void MemStickGitSettingsScreen::CreateAccountTab(UI::ViewGroup* viewGroup){

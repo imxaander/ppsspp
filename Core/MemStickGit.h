@@ -12,4 +12,6 @@ namespace MemStickGit{
 	bool InitMemStick();
 	bool SyncMemStick();
 	bool FastForwardMerge(git_repository* repo, const git_annotated_commit* annotated_commit);
+	bool CommitMemStick();
+	bool PushMemStick();
 }
