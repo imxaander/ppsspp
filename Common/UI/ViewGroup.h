@@ -71,7 +71,7 @@ public:
 
 	void Clear();
 	void PersistData(PersistStatus status, std::string anonId, PersistMap &storage) override;
-	View *GetViewByIndex(int index) { return views_[index]; }
+	View *GetViewByIndex(int index) const { return views_[index]; }
 	int GetNumSubviews() const { return (int)views_.size(); }
 	void SetHasDropShadow(bool has) { hasDropShadow_ = has; }
 	void SetDropShadowExpand(float s) { dropShadowExpand_ = s; }
@@ -81,6 +81,8 @@ public:
 	void SetClip(bool clip) { clip_ = clip; }
 	std::string DescribeLog() const override { return "ViewGroup: " + View::DescribeLog(); }
 	std::string DescribeText() const override;
+
+	void Recurse(void (*func)(View *view)) override;
 
 protected:
 	std::string DescribeListUnordered(std::string_view heading) const;
@@ -289,13 +291,14 @@ private:
 
 class TabHolder : public LinearLayout {
 public:
-	TabHolder(Orientation orientation, float stripSize, LayoutParams *layoutParams = 0);
+	TabHolder(Orientation orientation, float stripSize, View *bannerView, LayoutParams *layoutParams = 0);
 
 	template <class T>
 	T *AddTab(std::string_view title, T *tabContents) {
-		AddTabContents(title, (View *)tabContents);
+		AddTabContents(title, tabContents);
 		return tabContents;
 	}
+	void AddTabDeferred(std::string_view title, std::function<ViewGroup *()> createCb);
 	void EnableTab(int tab, bool enabled) {
 		tabStrip_->EnableChoice(tab, enabled);
 	}
@@ -309,19 +312,29 @@ public:
 
 	void PersistData(PersistStatus status, std::string anonId, PersistMap &storage) override;
 
-private:
-	void AddTabContents(std::string_view title, View *tabContents);
-	EventReturn OnTabClick(EventParams &e);
+	void EnsureAllCreated();
 
+	LinearLayout *Container() { return tabContainer_; }
+
+	const std::vector<ViewGroup *> &GetTabContentViews() const {
+		return tabs_;
+	}
+
+private:
+	void AddTabContents(std::string_view title, ViewGroup *tabContents);
+	EventReturn OnTabClick(EventParams &e);
+	void EnsureTab(int index);
+
+	View *bannerView_ = nullptr;
 	LinearLayout *tabContainer_ = nullptr;
 	ChoiceStrip *tabStrip_ = nullptr;
 	ScrollView *tabScroll_ = nullptr;
-	AnchorLayout *contents_ = nullptr;
+	ViewGroup *contents_ = nullptr;
 
-	float stripSize_;
 	int currentTab_ = 0;
-	std::vector<View *> tabs_;
+	std::vector<ViewGroup *> tabs_;
 	std::vector<AnchorTranslateTween *> tabTweens_;
+	std::vector<std::function<ViewGroup *()>> createFuncs_;
 };
 
 class CollapsibleHeader;

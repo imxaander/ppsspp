@@ -26,6 +26,7 @@
 #include "Common.h"
 #include "Common/File/Path.h"
 #include "Core/HLE/sceKernel.h"
+#include "Core/HLE/ErrorCodes.h"
 
 enum FileAccess {
 	FILEACCESS_NONE     = 0,
@@ -70,6 +71,7 @@ enum class FileSystemFlags {
 	CARD = 4,
 	FLASH = 8,
 	STRIP_PSP = 16,
+	CASE_SENSITIVE = 32,
 };
 ENUM_CLASS_BITOPS(FileSystemFlags);
 
@@ -137,6 +139,7 @@ public:
 	virtual size_t   WriteFile(u32 handle, const u8 *pointer, s64 size, int &usec) = 0;
 	virtual size_t   SeekFile(u32 handle, s32 position, FileMove type) = 0;
 	virtual PSPFileInfo GetFileInfo(std::string filename) = 0;
+	virtual PSPFileInfo GetFileInfoByHandle(u32 handle) = 0;  // Mainly used for debugging.
 	virtual bool     OwnsHandle(u32 handle) = 0;
 	virtual bool     MkDir(const std::string &dirname) = 0;
 	virtual bool     RmDir(const std::string &dirname) = 0;
@@ -144,9 +147,10 @@ public:
 	virtual bool     RemoveFile(const std::string &filename) = 0;
 	virtual int      Ioctl(u32 handle, u32 cmd, u32 indataPtr, u32 inlen, u32 outdataPtr, u32 outlen, int &usec) = 0;
 	virtual PSPDevType DevType(u32 handle) = 0;
-	virtual FileSystemFlags Flags() = 0;
+	virtual FileSystemFlags Flags() const = 0;
 	virtual u64      FreeDiskSpace(const std::string &path) = 0;
 	virtual bool     ComputeRecursiveDirSizeIfFast(const std::string &path, int64_t *size) = 0;
+	virtual void     Describe(char *buf, size_t size) const = 0;
 };
 
 
@@ -167,6 +171,7 @@ public:
 	size_t   WriteFile(u32 handle, const u8 *pointer, s64 size, int &usec) override {return 0;}
 	size_t   SeekFile(u32 handle, s32 position, FileMove type) override {return 0;}
 	PSPFileInfo GetFileInfo(std::string filename) override {PSPFileInfo f; return f;}
+	PSPFileInfo GetFileInfoByHandle(u32 handle) override {PSPFileInfo f; return f;}
 	bool     OwnsHandle(u32 handle) override {return false;}
 	bool MkDir(const std::string &dirname) override {return false;}
 	bool RmDir(const std::string &dirname) override {return false;}
@@ -174,9 +179,10 @@ public:
 	bool RemoveFile(const std::string &filename) override {return false;}
 	int Ioctl(u32 handle, u32 cmd, u32 indataPtr, u32 inlen, u32 outdataPtr, u32 outlen, int &usec) override { return SCE_KERNEL_ERROR_ERRNO_FUNCTION_NOT_SUPPORTED; }
 	PSPDevType DevType(u32 handle) override { return PSPDevType::INVALID; }
-	FileSystemFlags Flags() override { return FileSystemFlags::NONE; }
+	FileSystemFlags Flags() const override { return FileSystemFlags::NONE; }
 	u64 FreeDiskSpace(const std::string &path) override { return 0; }
 	bool ComputeRecursiveDirSizeIfFast(const std::string &path, int64_t *size) override { return false; }
+	void Describe(char *buf, size_t size) const override { snprintf(buf, size, "%s", "Empty"); }
 };
 
 

@@ -31,6 +31,7 @@
 // The format of the various uniform buffers may vary though - vertex shaders that don't skin
 // won't get any bone data, etc.
 
+#include "Common/CommonTypes.h"
 #include "Common/Data/Collections/Hashmaps.h"
 
 #include "GPU/Vulkan/VulkanUtil.h"
@@ -43,14 +44,6 @@
 #include "GPU/Common/GPUStateUtils.h"
 #include "GPU/Vulkan/StateMappingVulkan.h"
 #include "GPU/Vulkan/VulkanRenderManager.h"
-
-
-// TODO: Move to some appropriate header.
-#ifdef _MSC_VER
-#define NO_INLINE __declspec(noinline)
-#else
-#define NO_INLINE __attribute__((noinline))
-#endif
 
 struct DecVtxFormat;
 struct UVScale;
@@ -123,33 +116,20 @@ public:
 	void DeviceLost() override;
 	void DeviceRestore(Draw::DrawContext *draw) override;
 
-	// So that this can be inlined
-	void Flush() {
-		if (!numDrawInds_)
-			return;
-		DoFlush();
-	}
+	void Flush() override;
 
 	void FinishDeferred() {
-		if (!numDrawInds_)
-			return;
 		// Decode any pending vertices. And also flush while we're at it, for simplicity.
 		// It might be possible to only decode like in the other backends, but meh, it can't matter.
 		// Issue #10095 has a nice example of where this is required.
-		DoFlush();
-	}
-
-	void DispatchFlush() override {
-		if (!numDrawInds_)
-			return;
-		DoFlush();
+		Flush();
 	}
 
 	VKRPipelineLayout *GetPipelineLayout() const {
 		return pipelineLayout_;
 	}
 
-	void BeginFrame();
+	void BeginFrame() override;
 	void EndFrame();
 
 	void DirtyAllUBOs();
@@ -183,7 +163,6 @@ private:
 
 	void DestroyDeviceObjects();
 
-	void DoFlush();
 	void UpdateUBOs();
 
 	NO_INLINE void ResetAfterDraw();

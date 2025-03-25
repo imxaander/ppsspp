@@ -28,7 +28,6 @@
 #include "Common/GPU/thin3d.h"
 #include "Common/GPU/Vulkan/VulkanRenderManager.h"
 #include "Common/System/OSD.h"
-#include "Common/Data/Convert/ColorConv.h"
 #include "Common/StringUtils.h"
 #include "Common/TimeUtil.h"
 #include "Common/GPU/Vulkan/VulkanContext.h"
@@ -36,8 +35,6 @@
 #include "Common/GPU/Vulkan/VulkanMemory.h"
 
 #include "Core/Config.h"
-#include "Core/MemMap.h"
-#include "Core/System.h"
 
 #include "GPU/ge_constants.h"
 #include "GPU/GPUState.h"
@@ -652,8 +649,6 @@ void TextureCacheVulkan::BuildTexture(TexCacheEntry *const entry) {
 			}
 			// Format might be wrong in lowMemoryMode_, so don't save.
 			if (plan.saveTexture && !lowMemoryMode_) {
-				INFO_LOG(Log::G3D, "Calling NotifyTextureDecoded %08x", entry->addr);
-
 				// When hardware texture scaling is enabled, this saves the original.
 				int w = dataScaled ? mipWidth : mipUnscaledWidth;
 				int h = dataScaled ? mipHeight : mipUnscaledHeight;
@@ -867,7 +862,7 @@ std::string TextureCacheVulkan::DebugGetSamplerString(const std::string &id, Deb
 	return samplerCache_.DebugGetSamplerString(id, stringType);
 }
 
-void *TextureCacheVulkan::GetNativeTextureView(const TexCacheEntry *entry) {
-	VkImageView view = entry->vkTex->GetImageArrayView();
+void *TextureCacheVulkan::GetNativeTextureView(const TexCacheEntry *entry, bool flat) const {
+	VkImageView view = flat ? entry->vkTex->GetImageView() : entry->vkTex->GetImageArrayView();
 	return (void *)view;
 }

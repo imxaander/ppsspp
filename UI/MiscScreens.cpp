@@ -46,7 +46,7 @@
 #include "Core/MIPS/JitCommon/JitCommon.h"
 #include "Core/HLE/sceUtility.h"
 #include "GPU/GPUState.h"
-#include "GPU/GPUInterface.h"
+#include "GPU/GPUCommon.h"
 #include "GPU/Common/PostShader.h"
 
 #include "UI/ControlMappingScreen.h"
@@ -152,8 +152,8 @@ public:
 			dc.Draw()->RectVGradient(x, wave1*bounds.h, nextX, bounds.h, color, 0x00000000);
 
 			// Add some "antialiasing"
-			dc.Draw()->RectVGradient(x, wave0*bounds.h-3.0f * g_display.pixel_in_dps_y, nextX, wave0 * bounds.h, 0x00000000, color);
-			dc.Draw()->RectVGradient(x, wave1*bounds.h-3.0f * g_display.pixel_in_dps_y, nextX, wave1 * bounds.h, 0x00000000, color);
+			dc.Draw()->RectVGradient(x, wave0*bounds.h-3.0f * g_display.pixel_in_dps, nextX, wave0 * bounds.h, 0x00000000, color);
+			dc.Draw()->RectVGradient(x, wave1*bounds.h-3.0f * g_display.pixel_in_dps, nextX, wave1 * bounds.h, 0x00000000, color);
 		}
 
 		dc.Flush();
@@ -528,26 +528,24 @@ void PromptScreen::CreateViews() {
 	root_->Add(rightColumnItems);
 
 	Choice *yesButton = rightColumnItems->Add(new Choice(yesButtonText_));
-	yesButton->OnClick.Handle(this, &PromptScreen::OnYes);
-	root_->SetDefaultFocusView(yesButton);
+	yesButton->OnClick.Add([this](UI::EventParams &e) {
+		TriggerFinish(DR_OK);
+		return UI::EVENT_DONE;
+	});
 	if (!noButtonText_.empty()) {
-		rightColumnItems->Add(new Choice(noButtonText_))->OnClick.Handle(this, &PromptScreen::OnNo);
+		Choice *noButton = rightColumnItems->Add(new Choice(noButtonText_));
+		noButton->OnClick.Add([this](UI::EventParams &e) {
+			TriggerFinish(DR_CANCEL);
+			return UI::EVENT_DONE;
+		});
+		root_->SetDefaultFocusView(noButton);
 	} else {
 		// This is an information screen, not a question.
 		// Sneak in the version of PPSSPP in the corner, for debug-reporting user screenshots.
 		std::string version = System_GetProperty(SYSPROP_BUILD_VERSION);
 		root_->Add(new TextView(version, 0, true, new AnchorLayoutParams(10.0f, NONE, NONE, 10.0f)));
+		root_->SetDefaultFocusView(yesButton);
 	}
-}
-
-UI::EventReturn PromptScreen::OnYes(UI::EventParams &e) {
-	TriggerFinish(DR_OK);
-	return UI::EVENT_DONE;
-}
-
-UI::EventReturn PromptScreen::OnNo(UI::EventParams &e) {
-	TriggerFinish(DR_CANCEL);
-	return UI::EVENT_DONE;
 }
 
 void PromptScreen::TriggerFinish(DialogResult result) {
@@ -1098,13 +1096,14 @@ void SettingInfoMessage::Draw(UIContext &dc) {
 		alpha = MAX_ALPHA - MAX_ALPHA * (float)((sinceShow - timeToShow) / FADE_TIME);
 	}
 
-	if (alpha >= 0.1f) {
-		UI::Style style = dc.theme->popupStyle;
-		style.background.color = colorAlpha(style.background.color, alpha - 0.1f);
-		dc.FillRect(style.background, bounds_);
+	UI::Style style = dc.theme->tooltipStyle;
+
+	if (alpha >= 0.001f) {
+		uint32_t bgColor = alphaMul(style.background.color, alpha);
+		dc.FillRect(UI::Drawable(bgColor), bounds_);
 	}
 
-	uint32_t textColor = colorAlpha(dc.GetTheme().itemStyle.fgColor, alpha);
+	uint32_t textColor = alphaMul(style.fgColor, alpha);
 	text_->SetTextColor(textColor);
 	ViewGroup::Draw(dc);
 	showing_ = sinceShow <= timeToShow; // Don't consider fade time

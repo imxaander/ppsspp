@@ -17,6 +17,7 @@
 
 #pragma once
 
+#include "ppsspp_config.h"
 #include "CommonFuncs.h"
 
 #define	NOTICE_LEVEL  1  // VERY important information that is NOT errors. Like startup and debugprintfs from the game itself.
@@ -34,7 +35,7 @@ enum class Log {
 	CPU,
 	FileSystem,
 	G3D,
-	HLE,  // dumping ground that we should get rid of
+	HLE,
 	JIT,
 	Loader,
 	ME,
@@ -47,6 +48,8 @@ enum class Log {
 	Achievements,
 	HTTP,
 	Printf,
+	TexReplacement,
+	GeDebugger,
 
 	sceAudio,
 	sceCtrl,
@@ -82,19 +85,9 @@ void GenericLog(LogLevel level, Log type, const char *file, int line, const char
 		;
 bool GenericLogEnabled(LogLevel level, Log type);
 
-// Exception for Windows - enable more log levels in release mode than on other platforms.
-#if defined(_DEBUG) || defined(_WIN32)
+// If you want to see verbose logs, change this to VERBOSE_LEVEL.
 
-// Needs to be an int (and not use the enum) because it's used by the preprocessor!
 #define MAX_LOGLEVEL DEBUG_LEVEL
-
-#else
-
-#ifndef MAX_LOGLEVEL
-#define MAX_LOGLEVEL INFO_LEVEL
-#endif // loglevel
-
-#endif // logging
 
 // Let the compiler optimize this out.
 // TODO: Compute a dynamic max level as well that can be checked here.
@@ -120,7 +113,10 @@ __attribute__((format(printf, 5, 6)))
 bool HitAnyAsserts();
 void ResetHitAnyAsserts();
 void SetExtraAssertInfo(const char *info);
+typedef void (*AssertNoCallbackFunc)(const char *message, void *userdata);
+void SetAssertCancelCallback(AssertNoCallbackFunc callback, void *userdata);
 void SetCleanExitOnAssert();
+void BreakIntoPSPDebugger(const char *reason = "(userbreak)");
 
 #if defined(__ANDROID__)
 // Tricky macro to get the basename, that also works if *built* on Win32.
@@ -138,7 +134,17 @@ void SetCleanExitOnAssert();
 		if (!HandleAssert(__FUNCTION__, __FILENAME__, __LINE__, #_a_, "Assert!\n")) Crash(); \
 	}
 
+#define _dbg_assert_or_log_(_a_) \
+	if (!(_a_)) {\
+		if (!HandleAssert(__FUNCTION__, __FILENAME__, __LINE__, #_a_, "Assert!\n")) Crash(); \
+	}
+
 #define _dbg_assert_msg_(_a_, ...) \
+	if (!(_a_)) { \
+		if (!HandleAssert(__FUNCTION__, __FILENAME__, __LINE__, #_a_, __VA_ARGS__)) Crash(); \
+	}
+
+#define _dbg_assert_msg_or_log_(_a_, log, ...) \
 	if (!(_a_)) { \
 		if (!HandleAssert(__FUNCTION__, __FILENAME__, __LINE__, #_a_, __VA_ARGS__)) Crash(); \
 	}
@@ -147,7 +153,16 @@ void SetCleanExitOnAssert();
 
 #ifndef _dbg_assert_
 #define _dbg_assert_(_a_) {}
+#define _dbg_assert_or_log_(_a_) \
+	if (!(_a_)) { \
+		ERROR_LOG(Log::System, "Assert! " ## #_a_); \
+	}
 #define _dbg_assert_msg_(_a_, _desc_, ...) {}
+#define _dbg_assert_msg_or_log_(_a_, log, ...) \
+	if (!(_a_)) { \
+		ERROR_LOG(log, __VA_ARGS__); \
+	}
+
 #endif // dbg_assert
 
 #endif // MAX_LOGLEVEL DEBUG

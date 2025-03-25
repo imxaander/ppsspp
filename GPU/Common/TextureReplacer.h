@@ -131,8 +131,8 @@ public:
 protected:
 	bool FindFiltering(u64 cachekey, u32 hash, TextureFiltering *forceFiltering);
 
-	bool LoadIni();
-	bool LoadIniValues(IniFile &ini, VFSBackend *dir, bool isOverride = false);
+	bool LoadIni(std::string *error);
+	bool LoadIniValues(IniFile &ini, VFSBackend *dir, bool isOverride, std::string *error);
 	void ParseHashRange(const std::string &key, const std::string &value);
 	void ParseFiltering(const std::string &key, const std::string &value);
 	void ParseReduceHashRange(const std::string& key, const std::string& value);
@@ -149,8 +149,8 @@ protected:
 	bool ignoreAddress_ = false;
 	bool reduceHash_ = false;
 	bool ignoreMipmap_ = false;
+	int skipLastDXT1Blocks128x64_ = 0;
 
-	float reduceHashSize = 1.0f; // default value with reduceHash to false
 	float reduceHashGlobalValue = 0.5f; // Global value for textures dump pngs of all sizes, 0.5 by default but can be set in textures.ini
 
 	double lastTextureCacheSizeGB_ = 0.0;

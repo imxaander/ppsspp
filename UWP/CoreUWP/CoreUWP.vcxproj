@@ -148,6 +148,7 @@
     <ClInclude Include="..\..\Core\Dialog\PSPMsgDialog.h" />
     <ClInclude Include="..\..\Core\Dialog\PSPNetconfDialog.h" />
     <ClInclude Include="..\..\Core\Dialog\PSPNpSigninDialog.h" />
+    <ClInclude Include="..\..\Core\Dialog\PSPOskConstants.h" />
     <ClInclude Include="..\..\Core\Dialog\PSPOskDialog.h" />
     <ClInclude Include="..\..\Core\Dialog\PSPPlaceholderDialog.h" />
     <ClInclude Include="..\..\Core\Dialog\PSPSaveDialog.h" />
@@ -176,7 +177,12 @@
     <ClInclude Include="..\..\Core\HDRemaster.h" />
     <ClInclude Include="..\..\Core\HLE\AtracCtx.h" />
     <ClInclude Include="..\..\Core\HLE\AtracCtx2.h" />
+    <ClInclude Include="..\..\Core\HLE\NetInetConstants.h" />
+    <ClInclude Include="..\..\Core\HLE\sceNetApctl.h" />
+    <ClInclude Include="..\..\Core\HLE\sceNetInet.h" />
+    <ClInclude Include="..\..\Core\HLE\sceNetResolver.h" />
     <ClInclude Include="..\..\Core\HLE\sceNp2.h" />
+    <ClInclude Include="..\..\Core\HLE\SocketManager.h" />
     <ClInclude Include="..\..\Core\Instance.h" />
     <ClInclude Include="..\..\Core\HLE\FunctionWrappers.h" />
     <ClInclude Include="..\..\Core\HLE\HLE.h" />
@@ -225,10 +231,13 @@
     <ClInclude Include="..\..\Core\HLE\sceMd5.h" />
     <ClInclude Include="..\..\Core\HLE\sceMp3.h" />
     <ClInclude Include="..\..\Core\HLE\sceMp4.h" />
+    <ClInclude Include="..\..\Core\HLE\sceAac.h" />
     <ClInclude Include="..\..\Core\HLE\sceMpeg.h" />
     <ClInclude Include="..\..\Core\HLE\sceMt19937.h" />
     <ClInclude Include="..\..\Core\HLE\sceNet.h" />
+    <ClInclude Include="..\..\Core\HLE\sceNet_lib.h" />
     <ClInclude Include="..\..\Core\HLE\sceNetAdhoc.h" />
+    <ClInclude Include="..\..\Core\HLE\sceNetAdhocMatching.h" />
     <ClInclude Include="..\..\Core\HLE\sceNp.h" />
     <ClInclude Include="..\..\Core\HLE\sceOpenPSID.h" />
     <ClInclude Include="..\..\Core\HLE\sceP3da.h" />
@@ -322,8 +331,8 @@
     <ClInclude Include="..\..\Core\Screenshot.h" />
     <ClInclude Include="..\..\Core\System.h" />
     <ClInclude Include="..\..\Core\ThreadEventQueue.h" />
-    <ClInclude Include="..\..\Core\ThreadPools.h" />
     <ClInclude Include="..\..\Core\TiltEventProcessor.h" />
+    <ClInclude Include="..\..\Core\Util\AtracTrack.h" />
     <ClInclude Include="..\..\Core\Util\GameDB.h" />
     <ClInclude Include="..\..\Core\Util\MemStick.h" />
     <ClInclude Include="..\..\Core\Util\PortManager.h" />
@@ -402,6 +411,7 @@
     <ClCompile Include="..\..\Core\Dialog\PSPMsgDialog.cpp" />
     <ClCompile Include="..\..\Core\Dialog\PSPNetconfDialog.cpp" />
     <ClCompile Include="..\..\Core\Dialog\PSPNpSigninDialog.cpp" />
+    <ClCompile Include="..\..\Core\Dialog\PSPOskConstants.cpp" />
     <ClCompile Include="..\..\Core\Dialog\PSPOskDialog.cpp" />
     <ClCompile Include="..\..\Core\Dialog\PSPPlaceholderDialog.cpp" />
     <ClCompile Include="..\..\Core\Dialog\PSPSaveDialog.cpp" />
@@ -430,7 +440,12 @@
     <ClCompile Include="..\..\Core\HDRemaster.cpp" />
     <ClCompile Include="..\..\Core\HLE\AtracCtx.cpp" />
     <ClCompile Include="..\..\Core\HLE\AtracCtx2.cpp" />
+    <ClCompile Include="..\..\Core\HLE\NetInetConstants.cpp" />
+    <ClCompile Include="..\..\Core\HLE\sceNetApctl.cpp" />
+    <ClCompile Include="..\..\Core\HLE\sceNetInet.cpp" />
+    <ClCompile Include="..\..\Core\HLE\sceNetResolver.cpp" />
     <ClCompile Include="..\..\Core\HLE\sceNp2.cpp" />
+    <ClCompile Include="..\..\Core\HLE\SocketManager.cpp" />
     <ClCompile Include="..\..\Core\Instance.cpp" />
     <ClCompile Include="..\..\Core\HLE\HLE.cpp" />
     <ClCompile Include="..\..\Core\HLE\HLEHelperThread.cpp" />
@@ -477,10 +492,13 @@
     <ClCompile Include="..\..\Core\HLE\sceMd5.cpp" />
     <ClCompile Include="..\..\Core\HLE\sceMp3.cpp" />
     <ClCompile Include="..\..\Core\HLE\sceMp4.cpp" />
+    <ClCompile Include="..\..\Core\HLE\sceAac.cpp" />
     <ClCompile Include="..\..\Core\HLE\sceMpeg.cpp" />
     <ClCompile Include="..\..\Core\HLE\sceMt19937.cpp" />
     <ClCompile Include="..\..\Core\HLE\sceNet.cpp" />
+    <ClCompile Include="..\..\Core\HLE\sceNet_lib.cpp" />
     <ClCompile Include="..\..\Core\HLE\sceNetAdhoc.cpp" />
+    <ClCompile Include="..\..\Core\HLE\sceNetAdhocMatching.cpp" />
     <ClCompile Include="..\..\Core\HLE\sceNp.cpp" />
     <ClCompile Include="..\..\Core\HLE\sceOpenPSID.cpp" />
     <ClCompile Include="..\..\Core\HLE\sceP3da.cpp" />
@@ -554,7 +572,6 @@
     <ClCompile Include="..\..\Core\MIPS\ARM\ArmJit.cpp" />
     <ClCompile Include="..\..\Core\MIPS\ARM\ArmRegCache.cpp" />
     <ClCompile Include="..\..\Core\MIPS\ARM\ArmRegCacheFPU.cpp" />
-    <ClCompile Include="..\..\Core\MIPS\IR\IRAsm.cpp" />
     <ClCompile Include="..\..\Core\MIPS\IR\IRCompALU.cpp" />
     <ClCompile Include="..\..\Core\MIPS\IR\IRCompBranch.cpp" />
     <ClCompile Include="..\..\Core\MIPS\IR\IRCompFPU.cpp" />
@@ -613,8 +630,8 @@
     <ClCompile Include="..\..\Core\SaveState.cpp" />
     <ClCompile Include="..\..\Core\Screenshot.cpp" />
     <ClCompile Include="..\..\Core\System.cpp" />
-    <ClCompile Include="..\..\Core\ThreadPools.cpp" />
     <ClCompile Include="..\..\Core\TiltEventProcessor.cpp" />
+    <ClCompile Include="..\..\Core\Util\AtracTrack.cpp" />
     <ClCompile Include="..\..\Core\Util\GameDB.cpp" />
     <ClCompile Include="..\..\Core\Util\MemStick.cpp" />
     <ClCompile Include="..\..\Core\Util\PortManager.cpp" />

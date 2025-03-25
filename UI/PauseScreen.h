@@ -45,7 +45,7 @@ private:
 	void CreateSavestateControls(UI::LinearLayout *viewGroup, bool vertical);
 
 	UI::EventReturn OnGameSettings(UI::EventParams &e);
-	UI::EventReturn OnExitToMenu(UI::EventParams &e);
+	UI::EventReturn OnExit(UI::EventParams &e);
 	UI::EventReturn OnReportFeedback(UI::EventParams &e);
 
 	UI::EventReturn OnRewind(UI::EventParams &e);
@@ -64,4 +64,13 @@ private:
 	DialogResult finishNextFrameResult_ = DR_CANCEL;
 
 	UI::Button *playButton_ = nullptr;
+
+	// State change tracking, a bit ugly heh, but works.
+	bool lastOnline_ = false;
+	bool lastNetInited_ = false;
+	bool lastNetInetInited_ = false;
+	bool lastAdhocServerConnected_ = false;
+	bool lastDNSConfigLoaded_ = false;
 };
+
+std::string GetConfirmExitMessage();

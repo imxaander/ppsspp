@@ -70,11 +70,13 @@ public:
 	bool bFirstRun;
 	bool bGameSpecific = false;
 	bool bUpdatedInstanceCounter = false;
+	bool bBrowse;  // show a file browser on startup. TODO: Does anyone use this?
 
 	int iRunCount; // To be used to for example check for updates every 10 runs and things like that.
 
+	// Debugger
 	bool bAutoRun;  // start immediately
-	bool bBrowse; // when opening the emulator, immediately show a file browser
+	bool bBreakOnFrameTimeout;  // not saved
 
 	// General
 	bool bScreenshotsAsPNG;
@@ -84,7 +86,7 @@ public:
 	bool bDumpAudio;
 	bool bSaveLoadResetsAVdumping;
 	bool bEnableLogging;
-	bool bDumpDecryptedEboot;
+	int iDumpFileTypes;  // DumpFileType bitflag enum
 	bool bFullscreenOnDoubleclick;
 
 	// These four are Win UI only
@@ -135,6 +137,8 @@ public:
 	bool bMemStickInserted;
 	int iMemStickSizeGB;
 	bool bLoadPlugins;
+	int iAskForExitConfirmationAfterSeconds;
+	int iUIScaleFactor;  // In 8ths of powers of two.
 
 	int iScreenRotation;  // The rotation angle of the PPSSPP UI. Only supported on Android and possibly other mobile platforms.
 	int iInternalScreenRotation;  // The internal screen rotation angle. Useful for vertical SHMUPs and similar.
@@ -150,7 +154,7 @@ public:
 	// GFX
 	int iGPUBackend;
 	std::string sCustomDriver;
-	std::string sFailedGPUBackends;
+	std::string sFailedGPUBackends;  // NOT stored in ppsspp.ini anymore!
 	std::string sDisabledGPUBackends;
 	// We have separate device parameters for each backend so it doesn't get erased if you switch backends.
 	// If not set, will use the "best" device.
@@ -172,6 +176,7 @@ public:
 	// Speedhacks (more will be moved here):
 	bool bSkipBufferEffects;
 	bool bDisableRangeCulling;
+	int iDepthRasterMode;
 
 	int iTexFiltering; // 1 = auto , 2 = nearest , 3 = linear , 4 = auto max quality
 	bool bSmart2DTexFiltering;
@@ -253,6 +258,8 @@ public:
 	bool bShaderCache;  // Hidden ini-only setting, useful for debugging shader compile times.
 	bool bUberShaderVertex;
 	bool bUberShaderFragment;
+	int iDefaultTab;
+	int iScreenshotMode;
 
 	std::vector<std::string> vPostShaderNames; // Off for chain end (only Off for no shader)
 	std::map<std::string, float> mPostShaderSetting;
@@ -275,14 +282,23 @@ public:
 	// Sound
 	bool bEnableSound;
 	int iAudioBackend;
-	int iGlobalVolume;
+
+	// Legacy volume settings, 0-10. These get auto-upgraded and should not be used.
+	int iLegacyGameVolume;
+	int iLegacyReverbVolume;
+	int iLegacyAchievementVolume;
+
+	// Newer volume settings, 0-100
+	int iGameVolume;
 	int iReverbVolume;
+	int iUIVolume;
+	int iAchievementVolume;
 	int iAltSpeedVolume;
-	int iAchievementSoundVolume;
+
 	bool bExtraAudioBuffering;  // For bluetooth
 	std::string sAudioDevice;
 	bool bAutoAudioDevice;
-	bool bUseExperimentalAtrac;
+	bool bUseOldAtrac;
 
 	// iOS only for now
 	bool bAudioMixWithOthers;
@@ -348,7 +364,9 @@ public:
 
 	// Disable diagonals
 	bool bDisableDpadDiagonals;
+
 	bool bGamepadOnlyFocused;
+
 	// Control Style
 	int iTouchButtonStyle;
 	int iTouchButtonOpacity;
@@ -363,6 +381,9 @@ public:
 
 	// Sticky D-pad (can't glide off it)
 	bool bStickyTouchDPad;
+
+	// Touch gliding (see #14490)
+	bool bTouchGliding;
 
 	//space between PSP buttons
 	//the PSP button's center (triangle, circle, square, cross)
@@ -440,8 +461,9 @@ public:
 	bool bDiscardRegsOnJRRA;
 
 	// SystemParam
-	std::string sNickName;
+	std::string sNickName;  // AdHoc and system nickname
 	std::string sMACAddress;
+
 	int iLanguage;
 	int iTimeFormat;
 	int iDateFormat;
@@ -450,12 +472,17 @@ public:
 	int iButtonPreference;
 	int iLockParentalLevel;
 	bool bEncryptSave;
-	bool bSavedataUpgrade;
 
 	// Networking
-	std::string proAdhocServer;
-	bool bEnableWlan;
 	bool bEnableAdhocServer;
+	std::string proAdhocServer;
+	std::string sInfrastructureDNSServer;
+	std::string sInfrastructureUsername;  // Username used for Infrastructure play. Different restrictions.
+	bool bInfrastructureAutoDNS;
+	bool bAllowSavestateWhileConnected;  // Developer option, ini-only. No normal users need this, it's always wrong to save/load state when online.
+
+	bool bEnableWlan;
+	std::map<std::string, std::string> mHostToAlias;  // Local DNS database stored in ini file
 	bool bEnableUPnP;
 	bool bUPnPUseOriginalPort;
 	bool bForcedFirstConnect;
@@ -464,7 +491,7 @@ public:
 	int iWlanAdhocChannel;
 	bool bWlanPowerSave;
 	bool bEnableNetworkChat;
-	//for chat position , moveable buttons is better than this 
+	bool bDontDownloadInfraJson;
 	int iChatButtonPosition;
 	int iChatScreenPosition;
 
@@ -478,6 +505,7 @@ public:
 	int iPSPModel;
 	int iFirmwareVersion;
 	bool bBypassOSKWithKeyboard;
+
 
 	// Virtual reality
 	bool bEnableVR;
@@ -543,6 +571,7 @@ public:
 	bool bAchievementsEnableRAIntegration;
 
 	// Positioning of the various notifications
+	int iNotificationPos;
 	int iAchievementsLeaderboardTrackerPos;
 	int iAchievementsLeaderboardStartedOrFailedPos;
 	int iAchievementsLeaderboardSubmittedPos;
@@ -585,11 +614,11 @@ public:
 	bool loadGameConfig(const std::string &game_id, const std::string &title);
 	bool saveGameConfig(const std::string &pGameId, const std::string &title);
 	void unloadGameConfig();
-	Path getGameConfigFile(const std::string &gameId);
+	Path getGameConfigFile(const std::string &gameId, bool *exists);
 	bool hasGameConfig(const std::string &game_id);
 
 	void SetSearchPath(const Path &path);
-	const Path FindConfigFile(const std::string &baseFilename);
+	const Path FindConfigFile(const std::string &baseFilename, bool *exists);
 
 	void UpdateIniLocation(const char *iniFileName = nullptr, const char *controllerIniFilename = nullptr);
 
@@ -603,7 +632,7 @@ public:
 
 	void ResetControlLayout();
 
-	void GetReportingInfo(UrlEncoder &data);
+	void GetReportingInfo(UrlEncoder &data) const;
 
 	bool IsPortrait() const;
 	int NextValidBackend();

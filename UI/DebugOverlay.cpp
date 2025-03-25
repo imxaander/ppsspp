@@ -3,6 +3,9 @@
 #include "Common/System/System.h"
 #include "Common/Data/Text/I18n.h"
 #include "Common/CPUDetect.h"
+#include "Common/StringUtils.h"
+#include "Common/Buffer.h"
+
 #include "Core/MIPS/MIPS.h"
 #include "Core/HW/Display.h"
 #include "Core/FrameTiming.h"
@@ -20,7 +23,7 @@
 #include "Core/System.h"
 #include "Core/Util/GameDB.h"
 #include "GPU/GPU.h"
-#include "GPU/GPUInterface.h"
+#include "GPU/GPUCommon.h"
 // TODO: This should be moved here or to Common, doesn't belong in /GPU
 #include "GPU/Vulkan/DebugVisVulkan.h"
 #include "GPU/Common/FramebufferManagerCommon.h"
@@ -190,7 +193,7 @@ static void DrawFrameTiming(UIContext *ctx, const Bounds &bounds) {
 	ctx->RebindTexture();
 }
 
-void DrawFramebufferList(UIContext *ctx, GPUInterface *gpu, const Bounds &bounds) {
+void DrawFramebufferList(UIContext *ctx, GPUDebugInterface *gpu, const Bounds &bounds) {
 	if (!gpu) {
 		return;
 	}
@@ -271,6 +274,12 @@ void DrawCrashDump(UIContext *ctx, const Path &gamePath) {
 	auto sy = GetI18NCategory(I18NCat::SYSTEM);
 	FontID ubuntu24("UBUNTU24");
 	std::string discID = g_paramSFO.GetDiscID();
+
+	std::string activeFlags = PSP_CoreParameter().compat.GetActiveFlagsString();
+	if (activeFlags.empty()) {
+		activeFlags = "(no compat flags active)";
+	}
+
 	int x = 20 + System_GetPropertyFloat(SYSPROP_DISPLAY_SAFE_INSET_LEFT);
 	int y = 20 + System_GetPropertyFloat(SYSPROP_DISPLAY_SAFE_INSET_TOP);
 
@@ -396,11 +405,18 @@ Invalid / Unknown (%d)
 
 	ctx->PopScissor();
 
-	// Draw some additional stuff to the right.
+	// Draw some additional stuff to the right, explaining why the background is purple, if it is.
+	// Should try to be in sync with Reporting::IsSupported().
 
 	std::string tips;
 	if (CheatsInEffect()) {
 		tips += "* Turn off cheats.\n";
+	}
+	if (HLEPlugins::HasEnabled()) {
+		tips += "* Turn off plugins.\n";
+	}
+	if (g_Config.uJitDisableFlags) {
+		tips += StringFromFormat("* Don't use JitDisableFlags: %08x\n", g_Config.uJitDisableFlags);
 	}
 	if (GetLockedCPUSpeedMhz()) {
 		tips += "* Set CPU clock to default (0)\n";
@@ -409,6 +425,9 @@ Invalid / Unknown (%d)
 		tips += "* (waiting for CRC...)\n";
 	} else if (!isoOK) {  // TODO: Should check that it actually is an ISO and not a homebrew
 		tips += "* Verify and possibly re-dump your ISO\n  (CRC not recognized)\n";
+	}
+	if (g_paramSFO.GetValueString("DISC_VERSION").empty()) {
+		tips += "\n(DISC_VERSION is empty)\n";
 	}
 	if (!tips.empty()) {
 		tips = "Things to try:\n" + tips;
@@ -419,10 +438,10 @@ Invalid / Unknown (%d)
 	snprintf(statbuf, sizeof(statbuf),
 		"CPU Core: %s (flags: %08x)\n"
 		"Locked CPU freq: %d MHz\n"
-		"Cheats: %s, Plugins: %s\n\n%s",
+		"Cheats: %s, Plugins: %s\n%s\n\n%s",
 		CPUCoreAsString(g_Config.iCpuCore), g_Config.uJitDisableFlags,
 		GetLockedCPUSpeedMhz(),
-		CheatsInEffect() ? "Y" : "N", HLEPlugins::HasEnabled() ? "Y" : "N", tips.c_str());
+		CheatsInEffect() ? "Y" : "N", HLEPlugins::HasEnabled() ? "Y" : "N", activeFlags.c_str(), tips.c_str());
 
 	ctx->Draw()->DrawTextShadow(ubuntu24, statbuf, x, y, 0xFFFFFFFF);
 	ctx->Flush();
@@ -435,31 +454,33 @@ void DrawFPS(UIContext *ctx, const Bounds &bounds) {
 	float vps, fps, actual_fps;
 	__DisplayGetFPS(&vps, &fps, &actual_fps);
 
-	char fpsbuf[256];
-	fpsbuf[0] = '\0';
+	Buffer buffer;
 	if ((g_Config.iShowStatusFlags & ((int)ShowStatusFlags::FPS_COUNTER | (int)ShowStatusFlags::SPEED_COUNTER)) == ((int)ShowStatusFlags::FPS_COUNTER | (int)ShowStatusFlags::SPEED_COUNTER)) {
-		snprintf(fpsbuf, sizeof(fpsbuf), "%0.0f/%0.0f (%0.1f%%)", actual_fps, fps, vps / ((g_Config.iDisplayRefreshRate / 60.0f * 59.94f) / 100.0f));
+		// Both at the same time gets a shorter formulation.
+		buffer.Printf("%0.0f/%0.0f (%0.1f%%)", actual_fps, fps, vps / ((g_Config.iDisplayRefreshRate / 60.0f * 59.94f) / 100.0f));
 	} else {
 		if (g_Config.iShowStatusFlags & (int)ShowStatusFlags::FPS_COUNTER) {
-			snprintf(fpsbuf, sizeof(fpsbuf), "FPS: %0.1f", actual_fps);
+			buffer.Printf("FPS: %0.1f", actual_fps);
 		} else if (g_Config.iShowStatusFlags & (int)ShowStatusFlags::SPEED_COUNTER) {
-			snprintf(fpsbuf, sizeof(fpsbuf), "Speed: %0.1f%%", vps / (59.94f / 100.0f));
+			buffer.Printf("Speed: %0.1f%%", vps / (59.94f / 100.0f));
+		}
+	}
+	if (System_GetPropertyBool(SYSPROP_CAN_READ_BATTERY_PERCENTAGE)) {
+		if (g_Config.iShowStatusFlags & (int)ShowStatusFlags::BATTERY_PERCENT) {
+			const int percentage = System_GetPropertyInt(SYSPROP_BATTERY_PERCENTAGE);
+			// Just plain append battery. Add linebreak?
+			buffer.Printf(" Battery: %d%%", percentage);
 		}
 	}
 
-#ifdef CAN_DISPLAY_CURRENT_BATTERY_CAPACITY
-	if (g_Config.iShowStatusFlags & (int)ShowStatusFlags::BATTERY_PERCENT) {
-		char temp[256];
-		snprintf(temp, sizeof(temp), "%s Battery: %d%%", fpsbuf, getCurrentBatteryCapacity());
-		snprintf(fpsbuf, sizeof(fpsbuf), "%s", temp);
-	}
-#endif
-
 	ctx->Flush();
+
+	std::string fpsBuf;
+	buffer.TakeAll(&fpsBuf);
 	ctx->BindFontTexture();
 	ctx->Draw()->SetFontScale(0.7f, 0.7f);
-	ctx->Draw()->DrawText(ubuntu24, fpsbuf, bounds.x2() - 8, 20, 0xc0000000, ALIGN_TOPRIGHT | FLAG_DYNAMIC_ASCII);
-	ctx->Draw()->DrawText(ubuntu24, fpsbuf, bounds.x2() - 10, 19, 0xFF3fFF3f, ALIGN_TOPRIGHT | FLAG_DYNAMIC_ASCII);
+	ctx->Draw()->DrawText(ubuntu24, fpsBuf, bounds.x2() - 8, 20, 0xc0000000, ALIGN_TOPRIGHT | FLAG_DYNAMIC_ASCII);
+	ctx->Draw()->DrawText(ubuntu24, fpsBuf, bounds.x2() - 10, 19, 0xFF3fFF3f, ALIGN_TOPRIGHT | FLAG_DYNAMIC_ASCII);
 	ctx->Draw()->SetFontScale(1.0f, 1.0f);
 	ctx->Flush();
 	ctx->RebindTexture();

@@ -63,6 +63,10 @@ public:
 	void deviceLost() override;
 	void deviceRestored(Draw::DrawContext *draw) override;
 
+	void SendImDebuggerCommand(const ImCommand &command) {
+		imCmd_ = command;
+	}
+
 protected:
 	void darken();
 	void focusChanged(ScreenFocusChange focusChange) override;
@@ -79,12 +83,17 @@ private:
 	void bootComplete();
 	bool hasVisibleUI();
 	void renderUI();
+	void runImDebugger();
+	void renderImDebugger();
 
-	void onVKey(int virtualKeyCode, bool down);
-	void onVKeyAnalog(int virtualKeyCode, float value);
+	void onVKey(VirtKey virtualKeyCode, bool down);
+	void onVKeyAnalog(VirtKey virtualKeyCode, float value);
 
 	void autoLoad();
 	bool checkPowerDown();
+
+	void ProcessQueuedVKeys();
+	void ProcessVKey(VirtKey vkey);
 
 	UI::Event OnDevMenu;
 	UI::Event OnChatMenu;
@@ -116,7 +125,6 @@ private:
 	UI::CallbackColorTween *loadingViewColor_ = nullptr;
 	UI::VisibilityTween *loadingViewVisible_ = nullptr;
 	UI::Spinner *loadingSpinner_ = nullptr;
-	UI::TextView *loadingTextView_ = nullptr;
 	UI::Button *resumeButton_ = nullptr;
 	UI::Button *resetButton_ = nullptr;
 	UI::Button *backButton_ = nullptr;
@@ -132,6 +140,23 @@ private:
 	ControlMapper controlMapper_;
 
 	std::unique_ptr<ImDebugger> imDebugger_ = nullptr;
+	ImCommand imCmd_{};  // needed to buffer commands in case imgui wasn't created yet.
 
 	bool imguiInited_ = false;
+	// For ImGui modifier tracking
+	bool keyCtrlLeft_ = false;
+	bool keyCtrlRight_ = false;
+	bool keyShiftLeft_ = false;
+	bool keyShiftRight_ = false;
+	bool keyAltLeft_ = false;
+	bool keyAltRight_ = false;
+
+	bool lastImguiEnabled_ = false;
+
+	std::vector<VirtKey> queuedVirtKeys_;
+
+	ImGuiContext *ctx_ = nullptr;
 };
+
+bool MustRunBehind();
+bool ShouldRunBehind();

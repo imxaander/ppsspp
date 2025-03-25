@@ -70,7 +70,7 @@
 #define IDC_STEP                        1009
 #define IDC_VERSION                     1010
 #define IDC_MEMVIEW                     1069
-#define IDC_GOTOLR                      1070
+#define IDC_GOTORA                      1070
 #define IDC_GOTOINT                     1071
 #define IDC_MEMSORT                     1073
 #define IDC_SYMBOLS                     1097
@@ -210,7 +210,6 @@
 #define ID_OPTIONS_FRAMESKIP_7           40086
 #define ID_OPTIONS_FRAMESKIP_8           40087
 #define ID_OPTIONS_FRAMESKIP_AUTO        40088
-#define ID_OPTIONS_FRAMESKIPDUMMY        40089
 #define ID_OPTIONS_RESOLUTIONDUMMY       40090
 #define ID_DISASM_ASSEMBLE               40091
 #define ID_DISASM_ADDNEWBREAKPOINT       40092

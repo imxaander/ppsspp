@@ -70,6 +70,8 @@ enum class SystemRequestType {
 	BROWSE_FOR_FILE,
 	BROWSE_FOR_FOLDER,
 
+	BROWSE_FOR_FILE_SAVE,
+
 	EXIT_APP,
 	RESTART_APP,  // For graphics backend changes
 	RECREATE_ACTIVITY,  // Android
@@ -97,6 +99,9 @@ enum class SystemRequestType {
 
 	RUN_CALLBACK_IN_WNDPROC,
 };
+
+// Run a closure on the main thread. Used to safely implement UI that runs on another thread.
+void System_RunOnMainThread(std::function<void()> func);
 
 // Implementations are supposed to process the request, and post the response to the g_RequestManager (see Message.h).
 // This is not to be used directly by applications, instead use the g_RequestManager to make the requests.
@@ -211,6 +216,9 @@ enum SystemProperty {
 	SYSPROP_OK_BUTTON_LEFT,
 
 	SYSPROP_MAIN_WINDOW_HANDLE,
+
+	SYSPROP_CAN_READ_BATTERY_PERCENTAGE,
+	SYSPROP_BATTERY_PERCENTAGE,
 };
 
 enum class SystemNotification {
@@ -297,7 +305,8 @@ void System_AudioClear();
 // These samples really have 16 bits of value, but can be a little out of range.
 // This is for pushing rate-controlled 44khz audio from emulation.
 // If you push a little too fast, we'll pitch up to a limit, for example.
-void System_AudioPushSamples(const int32_t *audio, int numSamples);
+// Volume is a unit-range multiplier.
+void System_AudioPushSamples(const int32_t *audio, int numSamples, float volume);
 
 inline void System_AudioResetStatCounters() {
 	return System_AudioGetDebugStats(nullptr, 0);

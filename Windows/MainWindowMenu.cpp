@@ -49,6 +49,7 @@
 #include "Windows/W32Util/DarkMode.h"
 
 #include "Core/HLE/sceUmd.h"
+#include "Core/HLE/sceNet.h"
 #include "Core/SaveState.h"
 #include "Core/Core.h"
 #include "Core/RetroAchievements.h"
@@ -83,6 +84,11 @@ namespace MainWindow {
 			if (!g_Config.bAchievementsSaveStateInHardcoreMode) {
 				saveStateEnableBool = false;
 			}
+		}
+
+		if (!NetworkAllowSaveState()) {
+			loadStateEnableBool = false;
+			saveStateEnableBool = false;
 		}
 
 		const UINT menuEnable = menuEnableBool ? MF_ENABLED : MF_GRAYED;
@@ -335,7 +341,7 @@ namespace MainWindow {
 		if (GetUIState() == UISTATE_INGAME) {
 			browsePauseAfter = Core_IsStepping();
 			if (!browsePauseAfter)
-				Core_Break("ui.boot", 0);
+				Core_Break(BreakReason::BreakOnBoot, 0);
 		}
 		auto mm = GetI18NCategory(I18NCat::MAINMENU);
 
@@ -364,6 +370,7 @@ namespace MainWindow {
 	static void UmdSwitchAction(RequesterToken token) {
 		auto mm = GetI18NCategory(I18NCat::MAINMENU);
 		System_BrowseForFile(token, mm->T("Switch UMD"), BrowseFileType::BOOTABLE, [](const std::string &value, int) {
+			// This is safe because the callback runs on the emu thread.
 			__UmdReplace(Path(value));
 		});
 	}
@@ -377,17 +384,24 @@ namespace MainWindow {
 
 	// not static
 	void setTexScalingMultiplier(int level) {
-		g_Config.iTexScalingLevel = level;
+		System_RunOnMainThread([level]() {
+			g_Config.iTexScalingLevel = level;
+		});
 		System_PostUIMessage(UIMessage::GPU_CONFIG_CHANGED);
 	}
 
 	static void setTexScalingType(int type) {
-		g_Config.iTexScalingType = type;
+		System_RunOnMainThread([type]() {
+			g_Config.iTexScalingType = type;
+		});
 		System_PostUIMessage(UIMessage::GPU_CONFIG_CHANGED);
 	}
 
 	static void setSkipBufferEffects(bool skip) {
-		g_Config.bSkipBufferEffects = skip;
+		System_RunOnMainThread([skip]() {
+			g_Config.bSkipBufferEffects = skip;
+		});
+		System_PostUIMessage(UIMessage::GPU_RENDER_RESIZED);
 		System_PostUIMessage(UIMessage::GPU_CONFIG_CHANGED);
 	}
 
@@ -437,7 +451,7 @@ namespace MainWindow {
 			PostMessage(MainWindow::GetHWND(), WM_USER_RESTART_EMUTHREAD, 0, 0);
 		} else {
 			g_Config.bRestartRequired = true;
-			PostMessage(MainWindow::GetHWND(), WM_CLOSE, 0, 0);
+			PostMessage(MainWindow::GetHWND(), WM_USER_DESTROY, 0, 0);
 		}
 	}
 
@@ -485,7 +499,7 @@ namespace MainWindow {
 				if (disasmWindow)
 					SendMessage(disasmWindow->GetDlgHandle(), WM_COMMAND, IDC_STOPGO, 0);
 				else
-					Core_Break("ui.break", 0);
+					Core_Break(BreakReason::DebugBreak, 0);
 			}
 			noFocusPause = !noFocusPause;	// If we pause, override pause on lost focus
 			break;
@@ -495,17 +509,11 @@ namespace MainWindow {
 			break;
 
 		case ID_EMULATION_STOP:
-			if (Core_IsStepping())
-				Core_Resume();
-
-			Core_Stop();
 			System_PostUIMessage(UIMessage::REQUEST_GAME_STOP);
-			Core_WaitInactive();
 			break;
 
 		case ID_EMULATION_RESET:
 			System_PostUIMessage(UIMessage::REQUEST_GAME_RESET);
-			Core_Resume();
 			break;
 
 		case ID_EMULATION_SWITCH_UMD:
@@ -527,8 +535,9 @@ namespace MainWindow {
 				System_PostUIMessage(UIMessage::SHOW_CHAT_SCREEN);
 			}
 			break;
+
 		case ID_FILE_LOADSTATEFILE:
-			if (!Achievements::WarnUserIfHardcoreModeActive(false)) {
+			if (!Achievements::WarnUserIfHardcoreModeActive(false) && !NetworkWarnUserIfOnlineAndCantSavestate()) {
 				if (W32Util::BrowseForFileName(true, hWnd, L"Load state", 0, L"Save States (*.ppst)\0*.ppst\0All files\0*.*\0\0", L"ppst", fn)) {
 					SetCursor(LoadCursor(0, IDC_WAIT));
 					SaveState::Load(Path(fn), -1, SaveStateActionFinished);
@@ -536,7 +545,7 @@ namespace MainWindow {
 			}
 			break;
 		case ID_FILE_SAVESTATEFILE:
-			if (!Achievements::WarnUserIfHardcoreModeActive(true)) {
+			if (!Achievements::WarnUserIfHardcoreModeActive(true) && !NetworkWarnUserIfOnlineAndCantSavestate()) {
 				if (W32Util::BrowseForFileName(false, hWnd, L"Save state", 0, L"Save States (*.ppst)\0*.ppst\0All files\0*.*\0\0", L"ppst", fn)) {
 					SetCursor(LoadCursor(0, IDC_WAIT));
 					SaveState::Save(Path(fn), -1, SaveStateActionFinished);
@@ -546,7 +555,7 @@ namespace MainWindow {
 
 		case ID_FILE_SAVESTATE_NEXT_SLOT:
 		{
-			if (!Achievements::WarnUserIfHardcoreModeActive(true)) {
+			if (!Achievements::WarnUserIfHardcoreModeActive(true) && !NetworkWarnUserIfOnlineAndCantSavestate()) {
 				SaveState::NextSlot();
 				System_PostUIMessage(UIMessage::SAVESTATE_DISPLAY_SLOT);
 			}
@@ -555,8 +564,9 @@ namespace MainWindow {
 
 		case ID_FILE_SAVESTATE_NEXT_SLOT_HC:
 		{
-			if (!Achievements::WarnUserIfHardcoreModeActive(true)) {
-				if (!KeyMap::PspButtonHasMappings(VIRTKEY_NEXT_SLOT)) {
+			if (!Achievements::WarnUserIfHardcoreModeActive(true) && !NetworkWarnUserIfOnlineAndCantSavestate()) {
+				// We let F3 (search next) in the imdebugger take priority, if active.
+				if (!KeyMap::PspButtonHasMappings(VIRTKEY_NEXT_SLOT) && !g_Config.bShowImDebugger) {
 					SaveState::NextSlot();
 					System_PostUIMessage(UIMessage::SAVESTATE_DISPLAY_SLOT);
 				}
@@ -569,13 +579,13 @@ namespace MainWindow {
 		case ID_FILE_SAVESTATE_SLOT_3:
 		case ID_FILE_SAVESTATE_SLOT_4:
 		case ID_FILE_SAVESTATE_SLOT_5:
-			if (!Achievements::WarnUserIfHardcoreModeActive(true)) {
+			if (!Achievements::WarnUserIfHardcoreModeActive(true) && !NetworkWarnUserIfOnlineAndCantSavestate()) {
 				g_Config.iCurrentStateSlot = wmId - ID_FILE_SAVESTATE_SLOT_1;
 			}
 			break;
 
 		case ID_FILE_QUICKLOADSTATE:
-			if (!Achievements::WarnUserIfHardcoreModeActive(false)) {
+			if (!Achievements::WarnUserIfHardcoreModeActive(false) && !NetworkWarnUserIfOnlineAndCantSavestate()) {
 				SetCursor(LoadCursor(0, IDC_WAIT));
 				SaveState::LoadSlot(PSP_CoreParameter().fileToStart, g_Config.iCurrentStateSlot, SaveStateActionFinished);
 			}
@@ -583,7 +593,7 @@ namespace MainWindow {
 
 		case ID_FILE_QUICKLOADSTATE_HC:
 		{
-			if (!Achievements::WarnUserIfHardcoreModeActive(false)) {
+			if (!Achievements::WarnUserIfHardcoreModeActive(false) && !NetworkWarnUserIfOnlineAndCantSavestate()) {
 				if (!KeyMap::PspButtonHasMappings(VIRTKEY_LOAD_STATE)) {
 					SetCursor(LoadCursor(0, IDC_WAIT));
 					SaveState::LoadSlot(PSP_CoreParameter().fileToStart, g_Config.iCurrentStateSlot, SaveStateActionFinished);
@@ -593,7 +603,7 @@ namespace MainWindow {
 		}
 		case ID_FILE_QUICKSAVESTATE:
 		{
-			if (!Achievements::WarnUserIfHardcoreModeActive(true)) {
+			if (!Achievements::WarnUserIfHardcoreModeActive(true) && !NetworkWarnUserIfOnlineAndCantSavestate()) {
 				SetCursor(LoadCursor(0, IDC_WAIT));
 				SaveState::SaveSlot(PSP_CoreParameter().fileToStart, g_Config.iCurrentStateSlot, SaveStateActionFinished);
 			}
@@ -602,7 +612,7 @@ namespace MainWindow {
 
 		case ID_FILE_QUICKSAVESTATE_HC:
 		{
-			if (!Achievements::WarnUserIfHardcoreModeActive(true)) {
+			if (!Achievements::WarnUserIfHardcoreModeActive(true) && !NetworkWarnUserIfOnlineAndCantSavestate()) {
 				if (!KeyMap::PspButtonHasMappings(VIRTKEY_SAVE_STATE))
 				{
 					SetCursor(LoadCursor(0, IDC_WAIT));
@@ -652,14 +662,13 @@ namespace MainWindow {
 
 		case ID_OPTIONS_VSYNC:
 			g_Config.bVSync = !g_Config.bVSync;
-			NativeResized();
+			System_PostUIMessage(UIMessage::GPU_CONFIG_CHANGED);
 			break;
 
 		case ID_OPTIONS_FRAMESKIP_AUTO:
 			g_Config.bAutoFrameSkip = !g_Config.bAutoFrameSkip;
 			if (g_Config.bAutoFrameSkip && g_Config.bSkipBufferEffects) {
-				g_Config.bSkipBufferEffects = false;
-				System_PostUIMessage(UIMessage::GPU_CONFIG_CHANGED);
+				setSkipBufferEffects(false);
 			}
 			break;
 
@@ -704,8 +713,7 @@ namespace MainWindow {
 			break;
 
 		case ID_OPTIONS_SKIP_BUFFER_EFFECTS:
-			g_Config.bSkipBufferEffects = !g_Config.bSkipBufferEffects;
-			System_PostUIMessage(UIMessage::GPU_RENDER_RESIZED);
+			setSkipBufferEffects(!g_Config.bSkipBufferEffects);
 			g_OSD.ShowOnOff(gr->T("Skip Buffer Effects"), g_Config.bSkipBufferEffects);
 			break;
 
@@ -721,9 +729,12 @@ namespace MainWindow {
 			break;
 
 		case ID_OPTIONS_HARDWARETRANSFORM:
-			g_Config.bHardwareTransform = !g_Config.bHardwareTransform;
-			System_PostUIMessage(UIMessage::GPU_CONFIG_CHANGED);
-			g_OSD.ShowOnOff(gr->T("Hardware Transform"), g_Config.bHardwareTransform);
+			System_RunOnMainThread([]() {
+				auto gr = GetI18NCategory(I18NCat::GRAPHICS);
+				g_Config.bHardwareTransform = !g_Config.bHardwareTransform;
+				System_PostUIMessage(UIMessage::GPU_CONFIG_CHANGED);
+				g_OSD.ShowOnOff(gr->T("Hardware Transform"), g_Config.bHardwareTransform);
+			});
 			break;
 
 		case ID_OPTIONS_DISPLAY_LAYOUT:
@@ -744,13 +755,10 @@ namespace MainWindow {
 		case ID_OPTIONS_FRAMESKIPTYPE_COUNT:    setFrameSkippingType(FRAMESKIPTYPE_COUNT); break;
 		case ID_OPTIONS_FRAMESKIPTYPE_PRCNT:    setFrameSkippingType(FRAMESKIPTYPE_PRCNT); break;
 
-		case ID_OPTIONS_FRAMESKIPDUMMY:
-			setFrameSkipping();
-			setFrameSkippingType();
-			break;
-
 		case ID_FILE_EXIT:
-			PostMessage(hWnd, WM_CLOSE, 0, 0);
+			if (MainWindow::ConfirmExit(hWnd)) {
+				DestroyWindow(hWnd);
+			}
 			break;
 
 		case ID_DEBUG_BREAKONLOAD:
@@ -812,7 +820,7 @@ namespace MainWindow {
 
 		case ID_DEBUG_MEMORYBASE:
 		{
-			W32Util::CopyTextToClipboard(hWnd, ConvertUTF8ToWString(StringFromFormat("%016llx", (uint64_t)(uintptr_t)Memory::base)));
+			System_CopyStringToClipboard(StringFromFormat("%016llx", (uint64_t)(uintptr_t)Memory::base));
 			break;
 		}
 
@@ -822,7 +830,6 @@ namespace MainWindow {
 			if (!InputBox_GetString(hInst, hWnd, L"Disc filename", filename, filename)) {
 				break;
 			}
-
 			const char *lastSlash = strrchr(filename.c_str(), '/');
 			if (lastSlash) {
 				fn = lastSlash + 1;
@@ -862,7 +869,7 @@ namespace MainWindow {
 		break;
 
 		case ID_DEBUG_LOG:
-			LogManager::GetInstance()->GetConsoleListener()->Show(LogManager::GetInstance()->GetConsoleListener()->Hidden());
+			g_logManager.GetConsoleListener()->Show(g_logManager.GetConsoleListener()->Hidden());
 			break;
 
 		case ID_DEBUG_IGNOREILLEGALREADS:
@@ -870,7 +877,9 @@ namespace MainWindow {
 			break;
 
 		case ID_OPTIONS_FULLSCREEN:
-			SendToggleFullscreen(!g_Config.UseFullScreen());
+			if (!g_Config.bShowImDebugger) {
+				SendToggleFullscreen(!g_Config.UseFullScreen());
+			}
 			break;
 
 		case ID_OPTIONS_TEXTUREFILTERING_AUTO:   g_Config.iTexFiltering = TEX_FILTER_AUTO; break;

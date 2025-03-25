@@ -91,11 +91,12 @@ LRESULT CALLBACK FuncListProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 static constexpr UINT_PTR IDT_UPDATE = 0xC0DE0042;
 static constexpr UINT UPDATE_DELAY = 1000 / 60;
 
-CDisasm::CDisasm(HINSTANCE _hInstance, HWND _hParent, DebugInterface *_cpu) : Dialog((LPCSTR)IDD_DISASM, _hInstance, _hParent) {
+CDisasm::CDisasm(HINSTANCE _hInstance, HWND _hParent, MIPSDebugInterface *_cpu) : Dialog((LPCSTR)IDD_DISASM, _hInstance, _hParent) {
 	cpu = _cpu;
 	lastTicks_ = PSP_IsInited() ? CoreTiming::GetTicks() : 0;
+	breakpoints_ = &g_breakpoints;
 
-	SetWindowText(m_hDlg, ConvertUTF8ToWString(_cpu->GetName()).c_str());
+	SetWindowText(m_hDlg, L"R4");
 
 	RECT windowRect;
 	GetWindowRect(m_hDlg,&windowRect);
@@ -209,7 +210,7 @@ void CDisasm::step(CPUStepType stepType) {
 	lastTicks_ = CoreTiming::GetTicks();
 
 	u32 stepSize = ptr->getInstructionSizeAt(cpu->GetPC());
-	Core_RequestSingleStep(stepType, stepSize);
+	Core_RequestCPUStep(stepType, stepSize);
 }
 
 void CDisasm::runToLine() {
@@ -222,22 +223,18 @@ void CDisasm::runToLine() {
 
 	lastTicks_ = CoreTiming::GetTicks();
 	ptr->setDontRedraw(true);
-	CBreakPoints::AddBreakPoint(pos,true);
+	breakpoints_->AddBreakPoint(pos,true);
 	Core_Resume();
 }
 
-BOOL CDisasm::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
-{
-	//if (!m_hDlg) return FALSE;
-	switch(message)
-	{
+BOOL CDisasm::DlgProc(UINT message, WPARAM wParam, LPARAM lParam) {
+	switch(message) {
 	case WM_INITDIALOG:
 		// DarkModeInitDialog(m_hDlg);
 		return TRUE;
 
 	case WM_NOTIFY:
-		switch (wParam)
-		{
+		switch (wParam) {
 		case IDC_LEFTTABS:
 			leftTabs->HandleNotify(lParam);
 			break;
@@ -302,10 +299,9 @@ BOOL CDisasm::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 					keepStatusBarText = true;
 					view->LockPosition();
 					bool isRunning = Core_IsActive();
-					if (isRunning)
-					{
-						Core_Break("cpu.breakpoint.add", 0);
-						Core_WaitInactive(200);
+					if (isRunning) {
+						Core_Break(BreakReason::AddBreakpoint, 0);
+						Core_WaitInactive();
 					}
 
 					BreakpointWindow bpw(m_hDlg,cpu);
@@ -404,13 +400,9 @@ BOOL CDisasm::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 					}
 					if (!Core_IsStepping())	{  // stop
 						ptr->setDontRedraw(false);
-						Core_Break("ui.break", 0);
+						Core_Break(BreakReason::DebugBreak, 0);
 					} else {					// go
 						lastTicks_ = CoreTiming::GetTicks();
-
-						// If the current PC is on a breakpoint, the user doesn't want to do nothing.
-						CBreakPoints::SetSkipFirst(currentMIPS->pc);
-
 						Core_Resume();
 					}
 				}
@@ -434,9 +426,6 @@ BOOL CDisasm::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 						break;
 					lastTicks_ = CoreTiming::GetTicks();
 
-					// If the current PC is on a breakpoint, the user doesn't want to do nothing.
-					CBreakPoints::SetSkipFirst(currentMIPS->pc);
-
 					hleDebugBreak();
 					Core_Resume();
 				}
@@ -453,9 +442,9 @@ BOOL CDisasm::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 					UpdateDialog();
 				}
 				break;
-			case IDC_GOTOLR:
+			case IDC_GOTORA:
 				{
-					ptr->gotoAddr(cpu->GetLR());
+					ptr->gotoAddr(cpu->GetRA());
 					SetFocus(GetDlgItem(m_hDlg, IDC_DISASMVIEW));
 				}
 				break;
@@ -705,7 +694,7 @@ void CDisasm::SetDebugMode(bool _bDebug, bool switchPC)
 		EnableWindow(GetDlgItem(hDlg, IDC_STEPHLE), TRUE);
 		EnableWindow(GetDlgItem(hDlg, IDC_STEPOUT), TRUE);
 		EnableWindow(GetDlgItem(hDlg, IDC_GOTOPC), TRUE);
-		EnableWindow(GetDlgItem(hDlg, IDC_GOTOLR), TRUE);
+		EnableWindow(GetDlgItem(hDlg, IDC_GOTORA), TRUE);
 		CtrlDisAsmView *ptr = DisAsmView();
 		ptr->setDontRedraw(false);
 		if (switchPC)
@@ -724,7 +713,7 @@ void CDisasm::SetDebugMode(bool _bDebug, bool switchPC)
 		EnableWindow(GetDlgItem(hDlg, IDC_STEPHLE), FALSE);
 		EnableWindow(GetDlgItem(hDlg, IDC_STEPOUT), FALSE);
 		EnableWindow(GetDlgItem(hDlg, IDC_GOTOPC), FALSE);
-		EnableWindow(GetDlgItem(hDlg, IDC_GOTOLR), FALSE);
+		EnableWindow(GetDlgItem(hDlg, IDC_GOTORA), FALSE);
 		CtrlRegisterList *reglist = CtrlRegisterList::getFrom(GetDlgItem(m_hDlg,IDC_REGLIST));
 		reglist->redraw();
 	}

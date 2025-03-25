@@ -222,12 +222,12 @@ u32 BlockAllocator::AllocAt(u32 position, u32 size, const char *tag)
 
 void BlockAllocator::MergeFreeBlocks(Block *fromBlock)
 {
-	DEBUG_LOG(Log::sceKernel, "Merging Blocks");
+	VERBOSE_LOG(Log::sceKernel, "Merging Blocks");
 
 	Block *prev = fromBlock->prev;
 	while (prev != NULL && prev->taken == false)
 	{
-		DEBUG_LOG(Log::sceKernel, "Block Alloc found adjacent free blocks - merging");
+		VERBOSE_LOG(Log::sceKernel, "Block Alloc found adjacent free blocks - merging");
 		prev->size += fromBlock->size;
 		if (fromBlock->next == NULL)
 			top_ = prev;
@@ -247,7 +247,7 @@ void BlockAllocator::MergeFreeBlocks(Block *fromBlock)
 	Block *next = fromBlock->next;
 	while (next != NULL && next->taken == false)
 	{
-		DEBUG_LOG(Log::sceKernel, "Block Alloc found adjacent free blocks - merging");
+		VERBOSE_LOG(Log::sceKernel, "Block Alloc found adjacent free blocks - merging");
 		fromBlock->size += next->size;
 		fromBlock->next = next->next;
 		delete next;
@@ -505,7 +505,6 @@ void BlockAllocator::Block::DoState(PointerWrap &p)
 	// Since we use truncate_cpy, the empty space is not zeroed.  Zero it now.
 	// This avoids saving uninitialized memory.
 	size_t tagLen = strlen(tag);
-	if (tagLen != sizeof(tag))
-		memset(tag + tagLen, 0, sizeof(tag) - tagLen);
+	memset(tag + tagLen, 0, sizeof(tag) - tagLen);
 	DoArray(p, tag, sizeof(tag));
 }

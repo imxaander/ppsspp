@@ -88,7 +88,6 @@ struct FontStyle {
 	int flags = 0;
 };
 
-
 // To use with an UI atlas.
 struct Theme {
 	FontStyle uiFont;
@@ -108,10 +107,15 @@ struct Theme {
 
 	Style headerStyle;
 	Style infoStyle;
+	Style collapsibleHeaderStyle;
 
 	Style popupStyle;
+	Style popupTitleStyle;
+
+	Style tooltipStyle;
 
 	uint32_t backgroundColor;
+	uint32_t scrollbarColor;
 };
 
 // The four cardinal directions should be enough, plus Prev/Next in "element order".
@@ -425,6 +429,8 @@ public:
 	virtual bool CanBeFocused() const { return true; }
 	virtual bool SubviewFocused(View *view) { return false; }
 
+	void SetPopupStyle(bool popupStyle) { popupStyle_ = popupStyle; }
+
 	bool HasFocus() const {
 		return GetFocusedView() == this;
 	}
@@ -476,6 +482,8 @@ public:
 		return t;
 	}
 
+	virtual void Recurse(void (*func)(View *view)) {}
+
 protected:
 	// Inputs to layout
 	std::unique_ptr<LayoutParams> layoutParams_;
@@ -491,6 +499,9 @@ protected:
 	Bounds bounds_{};
 
 	std::vector<Tween *> tweens_;
+
+	// Whether to use popup colors for styling.
+	bool popupStyle_ = false;
 
 private:
 	std::function<bool()> enabledFunc_;
@@ -801,14 +812,8 @@ public:
 	void SetRightText(std::string_view text) {
 		rightText_ = text;
 	}
-	void SetChoiceStyle(bool choiceStyle) {
-		choiceStyle_ = choiceStyle;
-	}
 
 private:
-	CallbackColorTween *bgColor_ = nullptr;
-	CallbackColorTween *fgColor_ = nullptr;
-
 	std::string text_;
 	std::string rightText_;
 
@@ -853,11 +858,9 @@ public:
 	std::string DescribeText() const override;
 	void GetContentDimensionsBySpec(const UIContext &dc, MeasureSpec horiz, MeasureSpec vert, float &w, float &h) const override;
 	void SetLarge(bool large) { large_ = large; }
-	void SetPopupStyle(bool popupStyle) { popupStyle_ = popupStyle; }
 private:
 	std::string text_;
 	bool large_ = false;
-	bool popupStyle_ = false;
 };
 
 class PopupHeader : public Item {
@@ -1018,6 +1021,19 @@ private:
 	bool clip_ = true;
 	bool bullet_ = false;
 	float pad_ = 0.0f;
+};
+
+// Quick hack for clickable version number
+class ClickableTextView : public TextView {
+public:
+	ClickableTextView(std::string_view text, LayoutParams *layoutParams = 0)
+		: TextView(text, layoutParams) {}
+	bool Touch(const TouchInput &input);
+	Event OnClick;
+
+private:
+	bool down_;
+	bool dragging_;
 };
 
 class TextEdit : public View {

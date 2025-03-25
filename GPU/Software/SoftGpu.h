@@ -156,7 +156,7 @@ public:
 	void CheckDisplayResized() override;
 	void CheckConfigChanged() override;
 
-	void GetReportingInfo(std::string &primaryInfo, std::string &fullInfo) override {
+	void GetReportingInfo(std::string &primaryInfo, std::string &fullInfo) const override {
 		primaryInfo = "Software";
 		fullInfo = "Software";
 	}
@@ -170,7 +170,7 @@ public:
 	bool GetCurrentStencilbuffer(GPUDebugBuffer &buffer) override;
 	bool GetCurrentTexture(GPUDebugBuffer &buffer, int level, bool *isFramebuffer) override;
 	bool GetCurrentClut(GPUDebugBuffer &buffer) override;
-	bool GetCurrentSimpleVertices(int count, std::vector<GPUDebugVertex> &vertices, std::vector<u16> &indices) override;
+	bool GetCurrentDrawAsDebugVertices(int count, std::vector<GPUDebugVertex> &vertices, std::vector<u16> &indices) override;
 
 	bool DescribeCodePtr(const u8 *ptr, std::string &name) override;
 

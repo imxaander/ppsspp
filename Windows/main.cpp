@@ -16,6 +16,9 @@
 // https://github.com/hrydgard/ppsspp and http://www.ppsspp.org/.
 
 #include "stdafx.h"
+#ifdef _WIN32
+#include <initguid.h>
+#endif
 #include <algorithm>
 #include <cmath>
 #include <functional>
@@ -30,6 +33,7 @@
 #include <shellapi.h>
 #include <Wbemidl.h>
 #include <ShlObj.h>
+#include <wrl/client.h>
 
 #include "Common/System/Display.h"
 #include "Common/System/NativeApp.h"
@@ -84,6 +88,11 @@
 #include "Windows/WindowsHost.h"
 #include "Windows/main.h"
 
+#ifdef _MSC_VER
+#pragma comment(lib, "wbemuuid")
+#endif
+
+using Microsoft::WRL::ComPtr;
 
 // Nvidia OpenGL drivers >= v302 will check if the application exports a global
 // variable named NvOptimusEnablement to know if it should run the app in high
@@ -132,7 +141,7 @@ void System_Vibrate(int length_ms) {
 }
 
 static void AddDebugRestartArgs() {
-	if (LogManager::GetInstance()->GetConsoleListener()->IsOpen())
+	if (g_logManager.GetConsoleListener()->IsOpen())
 		restartArgs += " -l";
 }
 
@@ -147,35 +156,33 @@ std::string GetVideoCardDriverVersion() {
 		return retvalue;
 	}
 
-	IWbemLocator *pIWbemLocator = NULL;
-	hr = CoCreateInstance(__uuidof(WbemLocator), NULL, CLSCTX_INPROC_SERVER,
-		__uuidof(IWbemLocator), (LPVOID *)&pIWbemLocator);
+	ComPtr<IWbemLocator> pIWbemLocator;
+	hr = CoCreateInstance(__uuidof(WbemLocator), NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pIWbemLocator));
 	if (FAILED(hr)) {
 		CoUninitialize();
 		return retvalue;
 	}
 
 	BSTR bstrServer = SysAllocString(L"\\\\.\\root\\cimv2");
-	IWbemServices *pIWbemServices;
+	ComPtr<IWbemServices> pIWbemServices;
 	hr = pIWbemLocator->ConnectServer(bstrServer, NULL, NULL, 0L, 0L, NULL,	NULL, &pIWbemServices);
 	if (FAILED(hr)) {
-		pIWbemLocator->Release();
 		SysFreeString(bstrServer);
 		CoUninitialize();
 		return retvalue;
 	}
 
-	hr = CoSetProxyBlanket(pIWbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE,
+	hr = CoSetProxyBlanket(pIWbemServices.Get(), RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE,
 		NULL, RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, NULL,EOAC_DEFAULT);
 
 	BSTR bstrWQL = SysAllocString(L"WQL");
 	BSTR bstrPath = SysAllocString(L"select * from Win32_VideoController");
-	IEnumWbemClassObject* pEnum;
+	ComPtr<IEnumWbemClassObject> pEnum;
 	hr = pIWbemServices->ExecQuery(bstrWQL, bstrPath, WBEM_FLAG_FORWARD_ONLY, NULL, &pEnum);
 
 	ULONG uReturned = 0;
 	VARIANT var{};
-	IWbemClassObject* pObj = NULL;
+	ComPtr<IWbemClassObject> pObj;
 	if (!FAILED(hr)) {
 		hr = pEnum->Next(WBEM_INFINITE, 1, &pObj, &uReturned);
 	}
@@ -189,11 +196,8 @@ std::string GetVideoCardDriverVersion() {
 		}
 	}
 
-	pEnum->Release();
 	SysFreeString(bstrPath);
 	SysFreeString(bstrWQL);
-	pIWbemServices->Release();
-	pIWbemLocator->Release();
 	SysFreeString(bstrServer);
 	CoUninitialize();
 	return retvalue;
@@ -335,6 +339,15 @@ int64_t System_GetPropertyInt(SystemProperty prop) {
 			return KEYBOARD_LAYOUT_QWERTY;
 		}
 	}
+	case SYSPROP_BATTERY_PERCENTAGE:
+	{
+		SYSTEM_POWER_STATUS status{};
+		if (GetSystemPowerStatus(&status)) {
+			return status.BatteryLifePercent < 255 ? status.BatteryLifePercent : 100;
+		} else {
+			return 100;
+		}
+	}
 	default:
 		return -1;
 	}
@@ -390,6 +403,8 @@ bool System_GetPropertyBool(SystemProperty prop) {
 	case SYSPROP_DEBUGGER_PRESENT:
 		return IsDebuggerPresent();
 	case SYSPROP_OK_BUTTON_LEFT:
+		return true;
+	case SYSPROP_CAN_READ_BATTERY_PERCENTAGE:
 		return true;
 	default:
 		return false;
@@ -486,10 +501,21 @@ void System_Notify(SystemNotification notification) {
 		}
 		break;
 	}
+	case SystemNotification::AUDIO_RESET_DEVICE:
+	case SystemNotification::FORCE_RECREATE_ACTIVITY:
+	case SystemNotification::IMMERSIVE_MODE_CHANGE:
+	case SystemNotification::SUSTAINED_PERF_CHANGE:
+	case SystemNotification::ROTATE_UPDATED:
+	case SystemNotification::TEST_JAVA_EXCEPTION:
+		break;
+	case SystemNotification::UI_STATE_CHANGED:
+	case SystemNotification::AUDIO_MODE_CHANGED:
+	case SystemNotification::APP_SWITCH_MODE_CHANGED:
+		break;
 	}
 }
 
-static std::wstring MakeFilter(std::wstring filter) {
+static std::wstring FinalizeFilter(std::wstring filter) {
 	for (size_t i = 0; i < filter.length(); i++) {
 		if (filter[i] == '|')
 			filter[i] = '\0';
@@ -497,11 +523,34 @@ static std::wstring MakeFilter(std::wstring filter) {
 	return filter;
 }
 
+static std::wstring MakeWindowsFilter(BrowseFileType type) {
+	switch (type) {
+	case BrowseFileType::BOOTABLE:
+		return FinalizeFilter(L"All supported file types (*.iso *.cso *.chd *.pbp *.elf *.prx *.zip *.ppdmp)|*.pbp;*.elf;*.iso;*.cso;*.chd;*.prx;*.zip;*.ppdmp|PSP ROMs (*.iso *.cso *.chd *.pbp *.elf *.prx)|*.pbp;*.elf;*.iso;*.cso;*.chd;*.prx|Homebrew/Demos installers (*.zip)|*.zip|All files (*.*)|*.*||");
+	case BrowseFileType::INI:
+		return FinalizeFilter(L"Ini files (*.ini)|*.ini|All files (*.*)|*.*||");
+	case BrowseFileType::ZIP:
+		return FinalizeFilter(L"ZIP files (*.zip)|*.zip|All files (*.*)|*.*||");
+	case BrowseFileType::DB:
+		return FinalizeFilter(L"Cheat db files (*.db)|*.db|All files (*.*)|*.*||");
+	case BrowseFileType::SOUND_EFFECT:
+		return FinalizeFilter(L"Sound effect files (*.wav *.mp3)|*.wav;*.mp3|All files (*.*)|*.*||");
+	case BrowseFileType::SYMBOL_MAP:
+		return FinalizeFilter(L"Symbol map files (*.ppmap)|*.ppmap|All files (*.*)|*.*||");
+	case BrowseFileType::ATRAC3:
+		return FinalizeFilter(L"ATRAC3/3+ files (*.at3)|*.at3|All files (*.*)|*.*||");
+	case BrowseFileType::ANY:
+		return FinalizeFilter(L"All files (*.*)|*.*||");
+	default:
+		return std::wstring();
+	}
+}
+
 bool System_MakeRequest(SystemRequestType type, int requestId, const std::string &param1, const std::string &param2, int64_t param3, int64_t param4) {
 	switch (type) {
 	case SystemRequestType::EXIT_APP:
 		if (!NativeIsRestarting()) {
-			PostMessage(MainWindow::GetHWND(), WM_CLOSE, 0, 0);
+			PostMessage(MainWindow::GetHWND(), MainWindow::WM_USER_DESTROY, 0, 0);
 		}
 		return true;
 	case SystemRequestType::RESTART_APP:
@@ -513,7 +562,7 @@ bool System_MakeRequest(SystemRequestType type, int requestId, const std::string
 			PostMessage(MainWindow::GetHWND(), MainWindow::WM_USER_RESTART_EMUTHREAD, 0, 0);
 		} else {
 			g_Config.bRestartRequired = true;
-			PostMessage(MainWindow::GetHWND(), WM_CLOSE, 0, 0);
+			PostMessage(MainWindow::GetHWND(), MainWindow::WM_USER_DESTROY, 0, 0);
 		}
 		return true;
 	}
@@ -534,7 +583,6 @@ bool System_MakeRequest(SystemRequestType type, int requestId, const std::string
 		winTitle.append(L" (debug)");
 #endif
 		MainWindow::SetWindowTitle(winTitle.c_str());
-		PostMessage(MainWindow::GetHWND(), MainWindow::WM_USER_WINDOW_TITLE_CHANGED, 0, 0);
 		return true;
 	}
 	case SystemRequestType::SET_KEEP_SCREEN_BRIGHT:
@@ -574,7 +622,7 @@ bool System_MakeRequest(SystemRequestType type, int requestId, const std::string
 		std::thread([=] {
 			std::string out;
 			if (W32Util::BrowseForFileName(true, MainWindow::GetHWND(), ConvertUTF8ToWString(param1).c_str(), nullptr,
-				MakeFilter(L"All supported images (*.jpg *.jpeg *.png)|*.jpg;*.jpeg;*.png|All files (*.*)|*.*||").c_str(), L"jpg", out)) {
+				FinalizeFilter(L"All supported images (*.jpg *.jpeg *.png)|*.jpg;*.jpeg;*.png|All files (*.*)|*.*||").c_str(), L"jpg", out)) {
 				g_requestManager.PostSystemSuccess(requestId, out.c_str());
 			} else {
 				g_requestManager.PostSystemFailure(requestId);
@@ -582,35 +630,19 @@ bool System_MakeRequest(SystemRequestType type, int requestId, const std::string
 		}).detach();
 		return true;
 	case SystemRequestType::BROWSE_FOR_FILE:
+	case SystemRequestType::BROWSE_FOR_FILE_SAVE:
 	{
-		BrowseFileType type = (BrowseFileType)param3;
-		std::wstring filter;
-		switch (type) {
-		case BrowseFileType::BOOTABLE:
-			filter = MakeFilter(L"All supported file types (*.iso *.cso *.chd *.pbp *.elf *.prx *.zip *.ppdmp)|*.pbp;*.elf;*.iso;*.cso;*.chd;*.prx;*.zip;*.ppdmp|PSP ROMs (*.iso *.cso *.chd *.pbp *.elf *.prx)|*.pbp;*.elf;*.iso;*.cso;*.chd;*.prx|Homebrew/Demos installers (*.zip)|*.zip|All files (*.*)|*.*||");
-			break;
-		case BrowseFileType::INI:
-			filter = MakeFilter(L"Ini files (*.ini)|*.ini|All files (*.*)|*.*||");
-			break;
-		case BrowseFileType::ZIP:
-			filter = MakeFilter(L"ZIP files (*.zip)|*.zip|All files (*.*)|*.*||");
-			break;
-		case BrowseFileType::DB:
-			filter = MakeFilter(L"Cheat db files (*.db)|*.db|All files (*.*)|*.*||");
-			break;
-		case BrowseFileType::SOUND_EFFECT:
-			filter = MakeFilter(L"Sound effect files (*.wav *.mp3)|*.wav;*.mp3|All files (*.*)|*.*||");
-			break;
-		case BrowseFileType::ANY:
-			filter = MakeFilter(L"All files (*.*)|*.*||");
-			break;
-		default:
+		const BrowseFileType browseType = (BrowseFileType)param3;
+		std::wstring filter = MakeWindowsFilter(browseType);
+		std::wstring initialFilename = ConvertUTF8ToWString(param2);  // TODO: Plumb through
+		if (filter.empty()) {
+			// Unsupported.
 			return false;
 		}
-
+		const bool load = type == SystemRequestType::BROWSE_FOR_FILE;
 		std::thread([=] {
 			std::string out;
-			if (W32Util::BrowseForFileName(true, MainWindow::GetHWND(), ConvertUTF8ToWString(param1).c_str(), nullptr, filter.c_str(), L"", out)) {
+			if (W32Util::BrowseForFileName(load, MainWindow::GetHWND(), ConvertUTF8ToWString(param1).c_str(), nullptr, filter.c_str(), L"", out)) {
 				g_requestManager.PostSystemSuccess(requestId, out.c_str());
 			} else {
 				g_requestManager.PostSystemFailure(requestId);
@@ -621,7 +653,7 @@ bool System_MakeRequest(SystemRequestType type, int requestId, const std::string
 	case SystemRequestType::BROWSE_FOR_FOLDER:
 	{
 		std::thread([=] {
-			std::string folder = W32Util::BrowseForFolder(MainWindow::GetHWND(), param1, param2);
+			std::string folder = W32Util::BrowseForFolder2(MainWindow::GetHWND(), param1, param2);
 			if (folder.size()) {
 				g_requestManager.PostSystemSuccess(requestId, folder.c_str());
 			} else {
@@ -658,8 +690,7 @@ bool System_MakeRequest(SystemRequestType type, int requestId, const std::string
 	case SystemRequestType::CREATE_GAME_SHORTCUT:
 	{
 		// Get the game info to get our hands on the icon png
-		Path gamePath(param1);
-		std::shared_ptr<GameInfo> info = g_gameInfoCache->GetInfo(nullptr, gamePath, GameInfoFlags::ICON);
+		std::shared_ptr<GameInfo> info = g_gameInfoCache->GetInfo(nullptr, Path(param1), GameInfoFlags::ICON);
 		Path icoPath;
 		if (info->icon.dataLoaded) {
 			// Write the icon png out as a .ICO file so the shortcut can point to it
@@ -679,8 +710,8 @@ bool System_MakeRequest(SystemRequestType type, int requestId, const std::string
 	}
 	case SystemRequestType::RUN_CALLBACK_IN_WNDPROC:
 	{
-		auto func = reinterpret_cast<void (*)(void *window, void *userdata)>(param3);
-		void *userdata = reinterpret_cast<void *>(param4);
+		auto func = reinterpret_cast<void (*)(void *window, void *userdata)>((uintptr_t)param3);
+		void *userdata = reinterpret_cast<void *>((uintptr_t)param4);
 		MainWindow::RunCallbackInWndProc(func, userdata);
 		return true;
 	}
@@ -725,7 +756,7 @@ static std::string GetDefaultLangRegion() {
 	wchar_t lcLangName[256] = {};
 
 	// LOCALE_SNAME is only available in WinVista+
-	if (0 != GetLocaleInfo(LOCALE_NAME_USER_DEFAULT, LOCALE_SNAME, lcLangName, ARRAY_SIZE(lcLangName))) {
+	if (0 != GetLocaleInfoEx(LOCALE_NAME_USER_DEFAULT, LOCALE_SNAME, lcLangName, ARRAY_SIZE(lcLangName))) {
 		std::string result = ConvertWStringToUTF8(lcLangName);
 		std::replace(result.begin(), result.end(), '-', '_');
 		return result;
@@ -833,14 +864,16 @@ static void InitMemstickDirectory() {
 	// We're screwed anyway if we can't write to Documents, or can't detect it.
 	if (!File::CreateEmptyFile(testFile))
 		g_Config.memStickDirectory = myDocsPath;
-
 	// Clean up our mess.
-	if (File::Exists(testFile))
-		File::Delete(testFile);
+	File::Delete(testFile);
 }
 
 static void WinMainInit() {
-	CoInitializeEx(NULL, COINIT_MULTITHREADED);
+	HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+	if (FAILED(hr)) {
+		_dbg_assert_(false);
+	}
+
 	net::Init();  // This needs to happen before we load the config. So on Windows we also run it in Main. It's fine to call multiple times.
 
 	// Windows, API init stuff
@@ -855,11 +888,6 @@ static void WinMainInit() {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 	PROFILE_INIT();
-
-#if PPSSPP_ARCH(AMD64) && defined(_MSC_VER) && _MSC_VER < 1900
-	// FMA3 support in the 2013 CRT is broken on Vista and Windows 7 RTM (fixed in SP1). Just disable it.
-	_set_FMA3_enable(0);
-#endif
 
 	InitDarkMode();
 }
@@ -894,7 +922,7 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE hPrevInstance, LPSTR szCmdLin
 				// (this is an external process.)
 				bool result = VulkanMayBeAvailable();
 
-				LogManager::Shutdown();
+				g_logManager.Shutdown();
 				WinMainCleanup();
 				return result ? EXIT_CODE_VULKAN_WORKS : EXIT_FAILURE;
 			}
@@ -949,14 +977,15 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE hPrevInstance, LPSTR szCmdLin
 		}
 	}
 
-	LogManager::Init(&g_Config.bEnableLogging);
+	// This will be overridden by the actual config. But we do want to log during startup.
+	g_Config.bEnableLogging = true;
+	g_logManager.Init(&g_Config.bEnableLogging);
 
 	// On Win32 it makes more sense to initialize the system directories here
 	// because the next place it was called was in the EmuThread, and it's too late by then.
 	g_Config.internalDataDirectory = Path(W32Util::UserDocumentsPath());
 	InitMemstickDirectory();
 	CreateSysDirectories();
-
 
 	// Load config up here, because those changes below would be overwritten
 	// if it's not loaded here first.
@@ -1034,10 +1063,10 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE hPrevInstance, LPSTR szCmdLin
 	//   - By default in Debug, the console should be shown by default.
 	//   - The -l switch is expected to show the log console, REGARDLESS of config settings.
 	//   - It should be possible to log to a file without showing the console.
-	LogManager::GetInstance()->GetConsoleListener()->Init(showLog, 150, 120);
+	g_logManager.GetConsoleListener()->Init(showLog, 150, 120);
 
 	if (debugLogLevel) {
-		LogManager::GetInstance()->SetAllLogLevels(LogLevel::LDEBUG);
+		g_logManager.SetAllLogLevels(LogLevel::LDEBUG);
 	}
 
 	ContextMenuInit(_hInstance);
@@ -1123,7 +1152,7 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE hPrevInstance, LPSTR szCmdLin
 	DialogManager::DestroyAll();
 	timeEndPeriod(1);
 
-	LogManager::Shutdown();
+	g_logManager.Shutdown();
 	WinMainCleanup();
 
 	return 0;

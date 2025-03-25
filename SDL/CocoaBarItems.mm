@@ -15,7 +15,7 @@
 #include "Core/MemMap.h"
 #include "Core/System.h"
 #include "Core/Core.h"
-#include "GPU/GPUInterface.h"
+#include "GPU/GPUCommon.h"
 #include "Common/File/Path.h"
 #include "Common/System/System.h"
 #include "Common/System/Request.h"
@@ -441,7 +441,7 @@ void OSXOpenURL(const char *url) {
         Core_Resume();
         item.title = DESKTOPUI_LOCALIZED("Break");
     } else {
-        Core_Break("ui.break", 0);
+        Core_Break(BreakReason::DebugBreak, 0);
         item.title = DEVELOPERUI_LOCALIZED("Resume");
     }
 }
@@ -644,8 +644,7 @@ TOGGLE_METHOD(FullScreen, g_Config.bFullScreen, System_MakeRequest(SystemRequest
 }
 
 -(void)openSystemFileBrowser {
-    int g = 0;
-    DarwinDirectoryPanelCallback panelCallback = [g] (bool succ, Path thePathChosen) {
+    DarwinDirectoryPanelCallback panelCallback = [] (bool succ, Path thePathChosen) {
         if (succ)
             System_PostUIMessage(UIMessage::REQUEST_GAME_BOOT, thePathChosen.c_str());
     };

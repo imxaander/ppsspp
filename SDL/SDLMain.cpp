@@ -1,7 +1,3 @@
-// SDL/EGL implementation of the framework.
-// This is quite messy due to platform-specific implementations and #ifdef's.
-// If your platform is not supported, it is suggested to use Qt instead.
-
 #include <cstdlib>
 #include <unistd.h>
 #include <pwd.h>
@@ -40,6 +36,7 @@ SDLJoystick *joystick = NULL;
 #include "Common/Math/math_util.h"
 #include "Common/GPU/OpenGL/GLRenderManager.h"
 #include "Common/Profiler/Profiler.h"
+#include "Common/Log/LogManager.h"
 
 #if defined(VK_USE_PLATFORM_XLIB_KHR)
 #include <X11/Xlib.h>
@@ -188,8 +185,8 @@ static void StopSDLAudioDevice() {
 }
 
 static void UpdateScreenDPI(SDL_Window *window) {
-	int drawable_width, window_width;
-	SDL_GetWindowSize(window, &window_width, NULL);
+	int drawable_width, window_width, window_height;
+	SDL_GetWindowSize(window, &window_width, &window_height);
 
 	if (g_Config.iGPUBackend == (int)GPUBackend::OPENGL)
 		SDL_GL_GetDrawableSize(window, &drawable_width, NULL);
@@ -203,13 +200,6 @@ static void UpdateScreenDPI(SDL_Window *window) {
 	// Round up a little otherwise there would be a gap sometimes
 	// in fractional scaling
 	g_DesktopDPI = ((float) drawable_width + 1.0f) / window_width;
-
-	// Temporary hack
-#if PPSSPP_PLATFORM(MAC) || PPSSPP_PLATFORM(IOS)
-	if (g_Config.iGPUBackend == (int)GPUBackend::VULKAN) {
-		g_DesktopDPI = 1.0f;
-	}
-#endif
 }
 
 // Simple implementations of System functions
@@ -516,6 +506,12 @@ std::vector<std::string> System_GetPropertyStringVec(SystemProperty prop) {
 	}
 }
 
+#if PPSSPP_PLATFORM(MAC)
+extern "C" {
+int Apple_GetCurrentBatteryCapacity();
+}
+#endif
+
 int64_t System_GetPropertyInt(SystemProperty prop) {
 	switch (prop) {
 	case SYSPROP_AUDIO_SAMPLE_RATE:
@@ -546,6 +542,18 @@ int64_t System_GetPropertyInt(SystemProperty prop) {
 		return g_DesktopWidth;
 	case SYSPROP_DISPLAY_YRES:
 		return g_DesktopHeight;
+	case SYSPROP_BATTERY_PERCENTAGE:
+#if PPSSPP_PLATFORM(MAC)
+	// Let's keep using the old code on Mac for safety. Evaluate later if to be deleted.
+		return Apple_GetCurrentBatteryCapacity();
+#else
+		{
+			int seconds = 0;
+			int percentage = 0;
+			SDL_GetPowerInfo(&seconds, &percentage);
+			return percentage;
+		}
+#endif
 	default:
 		return -1;
 	}
@@ -615,7 +623,9 @@ bool System_GetPropertyBool(SystemProperty prop) {
 #else
 		return false;
 #endif
-	default:
+	case SYSPROP_CAN_READ_BATTERY_PERCENTAGE:
+		return true;
+default:
 		return false;
 	}
 }
@@ -699,7 +709,7 @@ static void EmuThreadFunc(GraphicsContext *graphicsContext) {
 	NativeInitGraphics(graphicsContext);
 
 	while (emuThreadState != (int)EmuThreadState::QUIT_REQUESTED) {
-		UpdateRunLoop(graphicsContext);
+		NativeFrame(graphicsContext);
 	}
 	emuThreadState = (int)EmuThreadState::STOPPED;
 	graphicsContext->StopThread();
@@ -741,10 +751,10 @@ static void ProcessSDLEvent(SDL_Window *window, const SDL_Event &event, InputSta
 	// We have to juggle around 3 kinds of "DPI spaces" if a logical DPI is
 	// provided (through --dpi, it is equal to system DPI if unspecified):
 	// - SDL gives us motion events in "system DPI" points
-	// - UpdateScreenScale expects pixels, so in a way "96 DPI" points
+	// - Native_UpdateScreenScale expects pixels, so in a way "96 DPI" points
 	// - The UI code expects motion events in "logical DPI" points
-	float mx = event.motion.x * g_DesktopDPI * g_display.dpi_scale_x;
-	float my = event.motion.y * g_DesktopDPI * g_display.dpi_scale_x;
+	float mx = event.motion.x * g_DesktopDPI * g_display.dpi_scale;
+	float my = event.motion.y * g_DesktopDPI * g_display.dpi_scale;
 
 	switch (event.type) {
 	case SDL_QUIT:
@@ -760,17 +770,17 @@ static void ProcessSDLEvent(SDL_Window *window, const SDL_Event &event, InputSta
 			int new_height = event.window.data2;
 
 			// The size given by SDL is in point-units, convert these to
-			// pixels before passing to UpdateScreenScale()
+			// pixels before passing to Native_UpdateScreenScale()
 			int new_width_px = new_width * g_DesktopDPI;
 			int new_height_px = new_height * g_DesktopDPI;
 
-			Core_NotifyWindowHidden(false);
+			Native_NotifyWindowHidden(false);
 
 			Uint32 window_flags = SDL_GetWindowFlags(window);
 			bool fullscreen = (window_flags & SDL_WINDOW_FULLSCREEN);
 
 			// This one calls NativeResized if the size changed.
-			UpdateScreenScale(new_width_px, new_height_px);
+			Native_UpdateScreenScale(new_width_px, new_height_px, UIScaleFactorToMultiplier(g_Config.iUIScaleFactor));
 
 			// Set variable here in case fullscreen was toggled by hotkey
 			if (g_Config.UseFullScreen() != fullscreen) {
@@ -808,11 +818,11 @@ static void ProcessSDLEvent(SDL_Window *window, const SDL_Event &event, InputSta
 
 		case SDL_WINDOWEVENT_MINIMIZED:
 		case SDL_WINDOWEVENT_HIDDEN:
-			Core_NotifyWindowHidden(true);
+			Native_NotifyWindowHidden(true);
 			break;
 		case SDL_WINDOWEVENT_EXPOSED:
 		case SDL_WINDOWEVENT_SHOWN:
-			Core_NotifyWindowHidden(false);
+			Native_NotifyWindowHidden(false);
 			break;
 		default:
 			break;
@@ -897,8 +907,8 @@ static void ProcessSDLEvent(SDL_Window *window, const SDL_Event &event, InputSta
 			SDL_GetWindowSize(window, &w, &h);
 			TouchInput input;
 			input.id = event.tfinger.fingerId;
-			input.x = event.tfinger.x * w * g_DesktopDPI * g_display.dpi_scale_x;
-			input.y = event.tfinger.y * h * g_DesktopDPI * g_display.dpi_scale_x;
+			input.x = event.tfinger.x * w * g_DesktopDPI * g_display.dpi_scale;
+			input.y = event.tfinger.y * h * g_DesktopDPI * g_display.dpi_scale;
 			input.flags = TOUCH_MOVE;
 			input.timestamp = event.tfinger.timestamp;
 			NativeTouch(input);
@@ -910,8 +920,8 @@ static void ProcessSDLEvent(SDL_Window *window, const SDL_Event &event, InputSta
 			SDL_GetWindowSize(window, &w, &h);
 			TouchInput input;
 			input.id = event.tfinger.fingerId;
-			input.x = event.tfinger.x * w * g_DesktopDPI * g_display.dpi_scale_x;
-			input.y = event.tfinger.y * h * g_DesktopDPI * g_display.dpi_scale_x;
+			input.x = event.tfinger.x * w * g_DesktopDPI * g_display.dpi_scale;
+			input.y = event.tfinger.y * h * g_DesktopDPI * g_display.dpi_scale;
 			input.flags = TOUCH_DOWN;
 			input.timestamp = event.tfinger.timestamp;
 			NativeTouch(input);
@@ -929,8 +939,8 @@ static void ProcessSDLEvent(SDL_Window *window, const SDL_Event &event, InputSta
 			SDL_GetWindowSize(window, &w, &h);
 			TouchInput input;
 			input.id = event.tfinger.fingerId;
-			input.x = event.tfinger.x * w * g_DesktopDPI * g_display.dpi_scale_x;
-			input.y = event.tfinger.y * h * g_DesktopDPI * g_display.dpi_scale_x;
+			input.x = event.tfinger.x * w * g_DesktopDPI * g_display.dpi_scale;
+			input.y = event.tfinger.y * h * g_DesktopDPI * g_display.dpi_scale;
 			input.flags = TOUCH_UP;
 			input.timestamp = event.tfinger.timestamp;
 			NativeTouch(input);
@@ -1153,6 +1163,8 @@ int main(int argc, char *argv[]) {
 	}
 
 	TimeInit();
+
+	g_logManager.EnableOutput(LogOutput::Stdio);
 
 #ifdef HAVE_LIBNX
 	socketInitializeDefault();
@@ -1420,17 +1432,12 @@ int main(int argc, char *argv[]) {
 		}
 #endif
 	}
-#if PPSSPP_PLATFORM(MAC) || PPSSPP_PLATFORM(IOS)
-	if (g_Config.iGPUBackend == (int)GPUBackend::VULKAN) {
-		g_ForcedDPI = 1.0f;
-	}
-#endif
 
 	UpdateScreenDPI(window);
 
 	float dpi_scale = 1.0f / (g_ForcedDPI == 0.0f ? g_DesktopDPI : g_ForcedDPI);
 
-	UpdateScreenScale(w * g_DesktopDPI, h * g_DesktopDPI);
+	Native_UpdateScreenScale(w * g_DesktopDPI, h * g_DesktopDPI, UIScaleFactorToMultiplier(g_Config.iUIScaleFactor));
 
 	bool mainThreadIsRender = g_Config.iGPUBackend == (int)GPUBackend::OPENGL;
 
@@ -1496,6 +1503,15 @@ int main(int argc, char *argv[]) {
 
 	bool waitOnExit = g_Config.iGPUBackend == (int)GPUBackend::OPENGL;
 
+	// Check if the path to a directory containing an unpacked ISO is passed as a command line argument
+	for (int i = 1; i < argc; i++) {
+		if (File::IsDirectory(Path(argv[i]))) {
+			// Display the toast warning
+			System_Toast("Warning: Playing unpacked games may cause issues.");
+			break;
+		}
+	}
+
 	if (!mainThreadIsRender) {
 		// Vulkan mode uses this.
 		// We should only be a message pump. This allows for lower latency
@@ -1530,7 +1546,7 @@ int main(int argc, char *argv[]) {
 		if (g_QuitRequested || g_RestartRequested)
 			break;
 		if (emuThreadState == (int)EmuThreadState::DISABLED) {
-			UpdateRunLoop(graphicsContext);
+			NativeFrame(graphicsContext);
 		}
 		if (g_QuitRequested || g_RestartRequested)
 			break;
@@ -1540,7 +1556,7 @@ int main(int argc, char *argv[]) {
 
 		inputTracker.MouseCaptureControl();
 
-		bool renderThreadPaused = Core_IsWindowHidden() && g_Config.bPauseWhenMinimized && emuThreadState != (int)EmuThreadState::DISABLED;
+		bool renderThreadPaused = Native_IsWindowHidden() && g_Config.bPauseWhenMinimized && emuThreadState != (int)EmuThreadState::DISABLED;
 		if (emuThreadState != (int)EmuThreadState::DISABLED && !renderThreadPaused) {
 			if (!graphicsContext->ThreadFrame())
 				break;

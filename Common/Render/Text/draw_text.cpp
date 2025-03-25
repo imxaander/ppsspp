@@ -38,7 +38,7 @@ void TextDrawer::SetFontScale(float xscale, float yscale) {
 float TextDrawer::CalculateDPIScale() const {
 	if (ignoreGlobalDpi_)
 		return dpiScale_;
-	float scale = g_display.dpi_scale_y;
+	float scale = g_display.dpi_scale;
 	if (scale >= 1.0f) {
 		scale = 1.0f;
 	}
@@ -167,6 +167,9 @@ void TextDrawer::MeasureStringRect(std::string_view str, const Bounds &bounds, f
 }
 
 void TextDrawer::DrawStringRect(DrawBuffer &target, std::string_view str, const Bounds &bounds, uint32_t color, int align) {
+	if (bounds.w < 0.0f || bounds.h < 0.0f) {
+		return;
+	}
 	float x = bounds.x;
 	float y = bounds.y;
 	if (align & ALIGN_HCENTER) {
@@ -225,7 +228,7 @@ void TextDrawer::OncePerFrame() {
 			if (frameCount_ - iter->second->lastUsedFrame > 100) {
 				if (iter->second->texture)
 					iter->second->texture->Release();
-				cache_.erase(iter++);
+				iter = cache_.erase(iter);
 			} else {
 				iter++;
 			}
@@ -233,7 +236,7 @@ void TextDrawer::OncePerFrame() {
 
 		for (auto iter = sizeCache_.begin(); iter != sizeCache_.end(); ) {
 			if (frameCount_ - iter->second->lastUsedFrame > 100) {
-				sizeCache_.erase(iter++);
+				iter = sizeCache_.erase(iter);
 			} else {
 				iter++;
 			}

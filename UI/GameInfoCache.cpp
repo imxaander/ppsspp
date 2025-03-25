@@ -1,3 +1,4 @@
+
 // Copyright (c) 2013- PPSSPP Project.
 
 // This program is free software: you can redistribute it and/or modify
@@ -25,6 +26,7 @@
 #include "Common/GPU/thin3d.h"
 #include "Common/Thread/ThreadManager.h"
 #include "Common/File/VFS/VFS.h"
+#include "Common/File/VFS/ZipFileReader.h"
 #include "Common/File/FileUtil.h"
 #include "Common/File/Path.h"
 #include "Common/Render/ManagedTexture.h"
@@ -201,17 +203,18 @@ std::vector<Path> GameInfo::GetSaveDataDirectories() {
 	_dbg_assert_(hasFlags & GameInfoFlags::PARAM_SFO);  // so we know we have the ID.
 	Path memc = GetSysDirectory(DIRECTORY_SAVEDATA);
 
-	std::vector<File::FileInfo> dirs;
-	File::GetFilesInDir(memc, &dirs);
-
 	std::vector<Path> directories;
 	if (id.size() < 5) {
+		// Invalid game ID.
 		return directories;
 	}
+
+	std::vector<File::FileInfo> dirs;
+	const std::string &prefix = id;
+	File::GetFilesInDir(memc, &dirs, nullptr, 0, prefix);
+
 	for (size_t i = 0; i < dirs.size(); i++) {
-		if (startsWith(dirs[i].name, id)) {
-			directories.push_back(dirs[i].fullName);
-		}
+		directories.push_back(dirs[i].fullName);
 	}
 
 	return directories;
@@ -302,14 +305,8 @@ void GameInfo::DisposeFileLoader() {
 bool GameInfo::DeleteAllSaveData() {
 	std::vector<Path> saveDataDir = GetSaveDataDirectories();
 	for (size_t j = 0; j < saveDataDir.size(); j++) {
-		std::vector<File::FileInfo> fileInfo;
-		File::GetFilesInDir(saveDataDir[j], &fileInfo);
-
-		for (size_t i = 0; i < fileInfo.size(); i++) {
-			File::Delete(fileInfo[i].fullName);
-		}
-
-		File::DeleteDir(saveDataDir[j]);
+		INFO_LOG(Log::System, "Deleting savedata from %s", saveDataDir[j].c_str());
+		File::DeleteDirRecursively(saveDataDir[j]);
 	}
 	return true;
 }
@@ -444,18 +441,35 @@ static bool ReadLocalFileToString(const Path &path, std::string *contents, std::
 static bool ReadVFSToString(const char *filename, std::string *contents, std::mutex *mtx) {
 	size_t sz;
 	uint8_t *data = g_VFS.ReadFile(filename, &sz);
-	if (data) {
-		if (mtx) {
-			std::lock_guard<std::mutex> lock(*mtx);
-			*contents = std::string((const char *)data, sz);
-		} else {
-			*contents = std::string((const char *)data, sz);
-		}
-	} else {
+	if (!data) {
 		return false;
+	}
+	if (mtx) {
+		std::lock_guard<std::mutex> lock(*mtx);
+		*contents = std::string((const char *)data, sz);
+	} else {
+		*contents = std::string((const char *)data, sz);
 	}
 	delete [] data;
 	return true;
+}
+
+static bool LoadReplacementImage(GameInfo *info, GameInfoTex *tex, const char *filename) {
+	if (!g_Config.bReplaceTextures) {
+		return false;
+	}
+
+	const Path customIconFilename = GetSysDirectory(DIRECTORY_TEXTURES) / info->id / filename;
+	const Path zipFilename = GetSysDirectory(DIRECTORY_TEXTURES) / info->id / "textures.zip";
+	if (ReadLocalFileToString(customIconFilename, &tex->data, &info->lock)) {
+		tex->dataLoaded = true;
+		return true;
+	} else if (ReadSingleFileFromZip(zipFilename, filename, &tex->data, &info->lock)) {
+		tex->dataLoaded = true;
+		return true;
+	} else {
+		return false;
+	}
 }
 
 class GameInfoWorkItem : public Task {
@@ -498,10 +512,6 @@ public:
 
 		if (flags_ & GameInfoFlags::FILE_TYPE) {
 			info_->fileType = Identify_File(info_->GetFileLoader().get(), &errorString);
-		}
-
-		if (!info_->Ready(GameInfoFlags::FILE_TYPE) && !(flags_ & GameInfoFlags::FILE_TYPE)) {
-			_dbg_assert_(false);
 		}
 
 		switch (info_->fileType) {
@@ -551,20 +561,23 @@ public:
 
 				// Then, ICON0.PNG.
 				if (flags_ & GameInfoFlags::ICON) {
-					if (pbp.GetSubFileSize(PBP_ICON0_PNG) > 0) {
+					if (LoadReplacementImage(info_.get(), &info_->icon, "icon.png")) {
+						// Nothing more to do
+					} else if (pbp.GetSubFileSize(PBP_ICON0_PNG) > 0) {
 						std::lock_guard<std::mutex> lock(info_->lock);
 						pbp.GetSubFileAsString(PBP_ICON0_PNG, &info_->icon.data);
 					} else {
 						Path screenshot_jpg = GetSysDirectory(DIRECTORY_SCREENSHOT) / (info_->id + "_00000.jpg");
 						Path screenshot_png = GetSysDirectory(DIRECTORY_SCREENSHOT) / (info_->id + "_00000.png");
 						// Try using png/jpg screenshots first
-						if (File::Exists(screenshot_png))
+						if (File::Exists(screenshot_png)) {
 							ReadLocalFileToString(screenshot_png, &info_->icon.data, &info_->lock);
-						else if (File::Exists(screenshot_jpg))
+						} else if (File::Exists(screenshot_jpg)) {
 							ReadLocalFileToString(screenshot_jpg, &info_->icon.data, &info_->lock);
-						else
+						} else {
 							// Read standard icon
 							ReadVFSToString("unknown.png", &info_->icon.data, &info_->lock);
+						}
 					}
 					info_->icon.dataLoaded = true;
 				}
@@ -664,8 +677,6 @@ handleELF:
 				Path screenshotPath = gamePath_.WithReplacedExtension(".ppst", ".jpg");
 				if (ReadLocalFileToString(screenshotPath, &info_->icon.data, &info_->lock)) {
 					info_->icon.dataLoaded = true;
-				} else {
-					ERROR_LOG(Log::G3D, "Error loading screenshot data: '%s'", screenshotPath.c_str());
 				}
 			}
 			break;
@@ -764,8 +775,13 @@ handleELF:
 				}
 
 				// Fall back to unknown icon if ISO is broken/is a homebrew ISO, override is allowed though
+				// First, do try to get an icon from the replacement texture pack, if available.
 				if (flags_ & GameInfoFlags::ICON) {
-					if (!ReadFileToString(&umd, "/PSP_GAME/ICON0.PNG", &info_->icon.data, &info_->lock)) {
+					if (LoadReplacementImage(info_.get(), &info_->icon, "icon.png")) {
+						// Nothing more to do
+					} else if (ReadFileToString(&umd, "/PSP_GAME/ICON0.PNG", &info_->icon.data, &info_->lock)) {
+						info_->icon.dataLoaded = true;
+					} else {
 						Path screenshot_jpg = GetSysDirectory(DIRECTORY_SCREENSHOT) / (info_->id + "_00000.jpg");
 						Path screenshot_png = GetSysDirectory(DIRECTORY_SCREENSHOT) / (info_->id + "_00000.png");
 						// Try using png/jpg screenshots first
@@ -777,8 +793,6 @@ handleELF:
 							DEBUG_LOG(Log::Loader, "Loading unknown.png because no icon was found");
 							info_->icon.dataLoaded = ReadVFSToString("unknown.png", &info_->icon.data, &info_->lock);
 						}
-					} else {
-						info_->icon.dataLoaded = true;
 					}
 				}
 				break;
@@ -935,7 +949,7 @@ void GameInfoCache::PurgeType(IdentifiedFileType fileType) {
 			}
 		}
 
-		sleep_ms(10);
+		sleep_ms(10, "game-info-cache-purge-poll");
 	} while (retry);
 }
 

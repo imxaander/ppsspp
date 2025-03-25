@@ -97,10 +97,6 @@ void GameScreen::update() {
 void GameScreen::CreateViews() {
 	std::shared_ptr<GameInfo> info = g_gameInfoCache->GetInfo(NULL, gamePath_, GameInfoFlags::PARAM_SFO | GameInfoFlags::ICON | GameInfoFlags::BG);
 
-	if (info->Ready(GameInfoFlags::PARAM_SFO)) {
-		saveDirs = info->GetSaveDataDirectories(); // Get's very heavy, let's not do it in update()
-	}
-
 	auto di = GetI18NCategory(I18NCat::DIALOG);
 	auto ga = GetI18NCategory(I18NCat::GAME);
 
@@ -278,9 +274,13 @@ void GameScreen::CreateViews() {
 		}
 	}
 
-#if (defined(USING_QT_UI) || PPSSPP_PLATFORM(WINDOWS) || PPSSPP_PLATFORM(MAC)) && !PPSSPP_PLATFORM(UWP)
-	rightColumnItems->Add(AddOtherChoice(new Choice(ga->T("Show In Folder"))))->OnClick.Handle(this, &GameScreen::OnShowInFolder);
-#endif
+	if (System_GetPropertyBool(SYSPROP_CAN_SHOW_FILE)) {
+		rightColumnItems->Add(AddOtherChoice(new Choice(di->T("Show in folder"))))->OnClick.Add([this](UI::EventParams &e) {
+			System_ShowFileInFolder(gamePath_);
+			return UI::EVENT_DONE;
+		});
+	}
+
 	if (g_Config.bEnableCheats) {
 		auto pa = GetI18NCategory(I18NCat::PAUSE);
 		rightColumnItems->Add(AddOtherChoice(new Choice(pa->T("Cheats"))))->OnClick.Handle(this, &GameScreen::OnCwCheat);
@@ -334,9 +334,8 @@ void GameScreen::CallbackDeleteConfig(bool yes) {
 UI::EventReturn GameScreen::OnDeleteConfig(UI::EventParams &e)
 {
 	auto di = GetI18NCategory(I18NCat::DIALOG);
-	auto ga = GetI18NCategory(I18NCat::GAME);
 	screenManager()->push(
-		new PromptScreen(gamePath_, di->T("DeleteConfirmGameConfig", "Do you really want to delete the settings for this game?"), ga->T("ConfirmDelete"), di->T("Cancel"),
+		new PromptScreen(gamePath_, di->T("DeleteConfirmGameConfig", "Do you really want to delete the settings for this game?"), di->T("Delete"), di->T("Cancel"),
 		std::bind(&GameScreen::CallbackDeleteConfig, this, std::placeholders::_1)));
 
 	return UI::EVENT_DONE;
@@ -478,7 +477,7 @@ ScreenRenderFlags GameScreen::render(ScreenRenderMode mode) {
 		btnDeleteGameConfig_->SetVisibility(info->hasConfig ? UI::V_VISIBLE : UI::V_GONE);
 		btnCreateGameConfig_->SetVisibility(info->hasConfig ? UI::V_GONE : UI::V_VISIBLE);
 
-		if (saveDirs.size()) {
+		if (info->saveDataSize) {
 			btnDeleteSaveData_->SetVisibility(UI::V_VISIBLE);
 		}
 		if (info->pic0.texture || info->pic1.texture) {
@@ -493,11 +492,6 @@ ScreenRenderFlags GameScreen::render(ScreenRenderMode mode) {
 		}
 	}
 	return flags;
-}
-
-UI::EventReturn GameScreen::OnShowInFolder(UI::EventParams &e) {
-	System_ShowFileInFolder(gamePath_);
-	return UI::EVENT_DONE;
 }
 
 UI::EventReturn GameScreen::OnCwCheat(UI::EventParams &e) {
@@ -537,14 +531,13 @@ UI::EventReturn GameScreen::OnGameSettings(UI::EventParams &e) {
 }
 
 UI::EventReturn GameScreen::OnDeleteSaveData(UI::EventParams &e) {
-	std::shared_ptr<GameInfo> info = g_gameInfoCache->GetInfo(NULL, gamePath_, GameInfoFlags::PARAM_SFO);
+	std::shared_ptr<GameInfo> info = g_gameInfoCache->GetInfo(NULL, gamePath_, GameInfoFlags::PARAM_SFO | GameInfoFlags::SIZE);
 	if (info) {
 		// Check that there's any savedata to delete
-		if (saveDirs.size()) {
+		if (info->saveDataSize) {
 			auto di = GetI18NCategory(I18NCat::DIALOG);
-			auto ga = GetI18NCategory(I18NCat::GAME);
 			screenManager()->push(
-				new PromptScreen(gamePath_, di->T("DeleteConfirmAll", "Do you really want to delete all\nyour save data for this game?"), ga->T("ConfirmDelete"), di->T("Cancel"),
+				new PromptScreen(gamePath_, di->T("DeleteConfirmAll", "Do you really want to delete all\nyour save data for this game?"), di->T("Delete"), di->T("Cancel"),
 				std::bind(&GameScreen::CallbackDeleteSaveData, this, std::placeholders::_1)));
 		}
 	}
@@ -565,12 +558,11 @@ UI::EventReturn GameScreen::OnDeleteGame(UI::EventParams &e) {
 	std::shared_ptr<GameInfo> info = g_gameInfoCache->GetInfo(NULL, gamePath_, GameInfoFlags::PARAM_SFO);
 	if (info->Ready(GameInfoFlags::PARAM_SFO)) {
 		auto di = GetI18NCategory(I18NCat::DIALOG);
-		auto ga = GetI18NCategory(I18NCat::GAME);
 		std::string prompt;
 		prompt = di->T("DeleteConfirmGame", "Do you really want to delete this game\nfrom your device? You can't undo this.");
 		prompt += "\n\n" + gamePath_.ToVisualString(g_Config.memStickDirectory.c_str());
 		screenManager()->push(
-			new PromptScreen(gamePath_, prompt, ga->T("ConfirmDelete"), di->T("Cancel"),
+			new PromptScreen(gamePath_, prompt, di->T("Delete"), di->T("Cancel"),
 			std::bind(&GameScreen::CallbackDeleteGame, this, std::placeholders::_1)));
 	}
 	return UI::EVENT_DONE;

@@ -16,7 +16,6 @@
 // https://github.com/hrydgard/ppsspp and http://www.ppsspp.org/.
 
 #include "ppsspp_config.h"
-#include <algorithm>
 #include <cmath>
 
 #include "Common/Common.h"
@@ -37,8 +36,10 @@
 #include "GPU/Software/SoftGpu.h"
 #include "GPU/Software/TransformUnit.h"
 
-#if defined(_M_SSE)
-#include <emmintrin.h>
+#include "Common/Math/SIMDHeaders.h"
+
+// For the SSE4 stuff
+#if PPSSPP_ARCH(SSE2)
 #include <smmintrin.h>
 #endif
 
@@ -1693,7 +1694,7 @@ void DrawLine(const VertexData &v0, const VertexData &v1, const BinCoords &range
 	auto &pixelID = state.pixelID;
 	auto &samplerID = state.samplerID;
 
-	const bool interpolateColor = !state.shadeGouraud || (v0.color0 == v1.color0 && v0.color1 == v1.color1);
+	const bool interpolateColor = state.shadeGouraud && !(v0.color0 == v1.color0 && v0.color1 == v1.color1);
 	const Vec4<int> v0_c0 = Vec4<int>::FromRGBA(v0.color0);
 	const Vec4<int> v1_c0 = Vec4<int>::FromRGBA(v1.color0);
 	const Vec3<int> v0_c1 = Vec3<int>::FromRGB(v0.color1);

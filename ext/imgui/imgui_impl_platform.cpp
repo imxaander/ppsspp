@@ -1,11 +1,16 @@
 #include "ext/imgui/imgui.h"
+#include "Common/File/Path.h"
 #include "Common/Input/KeyCodes.h"
 #include "Common/Data/Encoding/Utf8.h"
 #include "Common/System/Display.h"
 #include "Common/TimeUtil.h"
+#include "Common/StringUtils.h"
 #include "Common/Log.h"
 
 #include "imgui_impl_platform.h"
+
+static ImGuiMouseCursor g_cursor = ImGuiMouseCursor_Arrow;
+Bounds g_imguiCentralNodeBounds;
 
 void ImGui_ImplPlatform_KeyEvent(const KeyInput &key) {
 	ImGuiIO &io = ImGui::GetIO();
@@ -51,26 +56,41 @@ void ImGui_ImplPlatform_TouchEvent(const TouchInput &touch) {
 	ImGuiIO& io = ImGui::GetIO();
 
 	// We use real pixels in the imgui, no DPI adjustment yet.
-	float x = touch.x / g_display.dpi_scale_x;
-	float y = touch.y / g_display.dpi_scale_y;
+	float x = touch.x / g_display.dpi_scale;
+	float y = touch.y / g_display.dpi_scale;
 
 	if (touch.flags & TOUCH_MOVE) {
 		io.AddMousePosEvent(x, y);
 	}
 	if (touch.flags & TOUCH_DOWN) {
 		io.AddMousePosEvent(x, y);
-		if (touch.buttons & 1)
+		if (touch.flags & TOUCH_MOUSE) {
+			if (touch.buttons & 1)
+				io.AddMouseButtonEvent(0, true);
+			if (touch.buttons & 2)
+				io.AddMouseButtonEvent(1, true);
+		} else {
 			io.AddMouseButtonEvent(0, true);
-		if (touch.buttons & 2)
-			io.AddMouseButtonEvent(1, true);
+		}
 	}
 	if (touch.flags & TOUCH_UP) {
 		io.AddMousePosEvent(x, y);
-		if (touch.buttons & 1)
+		if (touch.flags & TOUCH_MOUSE) {
+			if (touch.buttons & 1)
+				io.AddMouseButtonEvent(0, false);
+			if (touch.buttons & 2)
+				io.AddMouseButtonEvent(1, false);
+		} else {
 			io.AddMouseButtonEvent(0, false);
-		if (touch.buttons & 2)
-			io.AddMouseButtonEvent(1, false);
+		}
 	}
+}
+
+void ImGui_ImplPlatform_Init(const Path &configPath) {
+	static char path[1024];
+	truncate_cpy(path, configPath.ToString());
+	ImGui::GetIO().IniFilename = path;
+	ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
 
 void ImGui_ImplPlatform_AxisEvent(const AxisInput &axis) {
@@ -85,12 +105,17 @@ void ImGui_ImplPlatform_NewFrame() {
 
 	double now = time_now_d();
 
+	g_cursor = ImGui::GetMouseCursor();
 	ImGuiIO &io = ImGui::GetIO();
 	io.DisplaySize = ImVec2(g_display.pixel_xres, g_display.pixel_yres);
 	io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
 	io.DeltaTime = now - lastTime;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 	lastTime = now;
+}
+
+ImGuiMouseCursor ImGui_ImplPlatform_GetCursor() {
+	return g_cursor;
 }
 
 // Written by chatgpt
@@ -218,6 +243,8 @@ ImGuiKey KeyCodeToImGui(InputKeyCode keyCode) {
 	case NKCODE_EXT_MOUSEWHEEL_UP:
 		// Keys ignored for imgui
 	 	return ImGuiKey_None;
+	case NKCODE_EXT_PRINTSCREEN:
+		return ImGuiKey_PrintScreen;
 
 	default:
 		WARN_LOG(Log::System, "Unmapped ImGui keycode conversion from %d", keyCode);

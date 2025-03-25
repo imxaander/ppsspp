@@ -18,7 +18,6 @@
 #include <thread>
 
 #include "Core/Core.h"
-#include "Common/Data/Encoding/Utf8.h"
 #include "Common/Thread/ThreadUtil.h"
 #include "Common/System/Request.h"
 
@@ -29,8 +28,8 @@
 #include "Common/CommonWindows.h"
 #endif
 
-#include "Core/ELF/ElfReader.h"
 #include "Core/ELF/ParamSFO.h"
+#include "Core/ELF/PBPReader.h"
 
 #include "Core/FileSystems/BlockDevices.h"
 #include "Core/FileSystems/BlobFileSystem.h"
@@ -43,19 +42,12 @@
 #include "Core/MemMap.h"
 #include "Core/HDRemaster.h"
 
-#include "Core/MIPS/MIPS.h"
-#include "Core/MIPS/MIPSAnalyst.h"
-#include "Core/MIPS/MIPSCodeUtils.h"
 
 #include "Core/Config.h"
 #include "Core/ConfigValues.h"
 #include "Core/System.h"
 #include "Core/PSPLoaders.h"
-#include "Core/HLE/HLE.h"
-#include "Core/HLE/sceKernel.h"
-#include "Core/HLE/sceKernelThread.h"
 #include "Core/HLE/sceKernelModule.h"
-#include "Core/HLE/sceKernelMemory.h"
 
 static std::thread g_loadingThread;
 
@@ -321,14 +313,15 @@ bool Load_PSP_ISO(FileLoader *fileLoader, std::string *error_string) {
 
 		AndroidJNIThreadContext jniContext;
 
-		PSP_SetLoading("Loading executable...");
+		INFO_LOG(Log::System, "Loading executable...");
 		// TODO: We can't use the initial error_string pointer.
 		bool success = __KernelLoadExec(bootpath.c_str(), 0, &PSP_CoreParameter().errorString);
 		if (success && coreState == CORE_POWERUP) {
 			if (PSP_CoreParameter().startBreak) {
-				Core_Break("start-break");
+				coreState = CORE_STEPPING_CPU;
+				System_Notify(SystemNotification::DEBUG_MODE_CHANGE);
 			} else {
-				coreState = CORE_RUNNING;
+				coreState = CORE_RUNNING_CPU;
 			}
 		} else {
 			coreState = CORE_BOOT_ERROR;
@@ -441,13 +434,11 @@ bool Load_PSP_ELF_PBP(FileLoader *fileLoader, std::string *error_string) {
 
 	std::string homebrewName = PSP_CoreParameter().fileToStart.ToVisualString();
 	std::size_t lslash = homebrewName.find_last_of('/');
-#if PPSSPP_PLATFORM(UWP)
-	if (lslash == homebrewName.npos) {
-		lslash = homebrewName.find_last_of("\\");
-	}
-#endif
+	std::size_t rslash = homebrewName.find_last_of('\\');
 	if (lslash != homebrewName.npos)
 		homebrewName = homebrewName.substr(lslash + 1);
+	if (rslash != homebrewName.npos)
+		homebrewName = homebrewName.substr(rslash + 1);
 	std::string homebrewTitle = g_paramSFO.GetValueString("TITLE");
 	if (homebrewTitle.empty())
 		homebrewTitle = homebrewName;
@@ -489,9 +480,10 @@ bool Load_PSP_ELF_PBP(FileLoader *fileLoader, std::string *error_string) {
 		bool success = __KernelLoadExec(finalName.c_str(), 0, &PSP_CoreParameter().errorString);
 		if (success && coreState == CORE_POWERUP) {
 			if (PSP_CoreParameter().startBreak) {
-				Core_Break("start-break");
+				coreState = CORE_STEPPING_CPU;
+				System_Notify(SystemNotification::DEBUG_MODE_CHANGE);
 			} else {
-				coreState = CORE_RUNNING;
+				coreState = CORE_RUNNING_CPU;
 			}
 		} else {
 			coreState = CORE_BOOT_ERROR;
@@ -519,9 +511,10 @@ bool Load_PSP_GE_Dump(FileLoader *fileLoader, std::string *error_string) {
 		bool success = __KernelLoadGEDump("disc0:/data.ppdmp", &PSP_CoreParameter().errorString);
 		if (success && coreState == CORE_POWERUP) {
 			if (PSP_CoreParameter().startBreak) {
-				Core_Break("start-break");
+				coreState = CORE_STEPPING_CPU;
+				System_Notify(SystemNotification::DEBUG_MODE_CHANGE);
 			} else {
-				coreState = CORE_RUNNING;
+				coreState = CORE_RUNNING_CPU;
 			}
 		} else {
 			coreState = CORE_BOOT_ERROR;

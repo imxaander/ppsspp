@@ -104,8 +104,14 @@
     <ClCompile Include="ImDebugger\ImDisasmView.cpp">
       <Filter>ImDebugger</Filter>
     </ClCompile>
-    <ClCompile Include="MemStickGitScreen.cpp">
-      <Filter>Screens</Filter>
+    <ClCompile Include="ImDebugger\ImStructViewer.cpp">
+      <Filter>ImDebugger</Filter>
+    </ClCompile>
+    <ClCompile Include="ImDebugger\ImGe.cpp">
+      <Filter>ImDebugger</Filter>
+    </ClCompile>
+    <ClCompile Include="ImDebugger\ImMemView.cpp">
+      <Filter>ImDebugger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -211,8 +217,14 @@
     <ClInclude Include="ImDebugger\ImDisasmView.h">
       <Filter>ImDebugger</Filter>
     </ClInclude>
-    <ClInclude Include="MemStickGitScreen.h">
-      <Filter>Screens</Filter>
+    <ClInclude Include="ImDebugger\ImStructViewer.h">
+      <Filter>ImDebugger</Filter>
+    </ClInclude>
+    <ClInclude Include="ImDebugger\ImGe.h">
+      <Filter>ImDebugger</Filter>
+    </ClInclude>
+    <ClInclude Include="ImDebugger\ImMemView.h">
+      <Filter>ImDebugger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

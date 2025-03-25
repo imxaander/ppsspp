@@ -20,9 +20,7 @@
 #include "ppsspp_config.h"
 
 #ifdef _WIN32
-#include <windows.h>
-#undef min
-#undef max
+#include "Common/CommonWindows.h"
 #endif
 
 #if PPSSPP_PLATFORM(SWITCH)
@@ -32,11 +30,8 @@
 
 #include <cstdarg>
 
-#include <cerrno>
-
 #include <string>
 #include <sstream>
-#include <climits>
 
 #include <algorithm>
 #include <iomanip>
@@ -102,12 +97,53 @@ bool containsNoCase(std::string_view haystack, std::string_view needle) {
 
 int countChar(std::string_view haystack, char needle) {
 	int count = 0;
-	for (int i = 0; i < haystack.size(); i++) {
+	for (int i = 0; i < (int)haystack.size(); i++) {
 		if (haystack[i] == needle) {
 			count++;
 		}
 	}
 	return count;
+}
+
+std::string SanitizeString(std::string_view input, StringRestriction restriction, int minLength, int maxLength) {
+	if (restriction == StringRestriction::None) {
+		return std::string(input);
+	}
+	// First, remove any chars not in A-Za-z0-9_-. This will effectively get rid of any Unicode char, emojis etc too.
+	std::string sanitized;
+	sanitized.reserve(input.size());
+	for (auto c : input) {
+		switch (restriction) {
+		case StringRestriction::None:
+			sanitized.push_back(c);
+			break;
+		case StringRestriction::AlphaNumDashUnderscore:
+			if ((c >= 'A' && c <= 'Z') ||
+				(c >= 'a' && c <= 'z') ||
+				(c >= '0' && c <= '9') || c == '-' || c == '_') {
+				// Allowed chars.
+				sanitized.push_back(c);
+			}
+			break;
+		}
+	}
+
+	if (minLength >= 0) {
+		if ((int)sanitized.size() < minLength) {
+			// Just reject it by returning an empty string, as we can't really
+			// conjure up new characters here.
+			return std::string();
+		}
+	}
+
+	if (maxLength >= 0) {
+		// TODO: Cut at whole UTF-8 chars!
+		if ((int)sanitized.size() > maxLength) {
+			sanitized.resize(maxLength);
+		}
+	}
+
+	return sanitized;
 }
 
 bool CharArrayFromFormatV(char* out, int outsize, const char* format, va_list args)
@@ -202,10 +238,10 @@ void SkipSpace(const char **ptr) {
 	}
 }
 
-void DataToHexString(const uint8_t *data, size_t size, std::string *output) {
+void DataToHexString(const uint8_t *data, size_t size, std::string *output, bool lineBreaks) {
 	Buffer buffer;
 	for (size_t i = 0; i < size; i++) {
-		if (i && !(i & 15))
+		if (i && !(i & 15) && lineBreaks)
 			buffer.Printf("\n");
 		buffer.Printf("%02x ", data[i]);
 	}

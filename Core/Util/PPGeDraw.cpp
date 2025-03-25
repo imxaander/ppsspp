@@ -15,7 +15,7 @@
 // Official git repository and contact information can be found at
 // https://github.com/hrydgard/ppsspp and http://www.ppsspp.org/.
 
-#include <algorithm>
+#include <algorithm>  // std::remove
 
 #include "ext/xxhash.h"
 
@@ -35,9 +35,10 @@
 #include "Core/HDRemaster.h"
 #include "GPU/ge_constants.h"
 #include "GPU/GPUState.h"
-#include "GPU/GPUInterface.h"
+#include "GPU/GPUCommon.h"
 #include "Core/FileSystems/MetaFileSystem.h"
 #include "Core/Util/PPGeDraw.h"
+#include "Core/HLE/HLE.h"
 #include "Core/HLE/sceKernel.h"
 #include "Core/HLE/sceKernelMemory.h"
 #include "Core/HLE/sceGe.h"
@@ -469,7 +470,7 @@ void PPGeEnd()
 		// We actually drew something
 		gpu->EnableInterrupts(false);
 		NotifyMemInfo(MemBlockFlags::WRITE, dlPtr, dlWritePtr - dlPtr, "PPGe ListCmds");
-		u32 list = sceGeListEnQueue(dlPtr, dlWritePtr, -1, listArgs.ptr);
+		u32 list = hleCall(sceGe_user, u32, sceGeListEnQueue, dlPtr, dlWritePtr, -1, listArgs.ptr);
 		DEBUG_LOG(Log::sceGe, "PPGe enqueued display list %i", list);
 		gpu->EnableInterrupts(true);
 	}
@@ -1342,12 +1343,17 @@ void PPGeDisableTexture()
 
 std::vector<PPGeImage *> PPGeImage::loadedTextures_;
 
+constexpr size_t MAX_VALID_IMAGE_SIZE = 16 * 1024 * 1024;
+
 PPGeImage::PPGeImage(std::string_view pspFilename)
 	: filename_(pspFilename) {
 }
 
 PPGeImage::PPGeImage(u32 pngPointer, size_t pngSize)
 	: filename_(""), png_(pngPointer), size_(pngSize) {
+	if (!Memory::IsValidRange(this->png_, (u32)this->size_)) {
+		WARN_LOG(Log::sceGe, "Created PPGeImage from invalid memory range %08x (%08x bytes). Will not be drawn.");
+	}
 }
 
 PPGeImage::~PPGeImage() {
@@ -1365,7 +1371,13 @@ bool PPGeImage::Load() {
 	unsigned char *textureData;
 	int success;
 	if (filename_.empty()) {
-		success = pngLoadPtr(Memory::GetPointerRange(png_, (u32)size_), size_, &width_, &height_, &textureData);
+		_dbg_assert_(size_ < MAX_VALID_IMAGE_SIZE);
+		const u8 *srcPtr = Memory::GetPointerRange(png_, (u32)size_);
+		if (!srcPtr) {
+			ERROR_LOG(Log::sceGe, "Trying to load PPGeImage from invalid range: %08x, %08x bytes", png_, size_);
+			return false;
+		}
+		success = pngLoadPtr(srcPtr, size_, &width_, &height_, &textureData);
 	} else {
 		std::vector<u8> pngData;
 		if (pspFileSystem.ReadEntireFile(filename_, pngData) < 0) {
@@ -1404,6 +1416,10 @@ bool PPGeImage::Load() {
 bool PPGeImage::IsValid() {
 	if (loadFailed_)
 		return false;
+
+	if (!Memory::IsValidRange(this->png_, (u32)this->size_)) {
+		return false;
+	}
 
 	if (texture_ == 0) {
 		Decimate();

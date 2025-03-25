@@ -25,10 +25,8 @@
 #include "Core/Config.h"
 #include "Core/Reporting.h"
 #include "Core/Util/AudioFormat.h"
-#include "Core/Core.h"
+#include "Core/System.h"
 #include "SasAudio.h"
-
-// #define AUDIO_TO_FILE
 
 static const u8 f[16][2] = {
 	{   0,   0 },
@@ -190,9 +188,10 @@ void VagDecoder::DoState(PointerWrap &p) {
 	Do(p, end_);
 }
 
-int SasAtrac3::setContext(u32 context) {
-	contextAddr_ = context;
-	atracID_ = AtracSasGetIDByContext(context);
+int SasAtrac3::setContext(u32 contextAddr) {
+	contextAddr_ = contextAddr;
+	// Note: This atracID_ is also stored in the loopNum member of the context.
+	atracID_ = AtracSasBindContextAndGetID(contextAddr);
 	if (!sampleQueue_)
 		sampleQueue_ = new BufferQueue();
 	sampleQueue_->clear();
@@ -205,13 +204,12 @@ void SasAtrac3::getNextSamples(s16 *outbuf, int wantedSamples) {
 		end_ = true;
 		return;
 	}
-	u32 finish = 0;
+	int finish = 0;
 	int wantedbytes = wantedSamples * sizeof(s16);
 	while (!finish && sampleQueue_->getQueueSize() < wantedbytes) {
-		u32 numSamples = 0;
-		int remains = 0;
+		int numSamples = 0;
 		static s16 buf[0x800];
-		AtracSasDecodeData(atracID_, (u8*)buf, 0, &numSamples, &finish, &remains);
+		AtracSasDecodeData(atracID_, (u8*)buf, &numSamples, &finish);
 		if (numSamples > 0)
 			sampleQueue_->push((u8*)buf, numSamples * sizeof(s16));
 		else
@@ -369,9 +367,6 @@ void ADSREnvelope::SetSimpleEnvelope(u32 ADSREnv1, u32 ADSREnv2) {
 }
 
 SasInstance::SasInstance() {
-#ifdef AUDIO_TO_FILE
-	audioDump = fopen("D:\\audio.raw", "wb");
-#endif
 	memset(&waveformEffect, 0, sizeof(waveformEffect));
 	waveformEffect.type = PSP_SAS_EFFECT_TYPE_OFF;
 	waveformEffect.isDryOn = 1;
@@ -531,10 +526,12 @@ void SasInstance::MixVoice(SasVoice &voice) {
 		if (voice.type == VOICETYPE_VAG && !voice.vagAddr)
 			break;
 		// else fallthrough! Don't change the check above.
+		[[fallthrough]];
 	case VOICETYPE_PCM:
 		if (voice.type == VOICETYPE_PCM && !voice.pcmAddr)
 			break;
 		// else fallthrough! Don't change the check above.
+		[[fallthrough]];
 	default:
 		// This feels a bit hacky.  The first 32 samples after a keyon are 0s.
 		int delay = 0;
@@ -660,10 +657,6 @@ void SasInstance::Mix(u32 outAddr, u32 inAddr, int leftVol, int rightVol) {
 	}
 	memset(mixBuffer, 0, grainSize * sizeof(int) * 2);
 	memset(sendBuffer, 0, grainSize * sizeof(int) * 2);
-
-#ifdef AUDIO_TO_FILE
-	fwrite(Memory::GetPointer(outAddr, grainSize * 2 * 2), 1, grainSize * 2 * 2, audioDump);
-#endif
 }
 
 void SasInstance::WriteMixedOutput(s16 *outp, const s16 *inp, int leftVol, int rightVol) {
@@ -738,7 +731,7 @@ void SasInstance::ApplyWaveformEffect() {
 	}
 
 	// Volume max is 0x1000, while our factor is up to 0x8000. Shifting left by 3 fixes that.
-	reverb_.ProcessReverb(sendBufferProcessed, sendBufferDownsampled, grainSize / 2, waveformEffect.leftVol << 3, waveformEffect.rightVol << 3);
+	reverb_.ProcessReverb(sendBufferProcessed, sendBufferDownsampled, grainSize / 2, (uint16_t)(waveformEffect.leftVol << 3), (uint16_t)(waveformEffect.rightVol << 3));
 }
 
 void SasInstance::DoState(PointerWrap &p) {

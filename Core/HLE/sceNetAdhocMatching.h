@@ -1,4 +1,4 @@
-// Copyright (c) 2015- PPSSPP Project.
+// Copyright (c) 2025- PPSSPP Project.
 
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,13 +15,32 @@
 // Official git repository and contact information can be found at
 // https://github.com/hrydgard/ppsspp and http://www.ppsspp.org/.
 
-#include "Common/Log.h"
-#include "Common/MemoryUtil.h"
-#include "Core/MemMap.h"
-#include "Core/MIPS/MIPS.h"
-#include "Core/System.h"
-#include "Core/CoreTiming.h"
-#include "Core/MIPS/IR/IRJit.h"
-#include "Core/MIPS/JitCommon/JitCommon.h"
+#pragma once
 
+#include "Core/HLE/proAdhoc.h"
 
+#ifdef _MSC_VER
+#pragma pack(push,1)
+#endif
+typedef struct MatchingArgs {
+	u32_le data[6]; // ContextID, EventID, bufAddr[ to MAC], OptLen, OptAddr[, EntryPoint]
+} PACK MatchingArgs;
+#ifdef _MSC_VER
+#pragma pack(pop)
+#endif
+
+class PointerWrap;
+
+int NetAdhocMatching_Term();
+
+void DoNetAdhocMatchingInited(PointerWrap &p);
+void DoNetAdhocMatchingThreads(PointerWrap &p);
+void ZeroNetAdhocMatchingThreads();
+void SaveNetAdhocMatchingInited();
+void RestoreNetAdhocMatchingInited();
+
+void Register_sceNetAdhocMatching();
+void __NetAdhocMatchingInit();
+void __NetAdhocMatchingShutdown();
+
+extern bool netAdhocMatchingInited;

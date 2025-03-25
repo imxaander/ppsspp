@@ -19,7 +19,6 @@
 
 #if PPSSPP_PLATFORM(WINDOWS) && !PPSSPP_PLATFORM(UWP)
 #include <atomic>
-#include <algorithm>  // min
 #include <array>
 #include <cstring>
 #include <string> // System: To be able to add strings with "+"
@@ -34,6 +33,7 @@
 #include "Common/Thread/ThreadUtil.h"
 #include "Common/Data/Encoding/Utf8.h"
 #include "Common/CommonTypes.h"
+#include "Common/Log/LogManager.h"
 #include "Common/Log/ConsoleListener.h"
 #include "Common/StringUtils.h"
 
@@ -153,6 +153,7 @@ void ConsoleListener::Close() {
 	if (thread_.joinable()) {
 		logPendingWritePos_.store((u32)-1, std::memory_order_release);
 		SetEvent(hTriggerEvent);
+		// If we seem hung here, it's just that you made a selection in the debug console, blocking output.
 		thread_.join();
 	}
 	if (hTriggerEvent) {
@@ -411,14 +412,14 @@ void ConsoleListener::WriteToConsole(LogLevel Level, const char *Text, size_t Le
 	if (Len > 10) {
 		// First 10 chars white
 		SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-		int wlen = MultiByteToWideChar(CP_UTF8, 0, Text, (int)Len, NULL, NULL);
+		int wlen = MultiByteToWideChar(CP_UTF8, 0, Text, (int)Len, NULL, 0);
 		MultiByteToWideChar(CP_UTF8, 0, Text, (int)Len, tempBuf, wlen);
 		WriteConsole(hConsole, tempBuf, 10, &cCharsWritten, NULL);
 		Text += 10;
 		Len -= 10;
 	}
 	SetConsoleTextAttribute(hConsole, Color);
-	int wlen = MultiByteToWideChar(CP_UTF8, 0, Text, (int)Len, NULL, NULL);
+	int wlen = MultiByteToWideChar(CP_UTF8, 0, Text, (int)Len, NULL, 0);
 	MultiByteToWideChar(CP_UTF8, 0, Text, (int)Len, tempBuf, wlen);
 	WriteConsole(hConsole, tempBuf, (DWORD)wlen, &cCharsWritten, NULL);
 }

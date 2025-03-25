@@ -26,6 +26,7 @@
 #include "Common/LogReporting.h"
 #include "Common/MemoryUtil.h"
 #include "Common/StringUtils.h"
+#include "Common/Math/SIMDHeaders.h"
 #include "Common/TimeUtil.h"
 #include "Common/Math/math_util.h"
 #include "Common/GPU/thin3d.h"
@@ -36,25 +37,15 @@
 #include "GPU/Common/FramebufferManagerCommon.h"
 #include "GPU/Common/TextureCacheCommon.h"
 #include "GPU/Common/TextureDecoder.h"
-#include "GPU/Common/ShaderId.h"
 #include "GPU/Common/GPUStateUtils.h"
-#include "GPU/Debugger/Debugger.h"
+#include "GPU/ge_constants.h"
 #include "GPU/Debugger/Record.h"
-#include "GPU/GPUCommon.h"
-#include "GPU/GPUInterface.h"
 #include "GPU/GPUState.h"
 #include "Core/Util/PPGeDraw.h"
 
-#if defined(_M_SSE)
-#include <emmintrin.h>
-#endif
-#if PPSSPP_ARCH(ARM_NEON)
-#if defined(_MSC_VER) && PPSSPP_ARCH(ARM64)
-#include <arm64_neon.h>
-#else
-#include <arm_neon.h>
-#endif
-#endif
+#include "ext/imgui/imgui.h"
+#include "ext/imgui/imgui_internal.h"
+#include "ext/imgui/imgui_impl_thin3d.h"
 
 // Videos should be updated every few frames, so we forget quickly.
 #define VIDEO_DECIMATE_AGE 4
@@ -831,7 +822,7 @@ void TextureCacheCommon::Decimate(TexCacheEntry *exceptThisOne, bool forcePressu
 			if (lowMemoryMode_ || iter->second->lastFrame + TEXTURE_SECOND_KILL_AGE < gpuStats.numFlips) {
 				ReleaseTexture(iter->second.get(), true);
 				secondCacheSizeEstimate_ -= EstimateTexMemoryUsage(iter->second.get());
-				secondCache_.erase(iter++);
+				iter = secondCache_.erase(iter);
 			} else {
 				++iter;
 			}
@@ -847,7 +838,7 @@ void TextureCacheCommon::Decimate(TexCacheEntry *exceptThisOne, bool forcePressu
 void TextureCacheCommon::DecimateVideos() {
 	for (auto iter = videos_.begin(); iter != videos_.end(); ) {
 		if (iter->flips + VIDEO_DECIMATE_AGE < gpuStats.numFlips) {
-			iter = videos_.erase(iter++);
+			iter = videos_.erase(iter);
 		} else {
 			++iter;
 		}
@@ -1260,12 +1251,12 @@ bool TextureCacheCommon::GetCurrentFramebufferTextureDebug(GPUDebugBuffer &buffe
 		buffer.Allocate(desiredW, desiredH, GPU_DBG_FORMAT_FLOAT, false);
 		if (w < desiredW || h < desiredH)
 			buffer.ZeroBytes();
-		retval = draw_->CopyFramebufferToMemory(vfb->fbo, Draw::FB_DEPTH_BIT, x, y, w, h, Draw::DataFormat::D32F, buffer.GetData(), desiredW, Draw::ReadbackMode::BLOCK, "GetCurrentTextureDebug");
+		retval = draw_->CopyFramebufferToMemory(vfb->fbo, Draw::Aspect::DEPTH_BIT, x, y, w, h, Draw::DataFormat::D32F, buffer.GetData(), desiredW, Draw::ReadbackMode::BLOCK, "GetCurrentTextureDebug");
 	} else {
 		buffer.Allocate(desiredW, desiredH, GPU_DBG_FORMAT_8888, false);
 		if (w < desiredW || h < desiredH)
 			buffer.ZeroBytes();
-		retval = draw_->CopyFramebufferToMemory(vfb->fbo, Draw::FB_COLOR_BIT, x, y, w, h, Draw::DataFormat::R8G8B8A8_UNORM, buffer.GetData(), desiredW, Draw::ReadbackMode::BLOCK, "GetCurrentTextureDebug");
+		retval = draw_->CopyFramebufferToMemory(vfb->fbo, Draw::Aspect::COLOR_BIT, x, y, w, h, Draw::DataFormat::R8G8B8A8_UNORM, buffer.GetData(), desiredW, Draw::ReadbackMode::BLOCK, "GetCurrentTextureDebug");
 	}
 
 	// Vulkan requires us to re-apply all dynamic state for each command buffer, and the above will cause us to start a new cmdbuf.
@@ -1304,7 +1295,7 @@ void TextureCacheCommon::NotifyWriteFormattedFromMemory(u32 addr, int size, int 
 	videos_.push_back({ addr, (u32)size, gpuStats.numFlips });
 }
 
-void TextureCacheCommon::LoadClut(u32 clutAddr, u32 loadBytes) {
+void TextureCacheCommon::LoadClut(u32 clutAddr, u32 loadBytes, GPURecord::Recorder *recorder) {
 	if (loadBytes == 0) {
 		// Don't accidentally overwrite clutTotalBytes_ with a zero.
 		return;
@@ -1424,7 +1415,7 @@ void TextureCacheCommon::LoadClut(u32 clutAddr, u32 loadBytes) {
 	u32 bytes = Memory::ValidSize(clutAddr, loadBytes);
 	_assert_(bytes <= 2048);
 	bool performDownload = PSP_CoreParameter().compat.flags().AllowDownloadCLUT;
-	if (GPURecord::IsActive())
+	if (recorder->IsActive())
 		performDownload = true;
 	if (clutRenderAddress_ != 0xFFFFFFFF && performDownload) {
 		framebufferManager_->DownloadFramebufferForClut(clutRenderAddress_, clutRenderOffset_ + bytes);
@@ -2089,7 +2080,7 @@ CheckAlphaResult TextureCacheCommon::ReadIndexedTex(u8 *out, int outPitch, int l
 	}
 }
 
-void TextureCacheCommon::ApplyTexture() {
+void TextureCacheCommon::ApplyTexture(bool doBind) {
 	TexCacheEntry *entry = nextTexture_;
 	if (!entry) {
 		// Maybe we bound a framebuffer?
@@ -2170,7 +2161,9 @@ void TextureCacheCommon::ApplyTexture() {
 		gstate_c.SetTextureIsBGRA(false);
 	} else {
 		entry->lastFrame = gpuStats.numFlips;
-		BindTexture(entry);
+		if (doBind) {
+			BindTexture(entry);
+		}
 		gstate_c.SetTextureFullAlpha(entry->GetAlphaStatus() == TexCacheEntry::STATUS_ALPHA_FULL);
 		gstate_c.SetTextureIs3D((entry->status & TexCacheEntry::STATUS_3D) != 0);
 		gstate_c.SetTextureIsArray(false);
@@ -2362,16 +2355,16 @@ void TextureCacheCommon::ApplyTextureFramebuffer(VirtualFramebuffer *framebuffer
 		draw_->BindTexture(0, nullptr);
 		draw_->BindTexture(1, nullptr);
 		draw_->BindFramebufferAsRenderTarget(depalFBO, { Draw::RPAction::DONT_CARE, Draw::RPAction::DONT_CARE, Draw::RPAction::DONT_CARE }, "Depal");
-		draw_->InvalidateFramebuffer(Draw::FB_INVALIDATION_STORE, Draw::FB_DEPTH_BIT | Draw::FB_STENCIL_BIT);
+		draw_->InvalidateFramebuffer(Draw::FB_INVALIDATION_STORE, Draw::Aspect::DEPTH_BIT | Draw::Aspect::STENCIL_BIT);
 		draw_->SetScissorRect(u1, v1, u2 - u1, v2 - v1);
 		Draw::Viewport viewport{ 0.0f, 0.0f, (float)depalWidth, (float)framebuffer->renderHeight, 0.0f, 1.0f };
 		draw_->SetViewport(viewport);
 
-		draw_->BindFramebufferAsTexture(framebuffer->fbo, 0, depth ? Draw::FB_DEPTH_BIT : Draw::FB_COLOR_BIT, Draw::ALL_LAYERS);
+		draw_->BindFramebufferAsTexture(framebuffer->fbo, 0, depth ? Draw::Aspect::DEPTH_BIT : Draw::Aspect::COLOR_BIT, Draw::ALL_LAYERS);
 		if (clutRenderAddress_ == 0xFFFFFFFF) {
 			draw_->BindTexture(1, clutTexture.texture);
 		} else {
-			draw_->BindFramebufferAsTexture(dynamicClutFbo_, 1, Draw::FB_COLOR_BIT, 0);
+			draw_->BindFramebufferAsTexture(dynamicClutFbo_, 1, Draw::Aspect::COLOR_BIT, 0);
 		}
 		Draw::SamplerState *nearest = textureShaderCache_->GetSampler(false);
 		Draw::SamplerState *clutSampler = textureShaderCache_->GetSampler(smoothedDepal);
@@ -2388,7 +2381,7 @@ void TextureCacheCommon::ApplyTextureFramebuffer(VirtualFramebuffer *framebuffer
 		draw_->BindTexture(0, nullptr);
 		framebufferManager_->RebindFramebuffer("ApplyTextureFramebuffer");
 
-		draw_->BindFramebufferAsTexture(depalFBO, 0, Draw::FB_COLOR_BIT, Draw::ALL_LAYERS);
+		draw_->BindFramebufferAsTexture(depalFBO, 0, Draw::Aspect::COLOR_BIT, Draw::ALL_LAYERS);
 		BoundFramebufferTexture();
 
 		const u32 bytesPerColor = clutFormat == GE_CMODE_32BIT_ABGR8888 ? sizeof(u32) : sizeof(u16);
@@ -2468,13 +2461,13 @@ void TextureCacheCommon::ApplyTextureDepal(TexCacheEntry *entry) {
 	draw_->BindTexture(0, nullptr);
 	draw_->BindTexture(1, nullptr);
 	draw_->BindFramebufferAsRenderTarget(depalFBO, { Draw::RPAction::DONT_CARE, Draw::RPAction::DONT_CARE, Draw::RPAction::DONT_CARE }, "Depal");
-	draw_->InvalidateFramebuffer(Draw::FB_INVALIDATION_STORE, Draw::FB_DEPTH_BIT | Draw::FB_STENCIL_BIT);
+	draw_->InvalidateFramebuffer(Draw::FB_INVALIDATION_STORE, Draw::Aspect::DEPTH_BIT | Draw::Aspect::STENCIL_BIT);
 	draw_->SetScissorRect(u1, v1, u2 - u1, v2 - v1);
 	Draw::Viewport viewport{ 0.0f, 0.0f, (float)texWidth, (float)texHeight, 0.0f, 1.0f };
 	draw_->SetViewport(viewport);
 
-	draw_->BindNativeTexture(0, GetNativeTextureView(entry));
-	draw_->BindFramebufferAsTexture(dynamicClutFbo_, 1, Draw::FB_COLOR_BIT, 0);
+	draw_->BindNativeTexture(0, GetNativeTextureView(entry, false));
+	draw_->BindFramebufferAsTexture(dynamicClutFbo_, 1, Draw::Aspect::COLOR_BIT, 0);
 	Draw::SamplerState *nearest = textureShaderCache_->GetSampler(false);
 	Draw::SamplerState *clutSampler = textureShaderCache_->GetSampler(false);
 	draw_->BindSamplerStates(0, 1, &nearest);
@@ -2490,7 +2483,7 @@ void TextureCacheCommon::ApplyTextureDepal(TexCacheEntry *entry) {
 	draw_->BindTexture(0, nullptr);
 	framebufferManager_->RebindFramebuffer("ApplyTextureFramebuffer");
 
-	draw_->BindFramebufferAsTexture(depalFBO, 0, Draw::FB_COLOR_BIT, 0);
+	draw_->BindFramebufferAsTexture(depalFBO, 0, Draw::Aspect::COLOR_BIT, 0);
 	BoundFramebufferTexture();
 
 	const u32 bytesPerColor = clutFormat == GE_CMODE_32BIT_ABGR8888 ? sizeof(u32) : sizeof(u16);
@@ -3055,4 +3048,128 @@ CheckAlphaResult TextureCacheCommon::CheckCLUTAlpha(const uint8_t *pixelData, GE
 	default:
 		return CheckAlpha32((const u32 *)pixelData, w, 0xFF000000);
 	}
+}
+
+void TextureCacheCommon::DrawImGuiDebug(uint64_t &selectedTextureId) const {
+	ImVec2 avail = ImGui::GetContentRegionAvail();
+	auto &style = ImGui::GetStyle();
+	ImGui::BeginChild("left", ImVec2(140.0f, 0.0f), ImGuiChildFlags_ResizeX);
+	float window_visible_x2 = ImGui::GetCursorScreenPos().x + ImGui::GetContentRegionAvail().x;
+
+	// Global texture stats
+	int replacementStateCounts[(int)ReplacementState::COUNT]{};
+	if (!secondCache_.empty()) {
+		ImGui::Text("Primary Cache");
+	}
+
+	for (auto &iter : cache_) {
+		u64 id = iter.first;
+		const TexCacheEntry *entry = iter.second.get();
+		void *nativeView = GetNativeTextureView(iter.second.get(), true);
+		int w = 128;
+		int h = 128;
+
+		if (entry->replacedTexture) {
+			replacementStateCounts[(int)entry->replacedTexture->State()]++;
+		}
+
+		ImTextureID texId = ImGui_ImplThin3d_AddNativeTextureTemp(nativeView);
+		float last_button_x2 = ImGui::GetItemRectMax().x;
+		float next_button_x2 = last_button_x2 + style.ItemSpacing.x + w; // Expected position if next button was on same line
+		if (next_button_x2 < window_visible_x2)
+			ImGui::SameLine();
+
+		float x = ImGui::GetCursorPosX();
+		if (ImGui::Selectable(("##Image" + std::to_string(id)).c_str(), selectedTextureId == id, 0, ImVec2(w, h))) {
+			selectedTextureId = id; // Update the selected index if clicked
+		}
+
+		ImGui::SameLine();
+		ImGui::SetCursorPosX(x + 2.0f);
+		ImGui::Image(texId, ImVec2(128, 128));
+	}
+
+	if (!secondCache_.empty()) {
+		ImGui::Text("Secondary Cache (%d): TODO", (int)secondCache_.size());
+		// TODO
+	}
+
+	ImGui::EndChild();
+
+	ImGui::SameLine();
+	ImGui::BeginChild("right", ImVec2(0.f, 0.0f));
+	if (ImGui::CollapsingHeader("Texture", nullptr, ImGuiTreeNodeFlags_DefaultOpen)) {
+		if (selectedTextureId) {
+			auto iter = cache_.find(selectedTextureId);
+			if (iter != cache_.end()) {
+				void *nativeView = GetNativeTextureView(iter->second.get(), true);
+				ImTextureID texId = ImGui_ImplThin3d_AddNativeTextureTemp(nativeView);
+				const TexCacheEntry *entry = iter->second.get();
+				int dim = entry->dim;
+				int w = dimWidth(dim);
+				int h = dimHeight(dim);
+				ImGui::Image(texId, ImVec2(w, h));
+				ImGui::Text("%08x: %dx%d, %d mips, %s", (uint32_t)(selectedTextureId & 0xFFFFFFFF), w, h, entry->maxLevel + 1, GeTextureFormatToString((GETextureFormat)entry->format));
+				ImGui::Text("Stride: %d", entry->bufw);
+				ImGui::Text("Status: %08x", entry->status);  // TODO: Show the flags
+				ImGui::Text("Hash: %08x", entry->fullhash);
+				ImGui::Text("CLUT Hash: %08x", entry->cluthash);
+				ImGui::Text("Minihash: %08x", entry->minihash);
+				ImGui::Text("MaxSeenV: %08x", entry->maxSeenV);
+				if (entry->replacedTexture) {
+					if (ImGui::CollapsingHeader("Replacement", ImGuiTreeNodeFlags_DefaultOpen)) {
+						const auto &desc = entry->replacedTexture->Desc();
+						ImGui::Text("State: %s", StateString(entry->replacedTexture->State()));
+						// ImGui::Text("Original: %dx%d (%dx%d)", desc.w, desc.h, desc.newW, desc.newH);
+						if (entry->replacedTexture->State() == ReplacementState::ACTIVE) {
+							int w, h;
+							entry->replacedTexture->GetSize(0, &w, &h);
+							int numLevels = entry->replacedTexture->NumLevels();
+							ImGui::Text("Replaced: %dx%d, %d mip levels", w, h, numLevels);
+							ImGui::Text("Level 0 size: %d bytes, format: %s", entry->replacedTexture->GetLevelDataSizeAfterCopy(0), Draw::DataFormatToString(entry->replacedTexture->Format()));
+						}
+						ImGui::Text("Key: %08x_%08x", (u32)(desc.cachekey >> 32), (u32)desc.cachekey);
+						ImGui::Text("Hashfiles: %s", desc.hashfiles.c_str());
+						ImGui::Text("Base: %s", desc.basePath.c_str());
+						ImGui::Text("Alpha status: %02x", entry->replacedTexture->AlphaStatus());
+					}
+				} else {
+					ImGui::Text("Not replaced");
+				}
+				ImGui::Text("Frames until next full hash: %08x", entry->framesUntilNextFullHash);  // TODO: Show the flags
+			} else {
+				selectedTextureId = 0;
+			}
+		} else {
+			ImGui::Text("(no texture selected)");
+		}
+	}
+
+	if (ImGui::CollapsingHeader("Texture Cache State", nullptr, ImGuiTreeNodeFlags_DefaultOpen)) {
+		ImGui::Text("Cache: %d textures, size est %d", (int)cache_.size(), cacheSizeEstimate_);
+		if (!secondCache_.empty()) {
+			ImGui::Text("Second: %d textures, size est %d", (int)secondCache_.size(), secondCacheSizeEstimate_);
+		}
+		ImGui::Text("Standard/shader scale factor: %d/%d", standardScaleFactor_, shaderScaleFactor_);
+		ImGui::Text("Texels scaled this frame: %d", texelsScaledThisFrame_);
+		ImGui::Text("Low memory mode: %d", (int)lowMemoryMode_);
+		if (ImGui::CollapsingHeader("Texture Replacement", ImGuiTreeNodeFlags_DefaultOpen)) {
+			ImGui::Text("Frame time/budget: %0.3f/%0.3f ms", replacementTimeThisFrame_ * 1000.0f, replacementFrameBudget_ * 1000.0f);
+			ImGui::Text("UNLOADED: %d PENDING: %d NOT_FOUND: %d ACTIVE: %d CANCEL_INIT: %d",
+				replacementStateCounts[(int)ReplacementState::UNLOADED],
+				replacementStateCounts[(int)ReplacementState::PENDING],
+				replacementStateCounts[(int)ReplacementState::NOT_FOUND],
+				replacementStateCounts[(int)ReplacementState::ACTIVE],
+				replacementStateCounts[(int)ReplacementState::CANCEL_INIT]);
+		}
+		if (videos_.size()) {
+			if (ImGui::CollapsingHeader("Tracked video playback memory")) {
+				for (auto &video : videos_) {
+					ImGui::Text("%08x: %d flips, size = %d", video.addr, video.flips, video.size);
+				}
+			}
+		}
+	}
+
+	ImGui::EndChild();
 }

@@ -116,7 +116,30 @@ impl Section {
             self.insert_line_if_missing(&line);
         } else {
             let name = &self.name;
-            println!("didn't find a line starting with {prefix} in section {name}");
+            println!("rename_key: didn't find a line starting with {prefix} in section {name}");
+        }
+    }
+
+    pub fn dupe_key(&mut self, old: &str, new: &str) {
+        let prefix = old.to_owned() + " =";
+        let mut found_index = None;
+        for (index, line) in self.lines.iter().enumerate() {
+            if line.starts_with(&prefix) {
+                found_index = Some(index);
+            }
+        }
+        if let Some(index) = found_index {
+            let line = self.lines.get(index).unwrap();
+            let mut right_part = line.strip_prefix(&prefix).unwrap().to_string();
+            if right_part.trim() == old.trim() {
+                // Was still untranslated - replace the translation too.
+                right_part = format!(" {}", new);
+            }
+            let line = new.to_owned() + " =" + &right_part;
+            self.insert_line_if_missing(&line);
+        } else {
+            let name = &self.name;
+            println!("dupe_key: didn't find a line starting with {prefix} in section {name}");
         }
     }
 
@@ -162,5 +185,27 @@ impl Section {
             // keeps the line if this expression returns true.
             other.lines.iter().any(|line| line.starts_with(prefix))
         });
+    }
+
+    pub fn get_keys_if_not_in(&mut self, other: &Section) -> Vec<String> {
+        let mut missing_lines = Vec::new();
+        // Brute force (O(n^2)). Bad but not a problem.
+        for line in &self.lines {
+            let prefix = if let Some(pos) = line.find(" =") {
+                &line[0..pos + 2]
+            } else {
+                // Keep non-key lines.
+                continue;
+            };
+            if prefix.starts_with("Font") || prefix.starts_with('#') {
+                continue;
+            }
+
+            // keeps the line if this expression returns true.
+            if !other.lines.iter().any(|line| line.starts_with(prefix)) {
+                missing_lines.push(prefix[0..prefix.len() - 2].trim().to_string());
+            }
+        }
+        missing_lines
     }
 }

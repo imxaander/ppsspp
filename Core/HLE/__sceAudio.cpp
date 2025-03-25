@@ -17,6 +17,7 @@
 
 #include <atomic>
 #include <mutex>
+#include <algorithm>
 
 #include "Common/Common.h"
 #include "Common/File/Path.h"
@@ -24,22 +25,18 @@
 #include "Common/Serialize/SerializeFuncs.h"
 #include "Common/Data/Collections/FixedSizeQueue.h"
 #include "Common/System/System.h"
-
-#ifdef _M_SSE
-#include <emmintrin.h>
-#endif
+#include "Common/Math/SIMDHeaders.h"
+#include "Common/StringUtils.h"
 
 #include "Core/Config.h"
 #include "Core/CoreTiming.h"
 #include "Core/MemMapHelpers.h"
 #include "Core/Reporting.h"
 #include "Core/System.h"
-#ifndef MOBILE_DEVICE
 #include "Core/WaveFile.h"
 #include "Core/ELF/ParamSFO.h"
 #include "Core/HLE/sceKernelTime.h"
-#include "StringUtils.h"
-#endif
+#include "Core/HLE/ErrorCodes.h"
 #include "Core/HLE/__sceAudio.h"
 #include "Core/HLE/sceAudio.h"
 #include "Core/HLE/sceKernel.h"
@@ -231,13 +228,18 @@ u32 __AudioEnqueue(AudioChannel &chan, int chanNum, bool blocking) {
 		return ret;
 	}
 
+	// NOTE: The below is WRONG! See issue #20095.
+	//
+	// What we should be queueing here is just the sampleAddress and sampleCount. Then when dequeuing is when we should
+	// read the actual data.
+
 	int leftVol = chan.leftVolume;
 	int rightVol = chan.rightVolume;
 
 	if (leftVol == (1 << 15) && rightVol == (1 << 15) && chan.format == PSP_AUDIO_FORMAT_STEREO && IS_LITTLE_ENDIAN) {
 		// TODO: Add mono->stereo conversion to this path.
 
-		// Good news: the volume doesn't affect the values at all.
+		// Good news: the volume (1 << 15), specifically, doesn't affect the values at all.
 		// We can just do a direct memory copy.
 		const u32 totalSamples = chan.sampleCount * (chan.format == PSP_AUDIO_FORMAT_STEREO ? 2 : 1);
 		s16 *buf1 = 0, *buf2 = 0;
@@ -282,7 +284,7 @@ u32 __AudioEnqueue(AudioChannel &chan, int chanNum, bool blocking) {
 	return ret;
 }
 
-inline void __AudioWakeThreads(AudioChannel &chan, int result, int step) {
+void __AudioWakeThreads(AudioChannel &chan, int result, int step) {
 	u32 error;
 	bool wokeThreads = false;
 	for (size_t w = 0; w < chan.waitingThreads.size(); ++w) {
@@ -418,7 +420,16 @@ void __AudioUpdate(bool resetRecording) {
 	}
 
 	if (g_Config.bEnableSound) {
-		System_AudioPushSamples(mixBuffer, hwBlockSize);
+		float multiplier = Volume100ToMultiplier(std::clamp(g_Config.iGameVolume, 0, VOLUMEHI_FULL));
+		if (PSP_CoreParameter().fpsLimit != FPSLimit::NORMAL || PSP_CoreParameter().fastForward) {
+			if (g_Config.iAltSpeedVolume != -1) {
+				// Multiply in the alt speed volume instead of replacing like before.
+				multiplier *= Volume100ToMultiplier(g_Config.iAltSpeedVolume);
+			}
+		}
+
+		System_AudioPushSamples(mixBuffer, hwBlockSize, multiplier);
+
 #ifndef MOBILE_DEVICE
 		if (g_Config.bSaveLoadResetsAVdumping && resetRecording) {
 			__StopLogAudio();

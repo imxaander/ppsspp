@@ -69,13 +69,15 @@ if(CMAKE_SYSTEM_PROCESSOR)
 		set(RISCV64_DEVICE ON)
 	elseif(${CMAKE_SYSTEM_PROCESSOR} MATCHES "^loongarch64")
 		set(LOONGARCH64_DEVICE ON)
+		add_compile_options(-mlsx)
+		add_compile_options(-mlasx)
 	else()
 		message("Unknown CMAKE_SYSTEM_PROCESSOR: ${CMAKE_SYSTEM_PROCESSOR}")
 	endif()
 endif()
 
 # the libraries in the ffmpeg/ directory are not compatible with mingw
-if(MINGW AND NOT DEFINED USE_SYSTEM_FFMPEG)
+if(MINGW AND NOT USE_SYSTEM_FFMPEG)
 	set(USE_SYSTEM_FFMPEG ON)
 endif()
 
@@ -391,7 +393,7 @@ if(NOT MSVC)
 	endif()
 
 	if(ANDROID)
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++17")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 	endif()
 	if(CLANG)
 		add_definitions(
@@ -427,6 +429,12 @@ if(NOT MSVC)
 		endif()
 	endif()
 
+	include(CheckSymbolExists)
+	check_symbol_exists(_UCRT "windows.h" UCRT)
+	if (UCRT)
+		link_libraries("$<$<CONFIG:Debug>:ucrtbased>")
+	endif()
+
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -D_DEBUG")
 	set(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL} -Os -D_NDEBUG")
 	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -D_NDEBUG")
@@ -437,10 +445,10 @@ if(NOT MSVC)
 	set(CMAKE_C_FLAGS_RELWITHDEBINFO "${CMAKE_C_FLAGS_RELWITHDEBINFO} -O2 -g -D_NDEBUG")
 
 	# Enable checking printf-like format strings (also works for logging functions)
-	add_definitions(-Wformat)
+	add_compile_options(-Wformat)
 
 	# Disable some warnings
-	add_definitions(-Wno-multichar)
+	add_compile_options(-Wno-multichar)
 
 	# Don't compile with strict aliasing, we're not 100% aliasing-safe
 	add_compile_options(-fno-strict-aliasing)
@@ -448,13 +456,13 @@ if(NOT MSVC)
 		set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -parallel -fopenmp")
 	endif()
 
-	add_definitions(-fno-math-errno)
+	add_compile_options(-fno-math-errno)
 
 	if(X86 OR X86_64)
 		# enable sse2 code generation
-		add_definitions(-msse2)
+		add_compile_options(-msse2)
 		if(NOT X86_64 AND NOT CLANG)
-			add_definitions(-mfpmath=sse)
+			add_compile_options(-mfpmath=sse)
 			# add_definitions(-mstackrealign)
 		 endif()
 	endif()
@@ -472,7 +480,7 @@ if(NOT MSVC)
 	elseif(NOT ANDROID)
 		# TODO: See if we can get rid of no-psabi
 		if(NOT ${CMAKE_C_COMPILER_ID} STREQUAL "Intel" AND NOT ${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
-			add_definitions(-Wno-psabi)
+			add_compile_options(-Wno-psabi)
 		endif()
 		add_definitions(-D_XOPEN_SOURCE=700)
 		add_definitions(-D_XOPEN_SOURCE_EXTENDED -D__BSD_VISIBLE=1 -D_BSD_SOURCE -D_DEFAULT_SOURCE)
@@ -483,7 +491,17 @@ if(NOT MSVC)
 			add_definitions(-D_NETBSD_SOURCE)
 		endif()
 	elseif(ANDROID)
-		add_definitions(-fsigned-char)
+		add_compile_options(-fsigned-char)
+	endif()
+
+	check_symbol_exists(getauxval sys/auxv.h HAVE_GETAUXVAL)
+	if(HAVE_GETAUXVAL)
+		add_definitions(-DHAVE_GETAUXVAL)
+	endif()
+
+	check_symbol_exists(elf_aux_info sys/auxv.h HAVE_ELF_AUX_INFO)
+	if(HAVE_ELF_AUX_INFO)
+		add_definitions(-DHAVE_ELF_AUX_INFO)
 	endif()
 else()
 	# Disable warnings about MS-specific _s variants of libc functions
@@ -502,8 +520,8 @@ if(WIN32)
 endif()
 
 if(NOT ANDROID)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
+	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 endif()
 
 # This sets up the MSVC project dirs according to the physical project dirs
@@ -522,12 +540,6 @@ macro(setup_target_project TargetName ProjectDir)
 endmacro()
 
 add_subdirectory(ext)
-
-if(WIN32)
-	include_directories(dx9sdk/Include)
-	include_directories(dx9sdk/Include/DX11)
-endif()
-
 
 set(CommonJIT
 	Core/MIPS/JitCommon/JitCommon.cpp
@@ -653,6 +665,7 @@ add_library(Common STATIC
 	Common/Data/Collections/Hashmaps.h
 	Common/Data/Collections/TinySet.h
 	Common/Data/Collections/FastVec.h
+	Common/Data/Collections/CharQueue.h
 	Common/Data/Collections/CyclicBuffer.h
 	Common/Data/Collections/ThreadSafeList.h
 	Common/Data/Color/RGBAUtil.cpp
@@ -780,7 +793,8 @@ add_library(Common STATIC
 	Common/Input/InputState.cpp
 	Common/Input/InputState.h
 	Common/Math/fast/fast_matrix.c
-	Common/Math/CrossSIMD.h
+	Common/Math/SIMDHeaders.h
+	Common/Math/SIMDHeaders.h
 	Common/Math/curves.cpp
 	Common/Math/curves.h
 	Common/Math/expression_parser.cpp
@@ -809,6 +823,7 @@ add_library(Common STATIC
 	Common/Net/Resolve.h
 	Common/Net/Sinks.cpp
 	Common/Net/Sinks.h
+	Common/Net/SocketCompat.h
 	Common/Net/URL.cpp
 	Common/Net/URL.h
 	Common/Net/WebsocketServer.cpp
@@ -884,12 +899,12 @@ add_library(Common STATIC
 	Common/FakeCPUDetect.cpp
 	Common/ExceptionHandlerSetup.cpp
 	Common/ExceptionHandlerSetup.h
+	Common/GhidraClient.h
+	Common/GhidraClient.cpp
 	Common/Log.h
 	Common/Log.cpp
 	Common/Log/ConsoleListener.cpp
 	Common/Log/ConsoleListener.h
-	Common/Log/StdioListener.cpp
-	Common/Log/StdioListener.h
 	Common/Log/LogManager.cpp
 	Common/Log/LogManager.h
 	Common/LogReporting.cpp
@@ -911,7 +926,6 @@ add_library(Common STATIC
 	Common/SysError.cpp
 	Common/TimeUtil.cpp
 	Common/TimeUtil.h
-	Common/Battery/Battery.h
 )
 
 include_directories(Common)
@@ -1190,6 +1204,7 @@ else()
 		ext/libzip/zip_err_str.c
 	)
 	if(WIN32)
+		target_compile_options(libzip PRIVATE $<$<C_COMPILER_ID:Clang>:-Wno-incompatible-function-pointer-types> $<$<C_COMPILER_ID:GNU>:-Wno-incompatible-pointer-types>)
 		target_sources(libzip PRIVATE
 			ext/libzip/zip_source_file_win32.c
 			ext/libzip/zip_source_file_win32_named.c
@@ -1418,11 +1433,6 @@ elseif(USING_QT_UI)
 elseif(WIN32)
 	# Don't care about SDL.
 	set(TargetBin PPSSPPWindows)
-	if(X86_64)
-		link_directories(dx9sdk/Lib/x64)
-	else()
-		link_directories(dx9sdk/Lib/x86)
-	endif()
 elseif(LIBRETRO)
 else()
 	if(GOLD)
@@ -1500,14 +1510,7 @@ else()
 endif()
 
 if(WIN32)
-	if(MINGW)
-		set(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> -O coff <INCLUDES> <SOURCE> <OBJECT>")
-		# required when using the dx9sdk include paths
-		add_definitions(-include ${CMAKE_CURRENT_SOURCE_DIR}/Windows/mingw_defines.h)
-	else()
-		target_link_libraries(Common dxguid)
-	endif()
-	target_link_libraries(Common winmm d3d9 dsound)
+	target_link_libraries(Common winmm d3d9 dsound dxguid Version)
 endif()
 
 if(NOT LIBRETRO)
@@ -1521,8 +1524,14 @@ list(APPEND NativeAppSource
 	android/jni/TestRunner.cpp
 	UI/ImDebugger/ImDebugger.cpp
 	UI/ImDebugger/ImDebugger.h
+	UI/ImDebugger/ImGe.cpp
+	UI/ImDebugger/ImGe.h
 	UI/ImDebugger/ImDisasmView.cpp
 	UI/ImDebugger/ImDisasmView.h
+	UI/ImDebugger/ImMemView.cpp
+	UI/ImDebugger/ImMemView.h
+	UI/ImDebugger/ImStructViewer.cpp
+	UI/ImDebugger/ImStructViewer.h
 	UI/DiscordIntegration.cpp
 	UI/NativeApp.cpp
 	UI/BackgroundAudio.h
@@ -1900,6 +1909,8 @@ set(GPU_SOURCES
 	GPU/Common/Draw2D.cpp
 	GPU/Common/Draw2D.h
 	GPU/Common/DepthBufferCommon.cpp
+	GPU/Common/DepthRaster.cpp
+	GPU/Common/DepthRaster.h
 	GPU/Common/TextureShaderCommon.cpp
 	GPU/Common/TextureShaderCommon.h
 	GPU/Common/DepalettizeShaderCommon.cpp
@@ -1965,11 +1976,13 @@ set(GPU_SOURCES
 	GPU/Debugger/Record.cpp
 	GPU/Debugger/Record.h
 	GPU/Debugger/RecordFormat.h
+	GPU/Debugger/State.cpp
+	GPU/Debugger/State.h
 	GPU/Debugger/Stepping.cpp
 	GPU/Debugger/Stepping.h
 	GPU/ge_constants.h
 	GPU/GeConstants.cpp
-	GPU/GPUInterface.h
+	GPU/GPUDefinitions.h
 	GPU/GeDisasm.cpp
 	GPU/GeDisasm.h
 	GPU/GPU.cpp
@@ -2107,6 +2120,8 @@ add_library(${CoreLibName} ${CoreLinkType}
 	Core/Dialog/PSPNpSigninDialog.h
 	Core/Dialog/PSPOskDialog.cpp
 	Core/Dialog/PSPOskDialog.h
+	Core/Dialog/PSPOskConstants.cpp
+	Core/Dialog/PSPOskConstants.h
 	Core/Dialog/PSPPlaceholderDialog.cpp
 	Core/Dialog/PSPPlaceholderDialog.h
 	Core/Dialog/PSPSaveDialog.cpp
@@ -2165,6 +2180,10 @@ add_library(${CoreLibName} ${CoreLinkType}
 	Core/HLE/AtracCtx.h
 	Core/HLE/AtracCtx2.cpp
 	Core/HLE/AtracCtx2.h
+	Core/HLE/NetInetConstants.cpp
+	Core/HLE/NetInetConstants.h
+	Core/HLE/SocketManager.cpp
+	Core/HLE/SocketManager.h
 	Core/HLE/sceAtrac.cpp
 	Core/HLE/sceAtrac.h
 	Core/HLE/sceAudio.cpp
@@ -2237,8 +2256,18 @@ add_library(${CoreLibName} ${CoreLinkType}
 	Core/HLE/sceMpeg.h
 	Core/HLE/sceNet.cpp
 	Core/HLE/sceNet.h
+	Core/HLE/sceNet_lib.cpp
+	Core/HLE/sceNet_lib.h
 	Core/HLE/sceNetAdhoc.cpp
 	Core/HLE/sceNetAdhoc.h
+	Core/HLE/sceNetAdhocMatching.cpp
+	Core/HLE/sceNetAdhocMatching.h
+	Core/HLE/sceNetInet.cpp
+	Core/HLE/sceNetInet.h
+	Core/HLE/sceNetApctl.cpp
+	Core/HLE/sceNetApctl.h
+	Core/HLE/sceNetResolver.cpp
+	Core/HLE/sceNetResolver.h
 	Core/HLE/proAdhoc.h
 	Core/HLE/proAdhoc.cpp
 	Core/HLE/proAdhocServer.h
@@ -2251,6 +2280,8 @@ add_library(${CoreLibName} ${CoreLinkType}
 	Core/HLE/sceMt19937.h
 	Core/HLE/sceMd5.cpp
 	Core/HLE/sceMd5.h
+	Core/HLE/sceAac.cpp
+	Core/HLE/sceAac.h
 	Core/HLE/sceMp4.cpp
 	Core/HLE/sceMp4.h
 	Core/HLE/sceMp3.cpp
@@ -2384,8 +2415,8 @@ add_library(${CoreLibName} ${CoreLinkType}
 	Core/Screenshot.h
 	Core/System.cpp
 	Core/System.h
-	Core/ThreadPools.cpp
-	Core/ThreadPools.h
+	Core/Util/AtracTrack.cpp
+	Core/Util/AtracTrack.h
 	Core/Util/AudioFormat.cpp
 	Core/Util/AudioFormat.h
 	Core/Util/GameManager.cpp
@@ -2455,11 +2486,13 @@ include_directories(ext/libchdr/include)
 target_link_libraries(${CoreLibName} Common native chdr kirk cityhash sfmt19937 xbrz xxhash rcheevos minimp3 at3_standalone lua ${GlslangLibs}
 	${CoreExtraLibs} ${OPENGL_LIBRARIES} ${X11_LIBRARIES} ${CMAKE_DL_LIBS})
 
+# Winsock
+if(WIN32)
+	target_link_libraries(${CoreLibName} ws2_32)
+endif()
+
 if(NOT HTTPS_NOT_AVAILABLE)
 	target_link_libraries(${CoreLibName} naett)
-	if(WIN32)
-		target_link_libraries(${CoreLibName} winhttp)
-	endif()
 endif()
 
 target_compile_features(${CoreLibName} PUBLIC cxx_std_17)
@@ -2569,6 +2602,9 @@ if(USE_MINIUPNPC)
 			if (MSVC)
 				# Suppress noise warnings
 				target_compile_definitions(miniupnpc PRIVATE _CRT_SECURE_NO_WARNINGS _WINSOCK_DEPRECATED_NO_WARNINGS)
+			endif()
+			if (WIN32)
+				target_link_libraries(miniupnpc ws2_32)
 			endif()
 		endif()
 	endif()
@@ -2722,6 +2758,7 @@ set(NativeAssets
 	assets/Roboto-Condensed.ttf
 	assets/7z.png
 	assets/compat.ini
+	assets/infra-dns.json
 	assets/gamecontrollerdb.txt
 	assets/langregion.ini
 	assets/ppge_atlas.zim
@@ -2791,6 +2828,12 @@ if(UNITTEST)
 		Core/MIPS/ARM/ArmRegCache.cpp
 		Core/MIPS/ARM/ArmRegCacheFPU.cpp
 	)
+	if(WIN32)
+		target_sources(PPSSPPUnitTest PRIVATE
+			Windows/CaptureDevice.cpp
+			Windows/CaptureDevice.h
+		)
+	endif()
 	target_link_libraries(PPSSPPUnitTest ${COCOA_LIBRARY} ${QUARTZ_CORE_LIBRARY} ${IOKIT_LIBRARY} ${LinkCommon} Common)
 	setup_target_project(PPSSPPUnitTest unittest)
 	add_test(arm64_emitter PPSSPPUnitTest Arm64Emitter)
@@ -2869,10 +2912,9 @@ if(TargetBin)
 		endif()
 	elseif(WIN32)
 		add_executable(${TargetBin} WIN32 ${NativeAppSource})
-		if(MSVC)
-			set_target_properties(${TargetBin} PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS")
-		else()
-			set_target_properties(${TargetBin} PROPERTIES LINK_FLAGS "-Wl,-subsystem,windows")
+		if(NOT MSVC)
+			target_compile_options(${TargetBin} PRIVATE $<$<CXX_COMPILER_ID:Clang>:-Wno-c++11-narrowing>)
+			target_link_libraries(${TargetBin} Version Dwmapi)
 		endif()
 		set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${TargetBin})
 	else()

@@ -16,17 +16,10 @@
 // https://github.com/hrydgard/ppsspp and http://www.ppsspp.org/.
 
 #include "ppsspp_config.h"
-#ifdef __MINGW32__
-#include <unistd.h>
-#ifndef _POSIX_THREAD_SAFE_FUNCTIONS
-#define _POSIX_THREAD_SAFE_FUNCTIONS 200112L
-#endif
-#endif
 #include <ctime>
 
 #include "Common/File/FileUtil.h"
 #include "Common/File/DirListing.h"
-#include "Common/StringUtils.h"
 #include "Common/Serialize/Serializer.h"
 #include "Common/Serialize/SerializeFuncs.h"
 #include "Common/SysError.h"
@@ -243,7 +236,7 @@ void VirtualDiscFileSystem::DoState(PointerWrap &p)
 	// We don't savestate handlers (loaded on fs load), but if they change, it may not load properly.
 }
 
-Path VirtualDiscFileSystem::GetLocalPath(std::string localpath) {
+Path VirtualDiscFileSystem::GetLocalPath(std::string localpath) const {
 	if (localpath.empty())
 		return basePath;
 
@@ -303,18 +296,14 @@ int VirtualDiscFileSystem::getFileListIndex(std::string &fileName)
 	return (int)fileList.size()-1;
 }
 
-int VirtualDiscFileSystem::getFileListIndex(u32 accessBlock, u32 accessSize, bool blockMode)
-{
-	for (size_t i = 0; i < fileList.size(); i++)
-	{
-		if (fileList[i].firstBlock <= accessBlock)
-		{
+int VirtualDiscFileSystem::getFileListIndex(u32 accessBlock, u32 accessSize, bool blockMode) const {
+	for (size_t i = 0; i < fileList.size(); i++) {
+		if (fileList[i].firstBlock <= accessBlock) {
 			u32 sectorOffset = (accessBlock-fileList[i].firstBlock)*2048;
 			u32 totalFileSize = blockMode ? (fileList[i].totalSize+2047) & ~2047 : fileList[i].totalSize;
 
 			u32 endOffset = sectorOffset+accessSize;
-			if (endOffset <= totalFileSize)
-			{
+			if (endOffset <= totalFileSize) {
 				return (int)i;
 			}
 		}
@@ -652,6 +641,11 @@ PSPFileInfo VirtualDiscFileSystem::GetFileInfo(std::string filename) {
 	return x;
 }
 
+PSPFileInfo VirtualDiscFileSystem::GetFileInfoByHandle(u32 handle) {
+	WARN_LOG(Log::FileSystem, "GetFileInfoByHandle not yet implemented for VirtualDiscFileSystem");
+	return PSPFileInfo();
+}
+
 #ifdef _WIN32
 #define FILETIME_FROM_UNIX_EPOCH_US 11644473600000000ULL
 
@@ -661,7 +655,7 @@ static void tmFromFiletime(tm &dest, const FILETIME &src)
 	u64 from_1970_us = from_1601_us - FILETIME_FROM_UNIX_EPOCH_US;
 
 	time_t t = (time_t) (from_1970_us / 1000000UL);
-	localtime_r(&t, &dest);
+	localtime_s(&dest, &t);
 }
 #endif
 

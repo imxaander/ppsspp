@@ -16,13 +16,11 @@
 // https://github.com/hrydgard/ppsspp and http://www.ppsspp.org/.
 
 #include <cstdint>
-#include <limits>
-#include <cstdio>
 #include <cstring>
 
 #include "Common/BitScan.h"
-#include "Common/CommonFuncs.h"
 #include "Common/File/VFS/VFS.h"
+#include "Common/Math/SIMDHeaders.h"
 #include "Common/StringUtils.h"
 #include "Core/Reporting.h"
 #include "Core/MIPS/MIPS.h"
@@ -714,9 +712,7 @@ static float vfpu_dot_cpp(const float a[4], const float b[4]) {
 	return result.f;
 }
 
-#if defined(__SSE2__)
-
-#include <emmintrin.h>
+#if PPSSPP_ARCH(SSE2)
 
 static inline __m128i mulhi32x4(__m128i a, __m128i b) {
 	__m128i m02 = _mm_mul_epu32(a, b);
@@ -876,10 +872,10 @@ static float vfpu_dot_sse2(const float a[4], const float b[4])
 	return result.f;
 }
 
-#endif // defined(__SSE2__)
+#endif // PPSSPP_ARCH(SSE2)
 
 float vfpu_dot(const float a[4], const float b[4]) {
-#if defined(__SSE2__)
+#if PPSSPP_ARCH(SSE2)
 	return vfpu_dot_sse2(a, b);
 #else
 	return vfpu_dot_cpp(a, b);
@@ -968,25 +964,25 @@ uint32_t vrnd_generate(uint32_t *rcx) {
 
 // Lookup tables.
 // Note: these are never unloaded, and stay till program termination.
-static uint32_t (*vfpu_sin_lut8192)=nullptr;
+static uint32_t *vfpu_sin_lut8192=nullptr;
 static  int8_t  (*vfpu_sin_lut_delta)[2]=nullptr;
-static  int16_t (*vfpu_sin_lut_interval_delta)=nullptr;
-static uint8_t  (*vfpu_sin_lut_exceptions)=nullptr;
+static  int16_t *vfpu_sin_lut_interval_delta=nullptr;
+static uint8_t  *vfpu_sin_lut_exceptions=nullptr;
 
 static  int8_t  (*vfpu_sqrt_lut)[2]=nullptr;
 
 static  int8_t  (*vfpu_rsqrt_lut)[2]=nullptr;
 
-static uint32_t (*vfpu_exp2_lut65536)=nullptr;
+static uint32_t *vfpu_exp2_lut65536=nullptr;
 static uint8_t  (*vfpu_exp2_lut)[2]=nullptr;
 
-static uint32_t (*vfpu_log2_lut65536)=nullptr;
-static uint32_t (*vfpu_log2_lut65536_quadratic)=nullptr;
+static uint32_t *vfpu_log2_lut65536=nullptr;
+static uint32_t *vfpu_log2_lut65536_quadratic=nullptr;
 static uint8_t  (*vfpu_log2_lut)[131072][2]=nullptr;
 
 static  int32_t (*vfpu_asin_lut65536)[3]=nullptr;
-static uint64_t (*vfpu_asin_lut_deltas)=nullptr;
-static uint16_t (*vfpu_asin_lut_indices)=nullptr;
+static uint64_t *vfpu_asin_lut_deltas=nullptr;
+static uint16_t *vfpu_asin_lut_indices=nullptr;
 
 static  int8_t  (*vfpu_rcp_lut)[2]=nullptr;
 

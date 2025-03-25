@@ -19,14 +19,11 @@
 
 #include <d3d11.h>
 #include <d3d11_1.h>
+#include <wrl/client.h>
 
 #include "Common/Data/Collections/Hashmaps.h"
-#include "GPU/GPUState.h"
-#include "GPU/Common/GPUDebugInterface.h"
-#include "GPU/Common/IndexGenerator.h"
 #include "GPU/Common/VertexDecoderCommon.h"
 #include "GPU/Common/DrawEngineCommon.h"
-#include "GPU/Common/GPUStateUtils.h"
 #include "GPU/D3D11/StateMappingD3D11.h"
 #include "GPU/D3D11/D3D11Util.h"
 
@@ -42,8 +39,8 @@ class TessellationDataTransferD3D11 : public TessellationDataTransfer {
 private:
 	ID3D11DeviceContext *context_;
 	ID3D11Device *device_;
-	ID3D11Buffer *buf[3]{};
-	ID3D11ShaderResourceView *view[3]{};
+	Microsoft::WRL::ComPtr<ID3D11Buffer> buf[3]{};
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> view[3]{};
 	D3D11_BUFFER_DESC desc{};
 	int prevSize = 0;
 	int prevSizeWU = 0, prevSizeWV = 0;
@@ -75,25 +72,12 @@ public:
 	void InitDeviceObjects();
 	void DestroyDeviceObjects();
 
-	void BeginFrame();
+	void BeginFrame() override;
 
-	// So that this can be inlined
-	void Flush() {
-		if (!numDrawVerts_)
-			return;
-		DoFlush();
-	}
+	void Flush() override;
 
 	void FinishDeferred() {
-		if (!numDrawVerts_)
-			return;
-		DecodeVerts(decoded_);
-	}
-
-	void DispatchFlush() override {
-		if (!numDrawVerts_)
-			return;
-		Flush();
+		DecodeVerts(dec_, decoded_);
 	}
 
 	void NotifyConfigChanged() override;
@@ -103,12 +87,10 @@ public:
 private:
 	void Invalidate(InvalidationCallbackFlags flags);
 
-	void DoFlush();
-
 	void ApplyDrawState(int prim);
 	void ApplyDrawStateLate(bool applyStencilRef, uint8_t stencilRef);
 
-	ID3D11InputLayout *SetupDecFmtForDraw(D3D11VertexShader *vshader, const DecVtxFormat &decFmt, u32 pspFmt);
+	HRESULT SetupDecFmtForDraw(D3D11VertexShader *vshader, const DecVtxFormat &decFmt, u32 pspFmt, ID3D11InputLayout **);
 
 	Draw::DrawContext *draw_;  // Used for framebuffer related things exclusively.
 	ID3D11Device *device_;
@@ -128,7 +110,7 @@ private:
 		}
 	};
 
-	DenseHashMap<InputLayoutKey, ID3D11InputLayout *> inputLayoutMap_;
+	DenseHashMap<InputLayoutKey, Microsoft::WRL::ComPtr<ID3D11InputLayout>> inputLayoutMap_;
 
 	// Other
 	ShaderManagerD3D11 *shaderManager_ = nullptr;
@@ -140,16 +122,16 @@ private:
 	PushBufferD3D11 *pushInds_;
 
 	// D3D11 state object caches.
-	DenseHashMap<uint64_t, ID3D11BlendState *> blendCache_;
-	DenseHashMap<uint64_t, ID3D11BlendState1 *> blendCache1_;
-	DenseHashMap<uint64_t, ID3D11DepthStencilState *> depthStencilCache_;
-	DenseHashMap<uint32_t, ID3D11RasterizerState *> rasterCache_;
+	DenseHashMap<uint64_t, Microsoft::WRL::ComPtr<ID3D11BlendState>> blendCache_;
+	DenseHashMap<uint64_t, Microsoft::WRL::ComPtr<ID3D11BlendState1>> blendCache1_;
+	DenseHashMap<uint64_t, Microsoft::WRL::ComPtr<ID3D11DepthStencilState>> depthStencilCache_;
+	DenseHashMap<uint32_t, Microsoft::WRL::ComPtr<ID3D11RasterizerState>> rasterCache_;
 
 	// Keep the depth state between ApplyDrawState and ApplyDrawStateLate
-	ID3D11RasterizerState *rasterState_ = nullptr;
-	ID3D11BlendState *blendState_ = nullptr;
-	ID3D11BlendState1 *blendState1_ = nullptr;
-	ID3D11DepthStencilState *depthStencilState_ = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterState_;
+	Microsoft::WRL::ComPtr<ID3D11BlendState> blendState_;
+	Microsoft::WRL::ComPtr<ID3D11BlendState1> blendState1_;
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depthStencilState_;
 
 	// State keys
 	D3D11StateKeys keys_{};

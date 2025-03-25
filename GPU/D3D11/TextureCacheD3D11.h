@@ -20,9 +20,10 @@
 #include "Common/CommonWindows.h"
 
 #include <d3d11.h>
+#include <wrl/client.h>
 
 #include "GPU/GPU.h"
-#include "GPU/GPUInterface.h"
+#include "GPU/GPUCommon.h"
 #include "GPU/Common/TextureCacheCommon.h"
 
 struct VirtualFramebuffer;
@@ -35,10 +36,10 @@ class SamplerCacheD3D11 {
 public:
 	SamplerCacheD3D11() {}
 	~SamplerCacheD3D11();
-	ID3D11SamplerState *GetOrCreateSampler(ID3D11Device *device, const SamplerCacheKey &key);
+	HRESULT GetOrCreateSampler(ID3D11Device *device, const SamplerCacheKey &key, ID3D11SamplerState **);
 
 private:
-	std::map<SamplerCacheKey, ID3D11SamplerState *> cache_;
+	std::map<SamplerCacheKey, Microsoft::WRL::ComPtr<ID3D11SamplerState>> cache_;
 };
 
 class TextureCacheD3D11 : public TextureCacheCommon {
@@ -61,7 +62,7 @@ protected:
 	void ReleaseTexture(TexCacheEntry *entry, bool delete_them) override;
 	void BindAsClutTexture(Draw::Texture *tex, bool smooth) override;
 	void ApplySamplingParams(const SamplerCacheKey &key) override;
-	void *GetNativeTextureView(const TexCacheEntry *entry) override;
+	void *GetNativeTextureView(const TexCacheEntry *entry, bool flat) const override;
 
 private:
 	DXGI_FORMAT GetDestFormat(GETextureFormat format, GEPaletteFormat clutFormat) const;
@@ -69,20 +70,20 @@ private:
 
 	void BuildTexture(TexCacheEntry *const entry) override;
 
-	ID3D11Device *device_;
-	ID3D11DeviceContext *context_;
+	Microsoft::WRL::ComPtr<ID3D11Device> device_;
+	Microsoft::WRL::ComPtr<ID3D11DeviceContext> context_;
 
-	ID3D11Resource *&DxTex(const TexCacheEntry *entry) {
+	ID3D11Resource *&DxTex(const TexCacheEntry *entry) const {
 		return (ID3D11Resource *&)entry->texturePtr;
 	}
-	ID3D11ShaderResourceView *DxView(const TexCacheEntry *entry) {
+	ID3D11ShaderResourceView *DxView(const TexCacheEntry *entry) const {
 		return (ID3D11ShaderResourceView *)entry->textureView;
 	}
 
 	SamplerCacheD3D11 samplerCache_;
 
 	ID3D11ShaderResourceView *lastBoundTexture;
-	ID3D11Buffer *depalConstants_;
+	Microsoft::WRL::ComPtr<ID3D11Buffer> depalConstants_;
 };
 
 DXGI_FORMAT GetClutDestFormatD3D11(GEPaletteFormat format);

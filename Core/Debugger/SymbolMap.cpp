@@ -39,7 +39,6 @@
 #include "zlib.h"
 
 #include "Common/CommonTypes.h"
-#include "Common/Data/Encoding/Utf8.h"
 #include "Common/Log.h"
 #include "Common/File/FileUtil.h"
 #include "Common/StringUtils.h"
@@ -1135,6 +1134,9 @@ void SymbolMap::FillSymbolListBox(HWND listbox,SymbolType symType) {
 				ListBox_SetItemData(listbox,index,it->first);
 			}
 		}
+		break;
+	case ST_NONE:
+	case ST_ALL:
 		break;
 	}
 

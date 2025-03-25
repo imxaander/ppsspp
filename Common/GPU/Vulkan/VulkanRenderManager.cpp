@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <cstdint>
 
 #include <map>
@@ -14,7 +13,6 @@
 
 #include "Common/LogReporting.h"
 #include "Common/Thread/ThreadUtil.h"
-#include "Common/VR/PPSSPPVR.h"
 
 #if 0 // def _DEBUG
 #define VLOG(...) NOTICE_LOG(Log::G3D, __VA_ARGS__)
@@ -129,6 +127,7 @@ bool VKRGraphicsPipeline::Create(VulkanContext *vulkan, VkRenderPass compatibleR
 	double taken_ms_since_scheduling = (now - scheduleTime) * 1000.0;
 	double taken_ms = (now - start) * 1000.0;
 
+#ifndef _DEBUG
 	if (taken_ms < 0.1) {
 		DEBUG_LOG(Log::G3D, "Pipeline (x/%d) time on %s: %0.2f ms, %0.2f ms since scheduling (fast) rpType: %04x sampleBits: %d (%s)",
 			countToCompile, GetCurrentThreadName(), taken_ms, taken_ms_since_scheduling, (u32)rpType, (u32)sampleCount, tag_.c_str());
@@ -136,6 +135,7 @@ bool VKRGraphicsPipeline::Create(VulkanContext *vulkan, VkRenderPass compatibleR
 		INFO_LOG(Log::G3D, "Pipeline (x/%d) time on %s: %0.2f ms, %0.2f ms since scheduling  rpType: %04x sampleBits: %d (%s)",
 			countToCompile, GetCurrentThreadName(), taken_ms, taken_ms_since_scheduling, (u32)rpType, (u32)sampleCount, tag_.c_str());
 	}
+#endif
 
 	bool success = true;
 	if (result == VK_INCOMPLETE) {
@@ -279,7 +279,7 @@ public:
 
 void CreateMultiPipelinesTask::WaitForAll() {
 	while (tasksInFlight_.load() > 0) {
-		sleep_ms(2);
+		sleep_ms(2, "create-multi-pipelines-wait");
 	}
 }
 
@@ -522,7 +522,7 @@ void VulkanRenderManager::CompileThreadFunc() {
 		}
 
 		// Hold off just a bit before we check again, to allow bunches of pipelines to collect.
-		sleep_ms(1);
+		sleep_ms(1, "pipeline-collect");
 	}
 
 	std::unique_lock<std::mutex> lock(compileQueueMutex_);
@@ -579,7 +579,7 @@ void VulkanRenderManager::PresentWaitThreadFunc() {
 			waitedId++;
 		} else {
 			// We caught up somehow, which is a bad sign (we should have blocked, right?). Maybe we should break out of the loop?
-			sleep_ms(1);
+			sleep_ms(1, "present-wait-problem");
 			frameTimeHistory_[waitedId].waitCount++;
 		}
 		_dbg_assert_(waitedId <= frameIdGen_);
@@ -869,21 +869,26 @@ void VulkanRenderManager::EndCurRenderStep() {
 
 	VkSampleCountFlagBits sampleCount = curRenderStep_->render.framebuffer ? curRenderStep_->render.framebuffer->sampleCount : VK_SAMPLE_COUNT_1_BIT;
 
-	compileQueueMutex_.lock();
 	bool needsCompile = false;
 	for (VKRGraphicsPipeline *pipeline : pipelinesToCheck_) {
 		if (!pipeline) {
 			// Not good, but let's try not to crash.
 			continue;
 		}
-		std::lock_guard<std::mutex> lock(pipeline->mutex_);
+		std::unique_lock<std::mutex> lock(pipeline->mutex_);
 		if (!pipeline->pipeline[(size_t)rpType]) {
 			pipeline->pipeline[(size_t)rpType] = Promise<VkPipeline>::CreateEmpty();
+			lock.unlock();
+
 			_assert_(renderPass);
-			compileQueue_.push_back(CompileQueueEntry(pipeline, renderPass->Get(vulkan_, rpType, sampleCount), rpType, sampleCount));
+			compileQueueMutex_.lock();
+			compileQueue_.emplace_back(pipeline, renderPass->Get(vulkan_, rpType, sampleCount), rpType, sampleCount);
+			compileQueueMutex_.unlock();
 			needsCompile = true;
 		}
 	}
+
+	compileQueueMutex_.lock();
 	if (needsCompile)
 		compileCond_.notify_one();
 	compileQueueMutex_.unlock();
@@ -1533,16 +1538,7 @@ void VulkanRenderManager::Run(VKRRenderThreadTask &task) {
 	if (task.steps.empty() && !frameData.hasAcquired)
 		frameData.skipSwap = true;
 	//queueRunner_.LogSteps(stepsOnThread, false);
-	if (IsVREnabled()) {
-		int passes = GetVRPassesCount();
-		for (int i = 0; i < passes; i++) {
-			PreVRFrameRender(i);
-			queueRunner_.RunSteps(task.steps, task.frame, frameData, frameDataShared_, i < passes - 1);
-			PostVRFrameRender();
-		}
-	} else {
-		queueRunner_.RunSteps(task.steps, task.frame, frameData, frameDataShared_);
-	}
+	queueRunner_.RunSteps(task.steps, task.frame, frameData, frameDataShared_);
 
 	switch (task.runType) {
 	case VKRRunType::SUBMIT:
@@ -1875,7 +1871,7 @@ void VulkanRenderManager::SanityCheckPassesOnAdd() {
 	// Check that we don't have any previous passes that write to the backbuffer, that must ALWAYS be the last one.
 	for (int i = 0; i < steps_.size(); i++) {
 		if (steps_[i]->stepType == VKRStepType::RENDER) {
-			_dbg_assert_(steps_[i]->render.framebuffer != nullptr);
+			_dbg_assert_msg_(steps_[i]->render.framebuffer != nullptr, "Adding second backbuffer pass? Not good!");
 		}
 	}
 #endif

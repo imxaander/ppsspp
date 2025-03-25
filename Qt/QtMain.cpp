@@ -46,6 +46,7 @@
 #include "Common/Data/Encoding/Utf8.h"
 #include "Common/StringUtils.h"
 #include "Common/TimeUtil.h"
+#include "Common/Log/LogManager.h"
 
 #include "Core/Config.h"
 #include "Core/ConfigValues.h"
@@ -325,6 +326,9 @@ bool MainUI::HandleCustomEvent(QEvent *e) {
 		case BrowseFileType::ZIP:
 			filter = "ZIP files (*.zip)";
 			break;
+		case BrowseFileType::ATRAC3:
+			filter = "AT3 files (*.at3)";
+			break;
 		case BrowseFileType::ANY:
 			break;
 		}
@@ -482,7 +486,7 @@ void MainUI::EmuThreadFunc() {
 	emuThreadState = (int)EmuThreadState::RUNNING;
 	while (emuThreadState != (int)EmuThreadState::QUIT_REQUESTED) {
 		updateAccelerometer();
-		UpdateRunLoop(graphicsContext);
+		NativeFrame(graphicsContext);
 	}
 	emuThreadState = (int)EmuThreadState::STOPPED;
 
@@ -548,7 +552,7 @@ QString MainUI::InputBoxGetQString(QString title, QString defaultValue) {
 }
 
 void MainUI::resizeGL(int w, int h) {
-	if (UpdateScreenScale(w, h)) {
+	if (Native_UpdateScreenScale(w, h, UIScaleFactorToMultiplier(g_Config.iUIScaleFactor))) {
 		System_PostUIMessage(UIMessage::GPU_RENDER_RESIZED);
 	}
 	xscale = w / this->width();
@@ -566,7 +570,7 @@ void MainUI::timerEvent(QTimerEvent *) {
 void MainUI::changeEvent(QEvent *e) {
 	QGLWidget::changeEvent(e);
 	if (e->type() == QEvent::WindowStateChange)
-		Core_NotifyWindowHidden(isMinimized());
+		Native_NotifyWindowHidden(isMinimized());
 }
 
 bool MainUI::event(QEvent *e) {
@@ -584,15 +588,15 @@ bool MainUI::event(QEvent *e) {
 				break;
 			case Qt::TouchPointPressed:
 			case Qt::TouchPointReleased:
-				input.x = touchPoint.pos().x() * g_display.dpi_scale_x * xscale;
-				input.y = touchPoint.pos().y() * g_display.dpi_scale_y * yscale;
+				input.x = touchPoint.pos().x() * g_display.dpi_scale * xscale;
+				input.y = touchPoint.pos().y() * g_display.dpi_scale * yscale;
 				input.flags = (touchPoint.state() == Qt::TouchPointPressed) ? TOUCH_DOWN : TOUCH_UP;
 				input.id = touchPoint.id();
 				NativeTouch(input);
 				break;
 			case Qt::TouchPointMoved:
-				input.x = touchPoint.pos().x() * g_display.dpi_scale_x * xscale;
-				input.y = touchPoint.pos().y() * g_display.dpi_scale_y * yscale;
+				input.x = touchPoint.pos().x() * g_display.dpi_scale * xscale;
+				input.y = touchPoint.pos().y() * g_display.dpi_scale * yscale;
 				input.flags = TOUCH_MOVE;
 				input.id = touchPoint.id();
 				NativeTouch(input);
@@ -610,9 +614,9 @@ bool MainUI::event(QEvent *e) {
 	case QEvent::MouseButtonRelease:
 		switch(((QMouseEvent*)e)->button()) {
 		case Qt::LeftButton:
-			input.x = ((QMouseEvent*)e)->pos().x() * g_display.dpi_scale_x * xscale;
-			input.y = ((QMouseEvent*)e)->pos().y() * g_display.dpi_scale_y * yscale;
-			input.flags = (e->type() == QEvent::MouseButtonPress) ? TOUCH_DOWN : TOUCH_UP;
+			input.x = ((QMouseEvent*)e)->pos().x() * g_display.dpi_scale * xscale;
+			input.y = ((QMouseEvent*)e)->pos().y() * g_display.dpi_scale * yscale;
+			input.flags = ((e->type() == QEvent::MouseButtonPress) ? TOUCH_DOWN : TOUCH_UP) | TOUCH_MOUSE;
 			input.id = 0;
 			NativeTouch(input);
 			break;
@@ -633,9 +637,9 @@ bool MainUI::event(QEvent *e) {
 		}
 		break;
 	case QEvent::MouseMove:
-		input.x = ((QMouseEvent*)e)->pos().x() * g_display.dpi_scale_x * xscale;
-		input.y = ((QMouseEvent*)e)->pos().y() * g_display.dpi_scale_y * yscale;
-		input.flags = TOUCH_MOVE;
+		input.x = ((QMouseEvent*)e)->pos().x() * g_display.dpi_scale * xscale;
+		input.y = ((QMouseEvent*)e)->pos().y() * g_display.dpi_scale * yscale;
+		input.flags = TOUCH_MOVE | TOUCH_MOUSE;
 		input.id = 0;
 		NativeTouch(input);
 		break;
@@ -726,7 +730,7 @@ void MainUI::paintGL() {
 #endif
 	updateAccelerometer();
 	if (emuThreadState == (int)EmuThreadState::DISABLED) {
-		UpdateRunLoop(graphicsContext);
+		NativeFrame(graphicsContext);
 	} else {
 		graphicsContext->ThreadFrame();
 		// Do the rest in EmuThreadFunc
@@ -805,6 +809,8 @@ int main(int argc, char *argv[])
 {
 	TimeInit();
 
+	g_logManager.EnableOutput(LogOutput::Stdio);
+
 	for (int i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "--version")) {
 			printf("%s\n", PPSSPP_GIT_VERSION);
@@ -836,15 +842,10 @@ int main(int argc, char *argv[])
 
 	if (res.width() < res.height())
 		res.transpose();
-	g_display.pixel_xres = res.width();
-	g_display.pixel_yres = res.height();
 
-	g_display.dpi_scale_x = screen->logicalDotsPerInchX() / screen->physicalDotsPerInchX();
-	g_display.dpi_scale_y = screen->logicalDotsPerInchY() / screen->physicalDotsPerInchY();
-	g_display.dpi_scale_real_x = g_display.dpi_scale_x;
-	g_display.dpi_scale_real_y = g_display.dpi_scale_y;
-	g_display.dp_xres = (int)(g_display.pixel_xres * g_display.dpi_scale_x);
-	g_display.dp_yres = (int)(g_display.pixel_yres * g_display.dpi_scale_y);
+	// We assume physicalDotsPerInchY is the same as PerInchX.
+	float dpi_scale = screen->logicalDotsPerInchX() / screen->physicalDotsPerInchX();
+	g_display.Recalculate(res.width(), res.height(), dpi_scale, UIScaleFactorToMultiplier(g_Config.iUIScaleFactor));
 
 	refreshRate = screen->refreshRate();
 

@@ -19,14 +19,10 @@
 // under the public domain.
 
 #include <algorithm>
-#include <set>
-#include <mutex>
-
 #include "Common/Math/math_util.h"
 
 #include "Common/Log.h"
 #include "Common/TimeUtil.h"
-#include "Common/Math/math_util.h"
 #include "Common/GPU/Vulkan/VulkanMemory.h"
 #include "Common/Data/Text/Parsers.h"
 
@@ -38,6 +34,16 @@ static const double PUSH_GARBAGE_COLLECTION_DELAY = 10.0;
 VulkanPushPool::VulkanPushPool(VulkanContext *vulkan, const char *name, size_t originalBlockSize, VkBufferUsageFlags usage)
 	: vulkan_(vulkan), name_(name), originalBlockSize_(originalBlockSize), usage_(usage) {
 	RegisterGPUMemoryManager(this);
+
+	#if PPSSPP_PLATFORM(MAC) && PPSSPP_ARCH(AMD64)
+	allocation_extra_flags_ = 0;
+	if (vulkan_->GetPhysicalDeviceProperties().properties.vendorID != VULKAN_VENDOR_INTEL) {
+		// ref https://github.com/KhronosGroup/MoltenVK/issues/960
+		INFO_LOG(Log::G3D, "MoltenVK with dedicated gpu, adding VK_MEMORY_PROPERTY_HOST_COHERENT_BIT");
+		allocation_extra_flags_ = VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
+	}
+	#endif
+
 	for (int i = 0; i < VulkanContext::MAX_INFLIGHT_FRAMES; i++) {
 		blocks_.push_back(CreateBlock(originalBlockSize));
 		blocks_.back().original = true;
@@ -67,7 +73,11 @@ VulkanPushPool::Block VulkanPushPool::CreateBlock(size_t size) {
 	b.usage = usage_;
 	b.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 	VmaAllocationCreateInfo allocCreateInfo{};
+
 	allocCreateInfo.usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
+	#if PPSSPP_PLATFORM(MAC) && PPSSPP_ARCH(AMD64)
+	allocCreateInfo.requiredFlags = allocation_extra_flags_;
+	#endif
 	VmaAllocationInfo allocInfo{};
 	
 	VkResult result = vmaCreateBuffer(vulkan_->Allocator(), &b, &allocCreateInfo, &block.buffer, &block.allocation, &allocInfo);

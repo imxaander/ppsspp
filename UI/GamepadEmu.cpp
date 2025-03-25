@@ -42,12 +42,14 @@ static uint32_t analogPointerMask = 0;
 static float g_gamepadOpacity;
 static double g_lastTouch;
 
+MultiTouchButton *primaryButton[TOUCH_MAX_POINTERS]{};
+
 void GamepadUpdateOpacity(float force) {
 	if (force >= 0.0f) {
 		g_gamepadOpacity = force;
 		return;
 	}
-	if (coreState != CORE_RUNNING) {
+	if (coreState != CORE_RUNNING_CPU) {
 		g_gamepadOpacity = 0.0f;
 		return;
 	}
@@ -100,21 +102,36 @@ void MultiTouchButton::GetContentDimensions(const UIContext &dc, float &w, float
 	}
 }
 
+bool MultiTouchButton::CanGlide() const {
+	return g_Config.bTouchGliding;
+}
+
 bool MultiTouchButton::Touch(const TouchInput &input) {
+	_dbg_assert_(input.id >= 0 && input.id < TOUCH_MAX_POINTERS);
+
 	bool retval = GamepadView::Touch(input);
 	if ((input.flags & TOUCH_DOWN) && bounds_.Contains(input.x, input.y)) {
 		pointerDownMask_ |= 1 << input.id;
 		usedPointerMask |= 1 << input.id;
+		if (CanGlide() && !primaryButton[input.id])
+			primaryButton[input.id] = this;
 	}
 	if (input.flags & TOUCH_MOVE) {
-		if (bounds_.Contains(input.x, input.y) && !(analogPointerMask & (1 << input.id)))
-			pointerDownMask_ |= 1 << input.id;
-		else
-			pointerDownMask_ &= ~(1 << input.id);
+		if (!(input.flags & TOUCH_MOUSE) || input.buttons) {
+			if (bounds_.Contains(input.x, input.y) && !(analogPointerMask & (1 << input.id))) {
+				if (CanGlide() && !primaryButton[input.id]) {
+					primaryButton[input.id] = this;
+				}
+				pointerDownMask_ |= 1 << input.id;
+			} else if (primaryButton[input.id] != this) {
+				pointerDownMask_ &= ~(1 << input.id);
+			}
+		}
 	}
 	if (input.flags & TOUCH_UP) {
 		pointerDownMask_ &= ~(1 << input.id);
 		usedPointerMask &= ~(1 << input.id);
+		primaryButton[input.id] = nullptr;
 	}
 	if (input.flags & TOUCH_RELEASE_ALL) {
 		pointerDownMask_ = 0;
@@ -291,11 +308,13 @@ bool PSPDpad::Touch(const TouchInput &input) {
 		}
 	}
 	if (input.flags & TOUCH_MOVE) {
-		if (dragPointerId_ == -1 && bounds_.Contains(input.x, input.y) && !(analogPointerMask & (1 << input.id))) {
-			dragPointerId_ = input.id;
-		}
-		if (input.id == dragPointerId_) {
-			ProcessTouch(input.x, input.y, true);
+		if (!(input.flags & TOUCH_MOUSE) || input.buttons) {
+			if (dragPointerId_ == -1 && bounds_.Contains(input.x, input.y) && !(analogPointerMask & (1 << input.id))) {
+				dragPointerId_ = input.id;
+			}
+			if (input.id == dragPointerId_) {
+				ProcessTouch(input.x, input.y, true);
+			}
 		}
 	}
 	if (input.flags & TOUCH_UP) {
@@ -917,7 +936,7 @@ UI::ViewGroup *CreatePadLayout(float xres, float yres, bool *pause, bool showPau
 	if (fastForward) {
 		fastForward->SetAngle(180.0f);
 		fastForward->OnChange.Add([](UI::EventParams &e) {
-			if (e.a && coreState == CORE_STEPPING) {
+			if (e.a && coreState == CORE_STEPPING_CPU) {
 				Core_Resume();
 			}
 			return UI::EVENT_DONE;
@@ -1002,8 +1021,8 @@ bool GestureGamepad::Touch(const TouchInput &input) {
 
 			if (g_Config.bAnalogGesture) {
 				const float k = g_Config.fAnalogGestureSensibility * 0.02;
-				float dx = (input.x - downX_)*g_display.dpi_scale_x * k;
-				float dy = (input.y - downY_)*g_display.dpi_scale_y * k;
+				float dx = (input.x - downX_) * g_display.dpi_scale * k;
+				float dy = (input.y - downY_) * g_display.dpi_scale * k;
 				dx = std::min(1.0f, std::max(-1.0f, dx));
 				dy = std::min(1.0f, std::max(-1.0f, dy));
 				__CtrlSetAnalogXY(0, dx, -dy);
@@ -1043,8 +1062,8 @@ void GestureGamepad::Draw(UIContext &dc) {
 
 void GestureGamepad::Update() {
 	const float th = 1.0f;
-	float dx = deltaX_ * g_display.dpi_scale_x * g_Config.fSwipeSensitivity;
-	float dy = deltaY_ * g_display.dpi_scale_y * g_Config.fSwipeSensitivity;
+	float dx = deltaX_ * g_display.dpi_scale * g_Config.fSwipeSensitivity;
+	float dy = deltaY_ * g_display.dpi_scale * g_Config.fSwipeSensitivity;
 	if (g_Config.iSwipeRight != 0) {
 		if (dx > th) {
 			controlMapper_->PSPKey(DEVICE_ID_TOUCH, GestureKey::keyList[g_Config.iSwipeRight-1], KEY_DOWN);

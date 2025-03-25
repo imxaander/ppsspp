@@ -15,34 +15,23 @@
 // Official git repository and contact information can be found at
 // https://github.com/hrydgard/ppsspp and http://www.ppsspp.org/.
 
-#include <algorithm>
 #include <cstring>
 
 #include "ext/xxhash.h"
 #include "Common/Common.h"
 #include "Common/Data/Convert/ColorConv.h"
 #include "Common/Data/Text/I18n.h"
-#include "Common/Math/math_util.h"
 #include "Common/Profiler/Profiler.h"
 #include "Common/System/OSD.h"
 #include "Common/GPU/OpenGL/GLRenderManager.h"
 #include "Common/TimeUtil.h"
 
-#include "Core/Config.h"
-#include "Core/MemMap.h"
 #include "GPU/ge_constants.h"
 #include "GPU/GPUState.h"
 #include "GPU/GLES/TextureCacheGLES.h"
 #include "GPU/GLES/FramebufferManagerGLES.h"
-#include "GPU/Common/FragmentShaderGenerator.h"
 #include "GPU/Common/TextureShaderCommon.h"
-#include "GPU/GLES/ShaderManagerGLES.h"
-#include "GPU/GLES/DrawEngineGLES.h"
-#include "GPU/Common/TextureDecoder.h"
-
-#ifdef _M_SSE
-#include <emmintrin.h>
-#endif
+#include "GPU/Common/DrawEngineCommon.h"
 
 TextureCacheGLES::TextureCacheGLES(Draw::DrawContext *draw, Draw2D *draw2D)
 	: TextureCacheCommon(draw, draw2D) {
@@ -73,7 +62,7 @@ void TextureCacheGLES::Clear(bool delete_them) {
 	TextureCacheCommon::Clear(delete_them);
 }
 
-Draw::DataFormat getClutDestFormat(GEPaletteFormat format) {
+static Draw::DataFormat getClutDestFormat(GEPaletteFormat format) {
 	switch (format) {
 	case GE_CMODE_16BIT_ABGR4444:
 		return Draw::DataFormat::R4G4B4A4_UNORM_PACK16;
@@ -397,7 +386,7 @@ bool TextureCacheGLES::GetCurrentTextureDebug(GPUDebugBuffer &buffer, int level,
 	TexCacheEntry *entry = nextTexture_;
 	// We might need a render pass to set the sampling params, unfortunately.  Otherwise BuildTexture may crash.
 	framebufferManagerGL_->RebindFramebuffer("RebindFramebuffer - GetCurrentTextureDebug");
-	ApplyTexture();
+	ApplyTexture(false);
 
 	GLRenderManager *renderManager = (GLRenderManager *)draw_->GetNativeObject(Draw::NativeObject::RENDER_MANAGER);
 
@@ -433,7 +422,7 @@ void TextureCacheGLES::DeviceRestore(Draw::DrawContext *draw) {
 	textureShaderCache_->DeviceRestore(draw);
 }
 
-void *TextureCacheGLES::GetNativeTextureView(const TexCacheEntry *entry) {
+void *TextureCacheGLES::GetNativeTextureView(const TexCacheEntry *entry, bool flat) const {
 	GLRTexture *tex = entry->textureName;
 	return (void *)tex;
 }

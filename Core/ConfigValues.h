@@ -18,6 +18,7 @@
 #pragma once
 
 #include <cstdint>
+#include <cmath>
 #include <string>
 #ifndef _MSC_VER
 #include <strings.h>
@@ -25,11 +26,24 @@
 #include "Common/Common.h"
 #include "Common/CommonFuncs.h"
 
-const int PSP_MODEL_FAT = 0;
-const int PSP_MODEL_SLIM = 1;
-const int PSP_DEFAULT_FIRMWARE = 660;
-static const int8_t VOLUME_OFF = 0;
-static const int8_t VOLUME_FULL = 10;
+constexpr int PSP_MODEL_FAT = 0;
+constexpr int PSP_MODEL_SLIM = 1;
+constexpr int PSP_DEFAULT_FIRMWARE = 660;
+constexpr int VOLUME_OFF = 0;
+constexpr int VOLUME_FULL = 10;
+constexpr int VOLUMEHI_FULL = 100;  // for newer volume params. will convert them all later
+
+// This matches exactly the old shift-based curve.
+float Volume10ToMultiplier(int volume);
+
+// NOTE: This is used for new volume parameters.
+// It uses a more intuitive-feeling curve.
+float Volume100ToMultiplier(int volume);
+
+// Used for migration from the old settings.
+int MultiplierToVolume100(float multiplier);
+
+float UIScaleFactorToMultiplier(int factor);
 
 struct ConfigTouchPos {
 	float x;
@@ -75,12 +89,24 @@ enum BufferFilter {
 	SCALE_NEAREST = 2,
 };
 
+enum class ScreenshotMode {
+	FinalOutput = 0,
+	GameImage = 1,
+};
+
 // Software is not among these because it will have one of these perform the blit to display.
 enum class GPUBackend {
 	OPENGL = 0,
 	DIRECT3D9 = 1,
 	DIRECT3D11 = 2,
 	VULKAN = 3,
+};
+
+enum class DepthRasterMode {
+	DEFAULT = 0,
+	LOW_QUALITY = 1,
+	OFF = 2,
+	FORCE_ON = 3,
 };
 
 enum class RestoreSettingsBits : int {
@@ -138,6 +164,13 @@ enum class ShowStatusFlags {
 	SPEED_COUNTER = 1 << 2,
 	BATTERY_PERCENT = 1 << 3,
 };
+
+enum class DumpFileType {
+	EBOOT = (1 << 0),
+	PRX = (1 << 1),
+	Atrac3 = (1 << 2),
+};
+ENUM_CLASS_BITOPS(DumpFileType);
 
 // for iTiltInputType
 enum TiltTypes {

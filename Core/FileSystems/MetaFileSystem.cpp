@@ -15,9 +15,6 @@
 // Official git repository and contact information can be found at
 // https://github.com/hrydgard/ppsspp and http://www.ppsspp.org/.
 
-#include <algorithm>
-#include <set>
-
 #include "Common/Serialize/Serializer.h"
 #include "Common/Serialize/SerializeFuncs.h"
 #include "Common/Serialize/SerializeMap.h"
@@ -165,7 +162,7 @@ static bool RealPath(const std::string &currentDirectory, const std::string &inP
 	return true;
 }
 
-IFileSystem *MetaFileSystem::GetHandleOwner(u32 handle)
+IFileSystem *MetaFileSystem::GetHandleOwner(u32 handle) const
 {
 	std::lock_guard<std::recursive_mutex> guard(lock);
 	for (size_t i = 0; i < fileSystems.size(); i++)
@@ -369,6 +366,14 @@ PSPFileInfo MetaFileSystem::GetFileInfo(std::string filename)
 		PSPFileInfo bogus;
 		return bogus; 
 	}
+}
+
+PSPFileInfo MetaFileSystem::GetFileInfoByHandle(u32 handle) {
+	std::lock_guard<std::recursive_mutex> guard(lock);
+	IFileSystem *sys = GetHandleOwner(handle);
+	if (sys)
+		return sys->GetFileInfoByHandle(handle);
+	return PSPFileInfo();
 }
 
 std::vector<PSPFileInfo> MetaFileSystem::GetDirListing(const std::string &path, bool *exists) {
@@ -681,4 +686,10 @@ int64_t MetaFileSystem::ComputeRecursiveDirectorySize(const std::string &filenam
 	} else {
 		return false;
 	}
+}
+
+bool MetaFileSystem::ComputeRecursiveDirSizeIfFast(const std::string &path, int64_t *size) {
+	// Shouldn't be called. Can't recurse MetaFileSystem.
+	_dbg_assert_(false);
+	return false;
 }

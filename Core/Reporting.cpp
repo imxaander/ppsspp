@@ -57,7 +57,7 @@ extern "C" {
 #include "Core/HLE/sceKernelMemory.h"
 #include "Core/HLE/scePower.h"
 #include "Core/HW/Display.h"
-#include "GPU/GPUInterface.h"
+#include "GPU/GPUCommon.h"
 #include "GPU/GPUState.h"
 
 namespace Reporting
@@ -294,7 +294,7 @@ namespace Reporting
 		std::string hostname = ServerHostname();
 		int port = ServerPort();
 		snprintf(url, sizeof(url), "http://%s:%d%s", hostname.c_str(), port, uri);
-		g_DownloadManager.AsyncPostWithCallback(url, data, mimeType, http::ProgressBarMode::NONE, callback);
+		g_DownloadManager.AsyncPostWithCallback(url, data, mimeType, http::RequestFlags::Default, callback);
 	}
 
 	std::string StripTrailingNull(const std::string &str) {

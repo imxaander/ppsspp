@@ -43,7 +43,7 @@ private:
 	currentDir_t currentDir;
 
 	std::string startingDirectory;
-	std::recursive_mutex lock;  // must be recursive. TODO: fix that
+	mutable std::recursive_mutex lock;  // must be recursive. TODO: fix that
 
 	// Assumes the lock is held
 	void Reset() {
@@ -65,10 +65,15 @@ public:
 	void UnmountAll();
 	void Unmount(const std::string &prefix);
 
+	// Would like to make this const, but...
+	std::vector<MountPoint> &GetMounts() {
+		return fileSystems;
+	}
+
 	// The pointer returned from these are for temporary usage only. Do not store.
 	IFileSystem *GetSystem(const std::string &prefix);
 	IFileSystem *GetSystemFromFilename(const std::string &filename);
-	IFileSystem *GetHandleOwner(u32 handle);
+	IFileSystem *GetHandleOwner(u32 handle) const;
 	FileSystemFlags FlagsFromFilename(const std::string &filename) {
 		IFileSystem *sys = GetSystemFromFilename(filename);
 		return sys ? sys->Flags() : FileSystemFlags::NONE;
@@ -113,6 +118,7 @@ public:
 	size_t   WriteFile(u32 handle, const u8 *pointer, s64 size, int &usec) override;
 	size_t   SeekFile(u32 handle, s32 position, FileMove type) override;
 	PSPFileInfo GetFileInfo(std::string filename) override;
+	PSPFileInfo GetFileInfoByHandle(u32 handle) override;
 	bool     OwnsHandle(u32 handle) override { return false; }
 	inline size_t GetSeekPos(u32 handle) {
 		return SeekFile(handle, 0, FILEMOVE_CURRENT);
@@ -126,7 +132,7 @@ public:
 	bool RemoveFile(const std::string &filename) override;
 	int  Ioctl(u32 handle, u32 cmd, u32 indataPtr, u32 inlen, u32 outdataPtr, u32 outlen, int &usec) override;
 	PSPDevType DevType(u32 handle) override;
-	FileSystemFlags Flags() override { return FileSystemFlags::NONE; }
+	FileSystemFlags Flags() const override { return FileSystemFlags::NONE; }
 	u64  FreeDiskSpace(const std::string &path) override;
 
 	// Convenience helper - returns < 0 on failure.
@@ -139,16 +145,9 @@ public:
 
 	int64_t ComputeRecursiveDirectorySize(const std::string &dirPath);
 
-	// Shouldn't ever be called, but meh.
-	bool ComputeRecursiveDirSizeIfFast(const std::string &path, int64_t *size) override {
-		int64_t sizeTemp = ComputeRecursiveDirectorySize(path);
-		if (sizeTemp >= 0) {
-			*size = sizeTemp;
-			return true;
-		} else {
-			return false;
-		}
-	}
+	bool ComputeRecursiveDirSizeIfFast(const std::string &path, int64_t *size) override;
+
+	void Describe(char *buf, size_t size) const override { snprintf(buf, size, "Meta"); }
 
 private:
 	int64_t RecursiveSize(const std::string &dirPath);

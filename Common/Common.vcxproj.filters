@@ -6,6 +6,7 @@
     <ClInclude Include="CommonFuncs.h" />
     <ClInclude Include="CommonTypes.h" />
     <ClInclude Include="CPUDetect.h" />
+    <ClInclude Include="GhidraClient.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="MemArena.h" />
     <ClInclude Include="MemoryUtil.h" />
@@ -558,7 +559,6 @@
     <ClInclude Include="Render\Text\draw_text_cocoa.h">
       <Filter>Render\Text</Filter>
     </ClInclude>
-    <ClInclude Include="Log\StdioListener.h" />
     <ClInclude Include="Log\ConsoleListener.h">
       <Filter>Log</Filter>
     </ClInclude>
@@ -670,10 +670,21 @@
     <ClInclude Include="..\ext\lua\lzio.h">
       <Filter>ext\lua</Filter>
     </ClInclude>
+    <ClInclude Include="Data\Collections\CharQueue.h">
+      <Filter>Data\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\Collections\LinkedList.h">
+      <Filter>Data\Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\SIMDHeaders.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Net\SocketCompat.h">
+      <Filter>Net</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ABI.cpp" />
-    <ClCompile Include="Log\StdioListener.cpp" />
     <ClCompile Include="CPUDetect.cpp" />
     <ClCompile Include="FakeCPUDetect.cpp" />
     <ClCompile Include="MipsCPUDetect.cpp" />
@@ -705,6 +716,7 @@
       <Filter>Serialize</Filter>
     </ClCompile>
     <ClCompile Include="TimeUtil.cpp" />
+    <ClCompile Include="GhidraClient.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="SysError.cpp" />
     <ClCompile Include="..\ext\libpng17\png.c">

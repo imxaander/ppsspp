@@ -24,6 +24,8 @@ const int MAX_CORES_TO_USE = 16;
 const int MIN_IO_BLOCKING_THREADS = 4;
 static constexpr size_t TASK_PRIORITY_COUNT = (size_t)TaskPriority::COUNT;
 
+ThreadManager g_threadManager;
+
 struct GlobalThreadContext {
 	std::mutex mutex;
 	std::deque<Task *> compute_queue[TASK_PRIORITY_COUNT];
@@ -130,13 +132,14 @@ bool ThreadManager::TeardownTask(Task *task, bool enqueue) {
 
 static void WorkerThreadFunc(GlobalThreadContext *global, TaskThreadContext *thread) {
 	if (thread->type == TaskType::CPU_COMPUTE) {
-		snprintf(thread->name, sizeof(thread->name), "PoolWorker %d", thread->index);
+		snprintf(thread->name, sizeof(thread->name), "PoolW %d", thread->index);
 	} else {
 		_assert_(thread->type == TaskType::IO_BLOCKING);
-		snprintf(thread->name, sizeof(thread->name), "PoolWorkerIO %d", thread->index);
+		snprintf(thread->name, sizeof(thread->name), "PoolW IO %d", thread->index);
 	}
 	SetCurrentThreadName(thread->name);
 
+	// Should we do this on all threads?
 	if (thread->type == TaskType::IO_BLOCKING) {
 		AttachThreadToJNI();
 	}

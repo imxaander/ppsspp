@@ -15,11 +15,11 @@
 // Official git repository and contact information can be found at
 // https://github.com/hrydgard/ppsspp and http://www.ppsspp.org/.
 
-#include <ctime>
 #include "Core/FileSystems/BlobFileSystem.h"
 
 BlobFileSystem::BlobFileSystem(IHandleAllocator *hAlloc, FileLoader *fileLoader, std::string alias)
 : alloc_(hAlloc), fileLoader_(fileLoader), alias_(alias) {
+	NOTICE_LOG(Log::FileSystem, "%s", fileLoader->GetPath().c_str());
 }
 
 BlobFileSystem::~BlobFileSystem() {
@@ -99,6 +99,10 @@ PSPFileInfo BlobFileSystem::GetFileInfo(std::string filename) {
 	info.exists = true;
 	info.type = FILETYPE_NORMAL;
 	return info;
+}
+
+PSPFileInfo BlobFileSystem::GetFileInfoByHandle(u32 handle) {
+	return GetFileInfo("");
 }
 
 bool BlobFileSystem::OwnsHandle(u32 handle) {

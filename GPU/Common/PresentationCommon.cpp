@@ -15,11 +15,10 @@
 // Official git repository and contact information can be found at
 // https://github.com/hrydgard/ppsspp and http://www.ppsspp.org/.
 
+#include <algorithm>
 #include <cmath>
 #include <set>
 #include <cstdint>
-#include <algorithm>
-
 #include "Common/GPU/thin3d.h"
 
 #include "Common/System/Display.h"
@@ -27,6 +26,7 @@
 #include "Common/System/OSD.h"
 #include "Common/File/VFS/VFS.h"
 #include "Common/VR/PPSSPPVR.h"
+#include "Common/Math/geom2d.h"
 #include "Common/Log.h"
 #include "Common/TimeUtil.h"
 #include "Core/Config.h"
@@ -44,6 +44,16 @@ struct Vertex {
 	uint32_t rgba;
 };
 
+static bool g_overrideScreenBounds;
+static Bounds g_screenBounds;
+
+void SetOverrideScreenFrame(const Bounds *bounds) {
+	g_overrideScreenBounds = bounds != nullptr;
+	if (bounds) {
+		g_screenBounds = *bounds;
+	}
+}
+
 FRect GetScreenFrame(float pixelWidth, float pixelHeight) {
 	FRect rc = FRect{
 		0.0f,
@@ -56,10 +66,10 @@ FRect GetScreenFrame(float pixelWidth, float pixelHeight) {
 
 	if (applyInset) {
 		// Remove the DPI scale to get back to pixels.
-		float left = System_GetPropertyFloat(SYSPROP_DISPLAY_SAFE_INSET_LEFT) / g_display.dpi_scale_x;
-		float right = System_GetPropertyFloat(SYSPROP_DISPLAY_SAFE_INSET_RIGHT) / g_display.dpi_scale_x;
-		float top = System_GetPropertyFloat(SYSPROP_DISPLAY_SAFE_INSET_TOP) / g_display.dpi_scale_y;
-		float bottom = System_GetPropertyFloat(SYSPROP_DISPLAY_SAFE_INSET_BOTTOM) / g_display.dpi_scale_y;
+		float left = System_GetPropertyFloat(SYSPROP_DISPLAY_SAFE_INSET_LEFT) / g_display.dpi_scale;
+		float right = System_GetPropertyFloat(SYSPROP_DISPLAY_SAFE_INSET_RIGHT) / g_display.dpi_scale;
+		float top = System_GetPropertyFloat(SYSPROP_DISPLAY_SAFE_INSET_TOP) / g_display.dpi_scale;
+		float bottom = System_GetPropertyFloat(SYSPROP_DISPLAY_SAFE_INSET_BOTTOM) / g_display.dpi_scale;
 
 		// Adjust left edge to compensate for cutouts (notches) if any.
 		rc.x += left;
@@ -67,6 +77,15 @@ FRect GetScreenFrame(float pixelWidth, float pixelHeight) {
 		rc.y += top;
 		rc.h -= (top + bottom);
 	}
+
+	if (g_overrideScreenBounds) {
+		// Set rectangle to match central node. Here we ignore bIgnoreScreenInsets.
+		rc.x = g_screenBounds.x;
+		rc.y = g_screenBounds.y;
+		rc.w = g_screenBounds.w;
+		rc.h = g_screenBounds.h;
+	}
+
 	return rc;
 }
 
@@ -611,15 +630,15 @@ bool PresentationCommon::BindSource(int binding, bool bindStereo) {
 	} else if (srcFramebuffer_) {
 		if (bindStereo) {
 			if (srcFramebuffer_->Layers() > 1) {
-				draw_->BindFramebufferAsTexture(srcFramebuffer_, binding, Draw::FB_COLOR_BIT, Draw::ALL_LAYERS);
+				draw_->BindFramebufferAsTexture(srcFramebuffer_, binding, Draw::Aspect::COLOR_BIT, Draw::ALL_LAYERS);
 				return true;
 			} else {
 				// Single layer. This might be from a post shader and those don't yet support stereo.
-				draw_->BindFramebufferAsTexture(srcFramebuffer_, binding, Draw::FB_COLOR_BIT, 0);
+				draw_->BindFramebufferAsTexture(srcFramebuffer_, binding, Draw::Aspect::COLOR_BIT, 0);
 				return false;
 			}
 		} else {
-			draw_->BindFramebufferAsTexture(srcFramebuffer_, binding, Draw::FB_COLOR_BIT, 0);
+			draw_->BindFramebufferAsTexture(srcFramebuffer_, binding, Draw::Aspect::COLOR_BIT, 0);
 			return false;
 		}
 	} else {
@@ -765,13 +784,13 @@ void PresentationCommon::CopyToOutput(OutputFlags flags, int uvRotation, float u
 	PostShaderUniforms uniforms;
 	const auto performShaderPass = [&](const ShaderInfo *shaderInfo, Draw::Framebuffer *postShaderFramebuffer, Draw::Pipeline *postShaderPipeline, int vertsOffset) {
 		if (postShaderOutput) {
-			draw_->BindFramebufferAsTexture(postShaderOutput, 0, Draw::FB_COLOR_BIT, 0);
+			draw_->BindFramebufferAsTexture(postShaderOutput, 0, Draw::Aspect::COLOR_BIT, 0);
 		} else {
 			BindSource(0, false);
 		}
 		BindSource(1, false);
 		if (shaderInfo->usePreviousFrame)
-			draw_->BindFramebufferAsTexture(previousFramebuffer, 2, Draw::FB_COLOR_BIT, 0);
+			draw_->BindFramebufferAsTexture(previousFramebuffer, 2, Draw::Aspect::COLOR_BIT, 0);
 
 		int nextWidth, nextHeight;
 		draw_->GetFramebufferDimensions(postShaderFramebuffer, &nextWidth, &nextHeight);
@@ -879,7 +898,7 @@ void PresentationCommon::CopyToOutput(OutputFlags flags, int uvRotation, float u
 
 		draw_->BindPipeline(pipeline);
 		if (postShaderOutput) {
-			draw_->BindFramebufferAsTexture(postShaderOutput, 0, Draw::FB_COLOR_BIT, 0);
+			draw_->BindFramebufferAsTexture(postShaderOutput, 0, Draw::Aspect::COLOR_BIT, 0);
 		} else {
 			BindSource(0, false);
 		}

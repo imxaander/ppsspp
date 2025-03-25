@@ -1,14 +1,10 @@
 #include "ppsspp_config.h"
 
-#include "Common/Math/CrossSIMD.h"
+#include "Common/Math/SIMDHeaders.h"
 
 #include "fast_matrix.h"
 
-#if PPSSPP_ARCH(X86) || PPSSPP_ARCH(AMD64)
-
-#include <emmintrin.h>
-
-#include "fast_matrix.h"
+#if PPSSPP_ARCH(SSE2)
 
 void fast_matrix_mul_4x4_sse(float *dest, const float *a, const float *b) {
 	int i;
@@ -26,23 +22,43 @@ void fast_matrix_mul_4x4_sse(float *dest, const float *a, const float *b) {
 	}
 }
 
-#elif PPSSPP_ARCH(ARM_NEON)
+#elif PPSSPP_ARCH(LOONGARCH64_LSX)
 
-#if defined(_MSC_VER) && PPSSPP_ARCH(ARM64)
-#include <arm64_neon.h>
-#else
-#include <arm_neon.h>
-#endif
+typedef union
+{
+    int32_t i;
+    float f;
+} FloatInt;
 
-#if PPSSPP_ARCH(ARM)
-static inline float32x4_t vfmaq_laneq_f32(float32x4_t _s, float32x4_t _a, float32x4_t _b, int lane) {
-	if (lane == 0)      return vmlaq_lane_f32(_s, _a, vget_low_f32(_b), 0);
-	else if (lane == 1) return vmlaq_lane_f32(_s, _a, vget_low_f32(_b), 1);
-	else if (lane == 2) return vmlaq_lane_f32(_s, _a, vget_high_f32(_b), 0);
-	else if (lane == 3) return vmlaq_lane_f32(_s, _a, vget_high_f32(_b), 1);
-	else return vdupq_n_f32(0.f);
+static __m128 __lsx_vreplfr2vr_s(float val)
+{
+    FloatInt tmpval = {.f = val};
+    return (__m128)__lsx_vreplgr2vr_w(tmpval.i);
 }
-#endif
+
+void fast_matrix_mul_4x4_lsx(float *dest, const float *a, const float *b) {
+    __m128 a_col_1 = (__m128)__lsx_vld(a, 0);
+    __m128 a_col_2 = (__m128)__lsx_vld(a + 4, 0);
+    __m128 a_col_3 = (__m128)__lsx_vld(a + 8, 0);
+    __m128 a_col_4 = (__m128)__lsx_vld(a + 12, 0);
+
+    for (int i = 0; i < 16; i += 4) {
+
+        __m128 b1 = __lsx_vreplfr2vr_s(b[i]);
+        __m128 b2 = __lsx_vreplfr2vr_s(b[i + 1]);
+        __m128 b3 = __lsx_vreplfr2vr_s(b[i + 2]);
+        __m128 b4 = __lsx_vreplfr2vr_s(b[i + 3]);
+
+        __m128 result = __lsx_vfmul_s(a_col_1, b1);
+        result = __lsx_vfmadd_s(a_col_2, b2, result);
+        result = __lsx_vfmadd_s(a_col_3, b3, result);
+        result = __lsx_vfmadd_s(a_col_4, b4, result);
+
+        __lsx_vst(result, &dest[i], 0);
+    }
+}
+
+#elif PPSSPP_ARCH(ARM_NEON)
 
 // From https://developer.arm.com/documentation/102467/0100/Matrix-multiplication-example
 void fast_matrix_mul_4x4_neon(float *C, const float *A, const float *B) {

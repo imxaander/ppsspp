@@ -19,15 +19,14 @@
 // short instruction sequences. Surprisingly many are possible.
 
 #include "ppsspp_config.h"
-#if PPSSPP_ARCH(X86) || PPSSPP_ARCH(AMD64)
 
+#if PPSSPP_ARCH(X86) || PPSSPP_ARCH(AMD64)
 #include <cmath>
 #include <limits>
-#include <emmintrin.h>
-
 #include "Common/Math/math_util.h"
 
 #include "Common/CPUDetect.h"
+#include "Common/Math/SIMDHeaders.h"
 #include "Common/Log.h"
 #include "Core/Compatibility.h"
 #include "Core/Config.h"
@@ -310,7 +309,7 @@ void Jit::Comp_SVQ(MIPSOpcode op) {
 			if (!g_Config.bFastMemory) {
 				DISABLE;
 			}
-			DISABLE;
+			DISABLE;  // The code below isn't quite working, so we fall back to interpreter for now.
 
 			gpr.MapReg(rs, true, false);
 			gpr.FlushLockX(ECX);
