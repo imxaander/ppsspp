@@ -113,6 +113,9 @@
     <ClCompile Include="ImDebugger\ImMemView.cpp">
       <Filter>ImDebugger</Filter>
     </ClCompile>
+    <ClCompile Include="MemStickGitScreen.cpp">
+      <Filter>Screens</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameInfoCache.h" />
@@ -225,6 +228,9 @@
     </ClInclude>
     <ClInclude Include="ImDebugger\ImMemView.h">
       <Filter>ImDebugger</Filter>
+    </ClInclude>
+    <ClInclude Include="MemStickGitScreen.h">
+      <Filter>Screens</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -9,8 +9,14 @@ MemStickGitSettingsScreen::~MemStickGitSettingsScreen() = default;
 void MemStickGitSettingsScreen::CreateTabs(){
     auto sy = GetI18NCategory(I18NCat::SYSTEM);
     using namespace UI;
-    CreateActionsTab(AddTab("MemStickGit Action", sy->T("Actions"), NULL));
-	CreateAccountTab(AddTab("MemStickGit Account", sy->T("Account"), NULL));
+
+	AddTab("MemStickGit Action", sy->T("Actions"), [this](UI::LinearLayout* parent) {
+		CreateActionsTab(parent);
+	});
+
+	AddTab("MemStickGit Account", sy->T("Account"), [this](UI::LinearLayout* parent) {
+		CreateAccountTab(parent);
+	});
     return;
 };
 
